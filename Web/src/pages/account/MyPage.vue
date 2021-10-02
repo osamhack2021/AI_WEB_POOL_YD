@@ -10,27 +10,27 @@
     <div class="main-container d-flex justify-center">
       <div
         class="mypage-container d-flex justify-space-between"
-        style="flex: 0 1 75rem"
+        style="flex: 0 1 72rem"
       >
         <!-- 프로필 -->
-        <div
-          class="profile-container d-flex flex-column align-center"
-          style="flex: 0 1 24rem"
-        >
-          <my-page-profile></my-page-profile>
-        </div>
+        <my-page-profile
+          class="profile"
+          style="flex: 0 3 16em; height: 33rem; margin: 0 1rem "
+        ></my-page-profile>
         <!-- 콘텐츠 (포스트, 기록) -->
         <div
-          class="contents-container d-flex flex-column align-center"
-          style="min-height: 10rem; flex: 0 1 48rem"
+          class="contents d-flex flex-column align-center"
+          style="flex: 0 2 45rem; min-height: 10rem; margin: 0 1rem"
         >
-          <div class="contents__tab pl-10" style="width: 100%; z-index: 1">
+          <!-- 콘텐츠 선택 탭 -->
+          <div class="contents__tab pl-6" style="width: 100%; z-index: 1">
             <v-tabs v-model="tab" slider-size="4" :height="styles.tabHeight">
               <v-tab :ripple="false" class="d-flex align-start"> 포스트 </v-tab>
               <v-tab :ripple="false" class="d-flex align-start"> 기록 </v-tab>
             </v-tabs>
           </div>
-          <v-tabs-items class="contents__post" v-model="tab">
+          <!-- 콘텐츠 -->
+          <v-tabs-items class="contents__content" v-model="tab">
             <v-tab-item>
               <my-page-posts></my-page-posts>
             </v-tab-item>
@@ -59,7 +59,7 @@ import MyPageRecords from "./MyPageRecords.vue";
   },
 })
 export default class MyPage extends Vue {
-  tab = null;
+  tab = 0;
   styles = {
     spacingHeight: "2rem",
     tabBackgroundHeight: "2rem",
@@ -68,9 +68,10 @@ export default class MyPage extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .tab-background {
   background: #fff;
+  box-shadow: 0 4px 8px -4px rgba($color-black, 0.5);
 }
 
 .main-container {

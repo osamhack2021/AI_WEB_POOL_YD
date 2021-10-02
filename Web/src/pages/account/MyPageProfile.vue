@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="profile d-flex flex-column justify-space-between"
-    style="width: 70%; height: 33rem"
-  >
+  <div class="profile d-flex flex-column justify-space-between">
     <v-img
       class="profile__pic rounded-xl"
       aspect-ratio="1"
@@ -39,7 +36,7 @@ import Component from "vue-class-component";
 export default class MyPageProfile extends Vue {}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .profile {
   > * {
     flex-grow: 0;
