@@ -15,8 +15,9 @@
         <!-- 프로필 -->
         <div
           class="profile-container d-flex flex-column align-center"
-          style="min-height: 1rem; flex: 0 1 24rem"
+          style="flex: 0 1 24rem"
         >
+          <my-page-profile></my-page-profile>
         </div>
         <!-- 콘텐츠 (포스트, 기록) -->
         <div
@@ -46,11 +47,13 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import MyPageProfile from "./MyPageProfile.vue";
 import MyPagePosts from "./MyPagePosts.vue";
 import MyPageRecords from "./MyPageRecords.vue";
 
 @Component({
   components: {
+    MyPageProfile,
     MyPagePosts,
     MyPageRecords,
   },
