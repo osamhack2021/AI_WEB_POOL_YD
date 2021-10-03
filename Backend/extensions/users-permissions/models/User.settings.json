@@ -58,6 +58,29 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "posts": {
+      "via": "author",
+      "collection": "post"
+    },
+    "comments": {
+      "via": "author",
+      "collection": "comment"
+    },
+    "postLikes": {
+      "via": "likes",
+      "collection": "post"
+    },
+    "followings": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "followers",
+      "dominant": true
+    },
+    "followers": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "followings"
     }
   }
 }

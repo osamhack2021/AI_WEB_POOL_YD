@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "posts",
+  "info": {
+    "name": "Post",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "commentsCount": {
+      "type": "integer"
+    },
+    "likesCount": {
+      "type": "integer"
+    },
+    "author": {
+      "via": "posts",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "comments": {
+      "via": "post",
+      "collection": "comment"
+    },
+    "likes": {
+      "via": "postLikes",
+      "plugin": "users-permissions",
+      "collection": "user",
+      "dominant": true
+    }
+  }
+}
