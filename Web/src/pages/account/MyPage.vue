@@ -15,7 +15,7 @@
         <!-- 프로필 -->
         <my-page-profile
           class="profile"
-          style="flex: 0 3 16em; height: 33rem; margin: 0 1rem "
+          style="flex: 0 3 16em; height: 33rem; margin: 0 1rem"
         ></my-page-profile>
         <!-- 콘텐츠 (포스트, 기록) -->
         <div
@@ -30,12 +30,16 @@
             </v-tabs>
           </div>
           <!-- 콘텐츠 -->
-          <v-tabs-items class="contents__content" v-model="tab">
+          <v-tabs-items
+            v-model="tab"
+            class="contents__content mt-6"
+            style="width: 60%; background: none"
+          >
             <v-tab-item>
               <my-page-posts></my-page-posts>
             </v-tab-item>
             <v-tab-item>
-              <my-page-records></my-page-records>
+              <my-page-credits></my-page-credits>
             </v-tab-item>
           </v-tabs-items>
         </div>
@@ -47,15 +51,17 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import MyPageProfile from "./MyPageProfile.vue";
-import MyPagePosts from "./MyPagePosts.vue";
-import MyPageRecords from "./MyPageRecords.vue";
+import MyPageProfile from "@/pages/account/MyPageProfile.vue";
+import MyPagePosts from "@/pages/account/MyPagePosts.vue";
+import MyPageRecords from "@/pages/account/MyPageRecords.vue";
+import MyPageCredits from "@/pages/account/MyPageCredits.vue";
 
 @Component({
   components: {
     MyPageProfile,
     MyPagePosts,
     MyPageRecords,
+    MyPageCredits,
   },
 })
 export default class MyPage extends Vue {
