@@ -5,4 +5,17 @@ module.exports = {
   transpileDependencies: [
     "vuetify",
   ],
+  devServer: {
+    proxy: {
+        '/posts': {
+            "target": 'http://localhost:1337',
+        },
+        '/comments': {
+            "target": 'http://localhost:1337',
+        },
+        '/users': {
+            "target": 'http://localhost:1337',
+        },  
+    }
+  }
 };
