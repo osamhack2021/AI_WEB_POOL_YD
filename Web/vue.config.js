@@ -5,5 +5,5 @@ module.exports = {
   transpileDependencies: [
     "vuetify",
   ],
-  css: { loaderOptions: { scss: { additionalData: " @import \"./src/styles/variables.scss\"; " } } },
+  css: { loaderOptions: { scss: { additionalData: " @import \"./src/styles/pool_styles.scss\"; " } } },
 };
