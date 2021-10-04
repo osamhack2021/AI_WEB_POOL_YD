@@ -15,15 +15,15 @@
         <!-- 프로필 -->
         <my-page-profile
           class="profile"
-          style="flex: 0 3 16em; height: 33rem; margin: 0 1rem"
+          style="flex: 0 1 16rem; height: 33rem; margin: 0 1rem"
         ></my-page-profile>
         <!-- 콘텐츠 (포스트, 기록) -->
         <div
           class="contents d-flex flex-column align-center"
-          style="flex: 0 2 45rem; min-height: 10rem; margin: 0 1rem"
+          style="flex: 0 1 48rem; min-height: 10rem; margin: 0 1rem"
         >
           <!-- 콘텐츠 선택 탭 -->
-          <div class="contents__tab pl-6" style="width: 100%; z-index: 1">
+          <div class="contents__tab" style="width: 100%; z-index: 1">
             <v-tabs v-model="tab" slider-size="4" :height="styles.tabHeight">
               <v-tab :ripple="false" class="d-flex align-start"> 포스트 </v-tab>
               <v-tab :ripple="false" class="d-flex align-start"> 기록 </v-tab>
@@ -33,13 +33,13 @@
           <v-tabs-items
             v-model="tab"
             class="contents__content mt-6"
-            style="width: 60%; background: none"
+            style="width: 100%; background: none"
           >
             <v-tab-item>
               <my-page-posts></my-page-posts>
             </v-tab-item>
-            <v-tab-item>
-              <my-page-credits></my-page-credits>
+            <v-tab-item class="d-flex flex-row justify-space-between">
+              <my-page-credits style="flex: 0 1 48%" class="official-records"></my-page-credits>
             </v-tab-item>
           </v-tabs-items>
         </div>
@@ -82,5 +82,9 @@ export default class MyPage extends Vue {
 
 .main-container {
   background: $color-sand-lighter;
+}
+
+.official-records {
+  flex: 0 1 25rem;
 }
 </style>
