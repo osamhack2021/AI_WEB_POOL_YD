@@ -13,101 +13,93 @@
       </v-col>
     </v-card-text>
     <v-divider></v-divider>
-    <v-card-text class="py-0 pl-0">
+    <div class="pr-6">
       <v-timeline dense>
         <v-timeline-item small>
-          <v-card class="credit__submit">
-            <v-card-text>
-              <v-row>
-                <v-col>
-                  <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :return-value.sync="date"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="date"
-                        label="Picker in menu"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="date" no-title scrollable>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="menu = false">
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menu.save(date)"
-                      >
-                        OK
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-                <v-col>
-                  <v-text-field
-                    label="위치"
-                    :rules="rules"
-                    hide-details="auto"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    label="활동"
-                    :rules="rules"
-                    hide-details="auto"
-                  ></v-text-field
-                ></v-col>
-                <v-col>
-                  <v-text-field
-                    label="점수"
-                    :rules="rules"
-                    hide-details="auto"
-                  ></v-text-field
-                ></v-col>
-              </v-row>
-            </v-card-text>
+          <v-card class="credit__submit pa-3">
+            <v-row>
+              <v-col cols="5">
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :return-value.sync="date"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="date"
+                      label="일자"
+                      hide-details="auto"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="date" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(date)">
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  label="위치"
+                  :rules="rules"
+                  hide-details="auto"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row class="mt-0">
+              <v-col>
+                <v-text-field
+                  label="활동"
+                  :rules="rules"
+                  hide-details="auto"
+                ></v-text-field
+              ></v-col>
+              <v-col cols="4">
+                <v-text-field
+                  label="점수"
+                  :rules="rules"
+                  hide-details="auto"
+                ></v-text-field
+              ></v-col>
+            </v-row>
           </v-card>
         </v-timeline-item>
         <v-timeline-item small>
           <v-card class="credit">
-            <v-card-subtitle
-              class="
-                pb-0
-                text-caption
-                d-flex
-                justify-space-between
-                align-center
-              "
-            >
-              <div>
-                <span class="mr-3 text-no-wrap">2021.10.02</span>
-                <span class="text-no-wrap">@ 항공작전전대</span>
-              </div>
-              <v-btn icon small><v-icon>mdi-dots-horizontal</v-icon></v-btn>
-            </v-card-subtitle>
-            <v-card-title
-              class="d-flex justify-space-between align-start flex-nowrap pt-0"
-            >
-              <div class="font-weight-bold">풋살대회</div>
-              <div class="text-right">우승</div>
-            </v-card-title>
+            <v-container>
+              <v-row class="text-caption">
+                <v-col class="d-flex flex-wrap flex-wrap align-center">
+                  <span cols="auto" class="mr-3">2021.10.02</span>
+                  <span cols="auto">@ 항공작전전대</span>
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn icon small class="align-self-start"
+                    ><v-icon>mdi-dots-horizontal</v-icon></v-btn
+                  >
+                </v-col>
+              </v-row>
+              <v-row class="align-start mt-0 text-subtitle-1">
+                <v-col class="font-weight-bold">
+                  추석행사
+                </v-col>
+                <v-col cols="auto">3점</v-col>
+              </v-row>
+            </v-container>
           </v-card>
         </v-timeline-item>
       </v-timeline>
-    </v-card-text>
+    </div>
   </v-card>
 </template>
 
@@ -118,14 +110,18 @@ import Component from "vue-class-component";
 @Component
 export default class MyPageCredits extends Vue {
   menu = false;
-  get date(): string {
-    return new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10);
-  }
-  rules: ((t: string) => boolean | string)[] = [
+  date: string = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .substr(0, 10);
+  rules: Array<(value: string) => boolean | string> = [
     (value) => !!value || "Required.",
     (value) => (value && value.length >= 3) || "Min 3 characters",
   ];
 }
 </script>
+
+<style lang="scss" scoped>
+.v-text-field {
+  font-size: 0.8rem;
+}
+</style>
