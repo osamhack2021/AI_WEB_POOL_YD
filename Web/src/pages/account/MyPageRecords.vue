@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>Record</div>
 </template>
 
@@ -7,7 +7,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 
 @Component
-export default class ProfileAndSettingsPage extends Vue {
+export default class MyPageRecords extends Vue {
 
 }
 </script>
