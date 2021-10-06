@@ -6,12 +6,12 @@
       <v-spacer />
 
       <v-toolbar-items>
-        <v-btn text to="/composer"><v-icon class="mr-2">mdi-open-in-new</v-icon> 에디터로 글쓰기</v-btn>
+        <v-btn text to="/composer" title="에디터로 글쓰기"><v-icon>mdi-open-in-new</v-icon><span class="ml-2 d-none d-sm-inline-block"> 에디터로 글쓰기</span></v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
     <!-- 타이틀 영역 -->
-    <v-layout class="mt-0 ml-3" row align-center>
+    <v-layout class="mt-0 ml-3" row align-center style="flex-wrap: nowrap">
       <img :src="$store.state.loginState.userInfo.profileImageUrl"
             class="elevation-2"
             style="width: 64px; border-radius: 100%;" />
