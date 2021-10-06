@@ -57,7 +57,7 @@ import { Prop } from "vue-property-decorator";
 import IFeedItem from "@/interfaces/IFeedItem";
 
 @Component
-export default class FeedArticleItem extends Vue {
+export default class FeedItem extends Vue {
   @Prop({ required: true }) itemData!: IFeedItem;
   recomputeIntervalId = -1;
   recomputeHack = false;
