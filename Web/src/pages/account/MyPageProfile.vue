@@ -44,6 +44,9 @@ export default class MyPageProfile extends Vue {}
   div {
     font-weight: 300;
   }
+  &__pic {
+    z-index:3;
+  }
   &__name {
     font: {
       size: 2rem;

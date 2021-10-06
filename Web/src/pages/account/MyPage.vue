@@ -4,13 +4,14 @@
     <!-- profile & contents와 겹치는, contents 선택 탭의 배경 -->
     <div
       class="tab-background"
-      style="position: absolute; width: 100%"
-      :style="{ top: styles.spacingHeight, height: styles.tabBackgroundHeight }"
+      style="position: sticky; top: 64px; width: 100vw"
+      :style="{ height: styles.tabBackgroundHeight }"
     ></div>
-    <div class="main-container d-flex justify-center">
+    <div class="main-container d-flex justify-center align-start">
       <div
         class="mypage-container d-flex justify-space-between"
-        style="flex: 0 1 72rem"
+        style="flex: 0 1 72rem; height: 200rem"
+        :style="{ position: 'relative', top: '-' + styles.tabBackgroundHeight }"
       >
         <!-- 프로필 -->
         <my-page-profile
@@ -23,10 +24,13 @@
           style="flex: 0 1 48rem; min-height: 10rem; margin: 0 1rem"
         >
           <!-- 콘텐츠 선택 탭 -->
-          <div class="contents__tab" style="width: 100%; z-index: 1">
+          <div
+            class="contents__tab"
+            style="width: 100%; z-index: 3; position: sticky; top: 64px"
+          >
             <v-tabs v-model="tab" slider-size="4" :height="styles.tabHeight">
-              <v-tab :ripple="false" class="d-flex align-start"> 포스트 </v-tab>
-              <v-tab :ripple="false" class="d-flex align-start"> 기록 </v-tab>
+              <v-tab :ripple="false" class=""> 포스트 </v-tab>
+              <v-tab :ripple="false" class=""> 기록 </v-tab>
             </v-tabs>
           </div>
           <!-- 콘텐츠 -->
@@ -35,11 +39,22 @@
             class="contents__content mt-6"
             style="width: 100%; background: none"
           >
+            <!-- 포스트 -->
             <v-tab-item>
               <my-page-posts></my-page-posts>
             </v-tab-item>
-            <v-tab-item class="d-flex flex-row justify-space-between">
-              <my-page-credits style="flex: 0 1 48%" class="official-records"></my-page-credits>
+            <!-- 공적기록 -->
+            <v-tab-item>
+              <div class="d-flex justify-space-between align-start">
+                <my-page-credits
+                  style="flex: 0 1 48%"
+                  class="official-records"
+                ></my-page-credits>
+                <my-page-awards
+                  style="flex: 0 1 48%"
+                  class="official-records"
+                ></my-page-awards>
+              </div>
             </v-tab-item>
           </v-tabs-items>
         </div>
@@ -55,6 +70,7 @@ import MyPageProfile from "@/pages/account/MyPageProfile.vue";
 import MyPagePosts from "@/pages/account/MyPagePosts.vue";
 import MyPageRecords from "@/pages/account/MyPageRecords.vue";
 import MyPageCredits from "@/pages/account/MyPageCredits.vue";
+import MyPageAwards from "@/pages/account/MyPageAwards.vue";
 
 @Component({
   components: {
@@ -62,14 +78,15 @@ import MyPageCredits from "@/pages/account/MyPageCredits.vue";
     MyPagePosts,
     MyPageRecords,
     MyPageCredits,
+    MyPageAwards,
   },
 })
 export default class MyPage extends Vue {
   tab = 0;
   styles = {
-    spacingHeight: "2rem",
-    tabBackgroundHeight: "2rem",
-    tabHeight: "2rem",
+    spacingHeight: "1.5rem",
+    tabBackgroundHeight: "2.5rem",
+    tabHeight: "2.5rem",
   };
 }
 </script>
@@ -78,6 +95,7 @@ export default class MyPage extends Vue {
 .tab-background {
   background: #fff;
   box-shadow: 0 4px 8px -4px rgba($color-black, 0.5);
+  z-index: 2;
 }
 
 .main-container {
