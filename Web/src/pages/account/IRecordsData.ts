@@ -6,11 +6,19 @@ export interface IRecordsLabels {
 }
 
 export interface IRecordsDisplay extends IRecordsLabels {
-    id: string,
+    id: number,
 }
 
 export interface IRecordsSummary {
     label: string,
     value: number,
     color: string,
+}
+
+export interface IRecordsComponentProps {
+    inputLabels: IRecordsLabels,
+    summaryNumbers: Array<IRecordsSummary>,
+    cardContentsList: Array<IRecordsDisplay>,
+    isLastInputNumber: boolean,
+    kind: string
 }

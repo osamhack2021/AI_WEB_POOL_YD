@@ -46,14 +46,28 @@
             <!-- 공적기록 -->
             <v-tab-item>
               <div class="d-flex justify-space-between align-start">
-                <my-page-credits
+                <my-page-records
                   style="flex: 0 1 48%"
                   class="official-records"
-                ></my-page-credits>
-                <my-page-awards
+                  :inputLabels="testDataCredits.inputLabels"
+                  :summaryNumbers="testDataCredits.summaryNumbers"
+                  :cardContentsList="testDataCredits.cardContentsList"
+                  :isLastInputNumber="testDataCredits.isLastInputNumber"
+                  :kind="testDataCredits.kind"
+                  @create="handleCreate"
+                  @delete="handleDelete"
+                ></my-page-records>
+                <my-page-records
                   style="flex: 0 1 48%"
                   class="official-records"
-                ></my-page-awards>
+                  :inputLabels="testDataAwards.inputLabels"
+                  :summaryNumbers="testDataAwards.summaryNumbers"
+                  :cardContentsList="testDataAwards.cardContentsList"
+                  :isLastInputNumber="testDataAwards.isLastInputNumber"
+                  :kind="testDataAwards.kind"
+                  @create="handleCreate"
+                  @delete="handleDelete"
+                ></my-page-records>
               </div>
             </v-tab-item>
           </v-tabs-items>
@@ -69,25 +83,35 @@ import Component from "vue-class-component";
 import MyPageProfile from "@/pages/account/MyPageProfile.vue";
 import MyPagePosts from "@/pages/account/MyPagePosts.vue";
 import MyPageRecords from "@/pages/account/MyPageRecords.vue";
-import MyPageCredits from "@/pages/account/MyPageCredits.vue";
-import MyPageAwards from "@/pages/account/MyPageAwards.vue";
+import type { IRecordsComponentProps } from "./IRecordsData";
+import { testDataAwards, testDataCredits } from "./RecordsTestData";
 
 @Component({
   components: {
     MyPageProfile,
     MyPagePosts,
     MyPageRecords,
-    MyPageCredits,
-    MyPageAwards,
   },
 })
 export default class MyPage extends Vue {
-  tab = 0;
   styles = {
     spacingHeight: "1.5rem",
     tabBackgroundHeight: "2.5rem",
     tabHeight: "2.5rem",
   };
+  
+  testDataAwards: IRecordsComponentProps = testDataAwards;
+  testDataCredits: IRecordsComponentProps = testDataCredits;
+
+  tab = 0;
+
+  handleCreate(e:object):void {
+    console.log(e)
+  }
+
+  handleDelete(id:number):void {
+    console.log(id)
+  }
 }
 </script>
 

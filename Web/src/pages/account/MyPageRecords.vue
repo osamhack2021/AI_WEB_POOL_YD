@@ -115,7 +115,7 @@
         <v-timeline-item
           small
           v-for="(
-            { id, date, location, title, value }, index
+            { date, location, title, value }, index
           ) in cardContentsList"
           :key="index"
         >
