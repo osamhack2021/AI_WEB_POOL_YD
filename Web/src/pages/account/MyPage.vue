@@ -36,7 +36,7 @@
           <!-- 콘텐츠 -->
           <v-tabs-items
             v-model="tab"
-            class="contents__content mt-6"
+            class="contents__content mt-16"
             style="width: 100%; background: none"
           >
             <!-- 포스트 -->
@@ -99,7 +99,7 @@ export default class MyPage extends Vue {
     tabBackgroundHeight: "2.5rem",
     tabHeight: "2.5rem",
   };
-  
+
   testDataAwards: IRecordsComponentProps = testDataAwards;
   testDataCredits: IRecordsComponentProps = testDataCredits;
 
