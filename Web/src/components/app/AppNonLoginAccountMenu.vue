@@ -2,7 +2,8 @@
   <v-menu :close-on-content-click="false"
           offset-y
           min-width="250px"
-          transition="slide-y-transition">
+          transition="slide-y-transition"
+          disable-keys>
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-on="on" v-bind="attrs">
         <v-icon>mdi-login</v-icon>
@@ -28,7 +29,8 @@
                           label="비밀번호"
                           clearable
                           required />
-            <v-btn :disabled="!loginFormValidated" class="my-2" type="submit" color="success">로그인</v-btn>
+            <v-btn :disabled="!loginFormValidated" class="ma-2" type="submit" color="success">로그인</v-btn>
+            <v-btn class="ma-2" color="primary" to="/register">회원가입</v-btn>
           </v-form>
         </div>
       </v-list-item>

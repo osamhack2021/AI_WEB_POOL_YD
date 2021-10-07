@@ -56,12 +56,13 @@ export default class App extends Vue {
   onUrlChange(): void {
     // 로그인 상태에 따른 라우트
     //   - 비로그인 사용자는 랜딩페이지 이외 접근 권한이 없어
+    //     회원가입 페이지(/register)를 제외한
     //     하위 페이지 접근 시도 시 무조건 랜딩페이지(/)로
     //     이동합니다.
     //   - 로그인 사용자는 주 페이지가 피드페이지(/feed)입니다.
     //     로그인 상태에서 랜딩페이지 접근 시도 시 피드페이지로
     //     이동합니다.
-    if (!this.$store.state.loginState.loggedIn && this.$route.path !== "/") {
+    if (!this.$store.state.loginState.loggedIn && (this.$route.path !== "/register" && this.$route.path !== "/")) {
       this.$router.replace("/");
     } else if (this.$store.state.loginState.loggedIn && this.$route.path === "/") {
       this.$router.replace("/feed");
