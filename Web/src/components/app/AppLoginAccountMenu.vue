@@ -1,8 +1,7 @@
 <template>
-  <v-menu offeset-y
-          min-width="250px"
-          transition="slide-y-transition"
-          disable-keys>
+  <v-menu offset-y
+        min-width="250px"
+        transition="slide-y-transition">
   <template v-slot:activator="{ on, attrs }">
     <v-btn icon v-on="on" v-bind="attrs">
       <v-icon>mdi-account</v-icon>
