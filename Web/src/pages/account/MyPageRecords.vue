@@ -176,11 +176,11 @@ import type {
 
 @Component
 export default class MyPageRecords extends Vue {
-  @Prop() readonly inputLabels: IRecordsLabels;
-  @Prop() readonly summaryNumbers: Array<IRecordsSummary>;
-  @Prop() readonly cardContentsList: Array<IRecordsDisplay>;
-  @Prop() readonly isLastInputNumber: boolean;
-  @Prop() readonly kind: string;
+  @Prop() readonly inputLabels!: IRecordsLabels;
+  @Prop() readonly summaryNumbers!: Array<IRecordsSummary>;
+  @Prop() readonly cardContentsList!: Array<IRecordsDisplay>;
+  @Prop() readonly isLastInputNumber!: boolean;
+  @Prop() readonly kind!: string;
 
   inputDateMenu = false;
   inputDate = "";
@@ -190,7 +190,7 @@ export default class MyPageRecords extends Vue {
   initializeInputs(date = "", location = "", title = "", value = ""): void {
     this.inputDateMenu = false;
     this.inputDate = new Date(
-      Date.now() - new Date().getTimezoneOffset() * 60000
+      Date.now() - new Date().getTimezoneOffset() * 60000,
     )
       .toISOString()
       .substr(0, 10);
@@ -199,8 +199,7 @@ export default class MyPageRecords extends Vue {
     this.inputValue = value;
   }
 
-  numberRule = (text: string): boolean | string =>
-    /^[1-9]\d*$/.test(text) || "숫자만 입력 가능합니다!";
+  numberRule = (text: string): boolean | string => /^[1-9]\d*$/.test(text) || "숫자만 입력 가능합니다!";
 
   recordConfigs = [
     {

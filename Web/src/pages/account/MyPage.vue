@@ -105,12 +105,12 @@ export default class MyPage extends Vue {
 
   tab = 0;
 
-  handleCreate(e:object):void {
-    console.log(e)
+  handleCreate(e: unknown):void {
+    console.log(e);
   }
 
-  handleDelete(id:number):void {
-    console.log(id)
+  handleDelete(id: number):void {
+    console.log(id);
   }
 }
 </script>
