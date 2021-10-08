@@ -113,3 +113,9 @@ export default class App extends Vue {
   height: 72px !important;
 }
 </style>
+
+<style lang="scss" scoped>
+.container {
+  padding: 0 !important;
+}
+</style>
