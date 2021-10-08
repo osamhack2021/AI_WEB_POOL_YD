@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-toolbar class="blue-grey" dense dark>
+    <v-toolbar class="blue-grey" dense dark elevation="2">
       <v-toolbar-title>피드에 간단한 글 올리기</v-toolbar-title>
 
       <v-spacer />
