@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="mx-auto px-2 px-sm-6" max-width="800px">
+  <v-responsive class="mx-auto pa-2 px-sm-6" max-width="800px">
     <feed-compose class="my-3" />
 
     <v-divider class="my-8" />

@@ -28,7 +28,7 @@
       </v-container>
     </v-main>
 
-    <v-bottom-navigation app class="d-sm-none">
+    <v-bottom-navigation v-if="$store.state.loginState.loggedIn" app class="d-sm-none">
       <app-tab-navigation :tabGrow="true" />
     </v-bottom-navigation>
   </v-app>
