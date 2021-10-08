@@ -81,6 +81,40 @@
       "plugin": "users-permissions",
       "collection": "user",
       "via": "followings"
+    },
+    "soldierData": {
+      "type": "json"
+    },
+    "companyData": {
+      "type": "json"
+    },
+    "userType": {
+      "type": "enumeration",
+      "enum": [
+        "soldier",
+        "company"
+      ]
+    },
+    "telno": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }

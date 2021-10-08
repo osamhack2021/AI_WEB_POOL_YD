@@ -18,12 +18,6 @@
     "content": {
       "type": "richtext"
     },
-    "commentsCount": {
-      "type": "integer"
-    },
-    "likesCount": {
-      "type": "integer"
-    },
     "author": {
       "via": "posts",
       "plugin": "users-permissions",
@@ -38,6 +32,28 @@
       "plugin": "users-permissions",
       "collection": "user",
       "dominant": true
+    },
+    "images": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "jobInfo": {
+      "type": "json"
+    },
+    "postType": {
+      "type": "enumeration",
+      "enum": [
+        "general",
+        "recruition"
+      ]
     }
   }
 }
