@@ -1,6 +1,10 @@
 <template>
   <v-responsive class="mx-auto px-2 px-sm-6" max-width="800px">
-    <feed-article-item v-for="item in feedItems"
+    <feed-compose class="my-3" />
+
+    <v-divider class="my-8" />
+
+    <feed-item v-for="item in feedItems"
       class="my-3"
       :key="item.index"
       :itemData="item" />
@@ -10,12 +14,14 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import FeedArticleItemComponent from "@/components/FeedArticleItem.vue";
+import FeedItemComponent from "@/components/feed/FeedItem.vue";
+import FeedComposeComponent from "@/components/feed/FeedCompose.vue";
 import IFeedItem from "@/interfaces/IFeedItem";
 
 @Component({
   components: {
-    FeedArticleItem: FeedArticleItemComponent,
+    FeedItem: FeedItemComponent,
+    FeedCompose: FeedComposeComponent,
   },
 })
 export default class MainFeedPage extends Vue {

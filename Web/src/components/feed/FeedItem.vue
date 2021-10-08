@@ -8,7 +8,7 @@
            class="pa-3 align-end">
       <div class="feed-image-darken-overlay"></div>
 
-      <v-layout class="mt-0 ml-0" row align-center>
+      <v-layout class="mt-0 ml-0" row align-center style="flex-wrap: nowrap">
         <img :src="itemData.postInfo.author.profileImageUrl"
               aspect-ratio="1"
               class="elevation-2"
@@ -20,7 +20,7 @@
         </v-layout>
       </v-layout>
     </v-img>
-    <v-layout v-else class="mt-0 ml-3" row align-center>
+    <v-layout v-else class="mt-0 ml-3" row align-center style="flex-wrap: nowrap">
       <img :src="itemData.postInfo.author.profileImageUrl"
             class="elevation-2"
             style="width: 64px; border-radius: 100%;" />
@@ -57,7 +57,7 @@ import { Prop } from "vue-property-decorator";
 import IFeedItem from "@/interfaces/IFeedItem";
 
 @Component
-export default class FeedArticleItem extends Vue {
+export default class FeedItem extends Vue {
   @Prop({ required: true }) itemData!: IFeedItem;
   recomputeIntervalId = -1;
   recomputeHack = false;
