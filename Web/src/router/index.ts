@@ -40,6 +40,9 @@ const routes: Array<RouteConfig> = [
     path: "/me",
     name: "Account profile/information page",
     component: MyPage,
+    meta: {
+      appBarElevateOnScroll: true,
+    },
   },
 
   /* Article related routes */

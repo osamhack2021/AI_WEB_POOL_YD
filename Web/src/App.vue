@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark dense>
-      <v-toolbar-title>
+    <v-app-bar app color="white" light dense :elevate-on-scroll="$route.meta.appBarElevateOnScroll ? true : false">
+      <v-toolbar-title class="primary--text" style="font-weight: 900">
         <router-link id="nav-title-text" :to="homeRouteUrl">{{ $store.state.appName }}</router-link>
       </v-toolbar-title>
 
@@ -100,13 +100,36 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-.v-app-bar > .v-toolbar__content {
-  margin: auto;
-  max-width: 800px;
-}
+.v-app-bar {
+  #nav-title-text {
+    position: relative;
 
-.v-app-bar .v-tabs {
-  width: auto !important;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      width: 100%;
+      bottom: 0;
+      background-color: currentColor;
+      transform: scaleX(0);
+      transition: transform 0.33s cubic-bezier(0, 0, 0, 1);
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  & > .v-toolbar__content {
+    margin: auto;
+    max-width: 800px;
+  }
+
+  .v-tabs {
+    width: auto !important;
+  }
 }
 
 .v-bottom-navigation {
