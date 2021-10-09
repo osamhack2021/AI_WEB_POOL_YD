@@ -17,5 +17,6 @@ module.exports = {
             "target": 'http://localhost:1337',
         },  
     }
-  }
+  },
+  css: { loaderOptions: { scss: { additionalData: " @import \"./src/styles/pool_styles.scss\"; " } } },
 };
