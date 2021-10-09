@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/soldier-data",
+      "handler": "soldier-data.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/soldier-data/count",
+      "handler": "soldier-data.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/soldier-data/:id",
+      "handler": "soldier-data.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/soldier-data",
+      "handler": "soldier-data.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/soldier-data/:id",
+      "handler": "soldier-data.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/soldier-data/:id",
+      "handler": "soldier-data.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "company_data",
+  "info": {
+    "name": "companyData"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "scale": {
+      "type": "enumeration",
+      "enum": [
+        "major",
+        "midSize",
+        "smallSize"
+      ]
+    }
+  }
+}

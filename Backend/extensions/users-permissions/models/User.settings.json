@@ -82,12 +82,6 @@
       "collection": "user",
       "via": "followings"
     },
-    "soldierData": {
-      "type": "json"
-    },
-    "companyData": {
-      "type": "json"
-    },
     "userType": {
       "type": "enumeration",
       "enum": [
@@ -115,6 +109,15 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "tags": {
+      "collection": "tag"
+    },
+    "soldierData": {
+      "model": "soldier-data"
+    },
+    "companyData": {
+      "model": "company-data"
     }
   }
 }

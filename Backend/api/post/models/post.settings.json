@@ -45,15 +45,18 @@
       "required": false,
       "pluginOptions": {}
     },
-    "jobInfo": {
-      "type": "json"
-    },
     "postType": {
       "type": "enumeration",
       "enum": [
         "general",
         "recruition"
       ]
+    },
+    "tags": {
+      "collection": "tag"
+    },
+    "jobInfo": {
+      "model": "job-info"
     }
   }
 }
