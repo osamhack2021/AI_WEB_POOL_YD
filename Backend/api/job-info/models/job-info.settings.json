@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string"
-    },
     "desc": {
       "type": "text"
     },
@@ -34,7 +31,7 @@
         "general"
       ]
     },
-    "relatedBranchs": {
+    "relatedBranches": {
       "collection": "tag"
     },
     "group": {
