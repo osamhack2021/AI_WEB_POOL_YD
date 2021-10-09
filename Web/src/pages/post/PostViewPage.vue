@@ -37,7 +37,7 @@ import Component from "vue-class-component";
 import { IPost } from "@/interfaces/IDatabaseData";
 
 @Component
-export default class ArticleViewPage extends Vue {
+export default class PostViewPage extends Vue {
   postData!: IPost;
 
   created(): void {

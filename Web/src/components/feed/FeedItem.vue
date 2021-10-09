@@ -1,7 +1,7 @@
 <template>
-  <v-card hover ripple :to="{ path: `/article/${itemData.postInfo.id}` }" style="overflow: hidden">
+  <v-card hover ripple :to="{ path: `/post/${itemData.postInfo.id}` }" style="overflow: hidden">
     <!-- 타이틀 영역 -->
-    <v-img v-if="articleHasMainImage"
+    <v-img v-if="postHasMainImage"
            :src="itemData.postInfo.previewMainImageUrl"
            dark
            aspect-ratio="2.5"
@@ -77,7 +77,7 @@ export default class FeedItem extends Vue {
     }
   }
 
-  get articleHasMainImage(): boolean {
+  get postHasMainImage(): boolean {
     if (this.itemData.postInfo.previewMainImageUrl) {
       return true;
     }
