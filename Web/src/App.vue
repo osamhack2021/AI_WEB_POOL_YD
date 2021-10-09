@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark dense>
       <v-toolbar-title>
         <router-link id="nav-title-text" :to="homeRouteUrl">{{ $store.state.appName }}</router-link>
       </v-toolbar-title>
@@ -29,7 +29,7 @@
     </v-main>
 
     <v-bottom-navigation v-if="$store.state.loginState.loggedIn" app class="d-sm-none">
-      <app-tab-navigation :tabGrow="true" />
+      <app-tab-navigation :mobileMode="true" />
     </v-bottom-navigation>
   </v-app>
 </template>
