@@ -1,14 +1,16 @@
 <template>
-  <v-responsive class="mx-auto pa-2 px-sm-6" max-width="800px">
-    <feed-compose class="my-3" />
+  <v-container fluid class="feed-container">
+    <v-responsive class="mx-auto pa-2 px-sm-6" max-width="800px">
+      <feed-compose class="my-3" />
 
-    <v-divider class="my-8" />
+      <v-divider class="my-8" />
 
-    <feed-item v-for="item in feedItems"
-      class="my-3"
-      :key="item.index"
-      :itemData="item" />
-  </v-responsive>
+      <feed-item v-for="item in feedItems"
+        class="my-8"
+        :key="item.index"
+        :itemData="item" />
+    </v-responsive>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -97,3 +99,9 @@ export default class MainFeedPage extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.feed-container {
+  background-color: #FAFBFB;
+}
+</style>
