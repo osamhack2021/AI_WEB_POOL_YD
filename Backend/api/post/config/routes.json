@@ -26,6 +26,14 @@
     },
     {
       "method": "GET",
+      "path": "/posts/test",
+      "handler": "post.test",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/posts/count",
       "handler": "post.count",
       "config": {
@@ -36,6 +44,14 @@
       "method": "GET",
       "path": "/posts/:id",
       "handler": "post.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/posts/discover",
+      "handler": "post.discover",
       "config": {
         "policies": []
       }

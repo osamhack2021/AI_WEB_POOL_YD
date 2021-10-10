@@ -32,6 +32,9 @@
     },
     "experiences": {
       "collection": "experience"
+    },
+    "rank": {
+      "type": "string"
     }
   }
 }

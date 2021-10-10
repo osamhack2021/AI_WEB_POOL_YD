@@ -36,6 +36,9 @@
     },
     "group": {
       "model": "tag"
+    },
+    "due": {
+      "type": "date"
     }
   }
 }
