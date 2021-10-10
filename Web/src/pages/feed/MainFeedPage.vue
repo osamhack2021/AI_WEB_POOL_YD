@@ -8,7 +8,7 @@
       <v-divider class="my-8" />
 
       <!-- 피드 로딩 영역 -->
-      <v-layout v-if="!feedItems" justify-center align-center>
+      <v-layout v-if="!feedLoaded" justify-center align-center>
         <v-progress-circular indeterminate />
         <span class="ml-2">피드를 불러오는 중입니다...</span>
       </v-layout>
@@ -42,6 +42,7 @@ import { get as backendGet } from "@/util/BackendHelper";
 })
 export default class MainFeedPage extends Vue {
   feedItems: Array<IFeedItem> = new Array<IFeedItem>();
+  feedLoaded = false;
 
   async created(): Promise<void> {
     const requestStatus = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
@@ -56,6 +57,8 @@ export default class MainFeedPage extends Vue {
           likedByAccount: false,
         });
       });
+
+      this.feedLoaded = true;
     }
   }
 }
