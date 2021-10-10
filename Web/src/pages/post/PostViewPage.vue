@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="pb-8">
+  <v-responsive v-if="postLoaded" class="pb-8">
     <v-img :src="postData.previewMainImageUrl"
            dark
            width="100%"
@@ -35,29 +35,23 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { IPost } from "@/interfaces/IDatabaseData";
+import { get as backendGet } from "@/util/BackendHelper";
 
 @Component
 export default class PostViewPage extends Vue {
-  postData!: IPost;
+  postData: IPost | null = null;
+  postLoaded = false;
 
-  created(): void {
-    // TODO: $route.params.id 가지고 서버에 글 데이터 가져오기
+  async created(): Promise<void> {
+    const response = await backendGet(`/posts/${this.$route.params.id}`);
 
-    // 아래는 테스트 데이터
-    this.postData = {
-      id: this.$route.params.id.toString(),
-      createdAt: new Date(Date.now() - 100000),
-      updatedAt: new Date(Date.now() - 80000),
-      author: this.$store.state.loginState.userInfo,
-      title: "테스트 글",
-      contentPreview: "",
-      contentFull: "<b>테스트 글</b> 입니다. 메렁",
-      previewMainImageUrl: "https://picsum.photos/seed/post1/600/200",
-      commentsCount: 10,
-      comments: [],
-      likesCount: 100,
-      likes: [],
-    };
+    if (response.status >= 400) {
+      // REQUEST ERROR HANDLING
+    } else {
+      this.postData = response.data as IPost;
+
+      this.postLoaded = true;
+    }
   }
 }
 </script>

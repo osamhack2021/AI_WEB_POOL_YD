@@ -45,13 +45,13 @@ export default class MainFeedPage extends Vue {
   feedLoaded = false;
 
   async created(): Promise<void> {
-    const requestStatus = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
+    const response = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
 
-    if (requestStatus.status >= 400) {
+    if (response.status >= 400) {
       // REQUEST ERROR HANDLING
     } else {
       // TODO: likedByAccount 구하는 로직 (현재 유저가 해당 post에 좋아요를 했는지)
-      requestStatus.data.data.forEach((postData) => {
+      response.data.data.forEach((postData) => {
         this.feedItems.push({
           postInfo: postData,
           likedByAccount: false,
