@@ -41,7 +41,7 @@ import { get as backendGet } from "@/util/BackendHelper";
   },
 })
 export default class MainFeedPage extends Vue {
-  feedItems!: Array<IFeedItem>;
+  feedItems: Array<IFeedItem> = new Array<IFeedItem>();
 
   async created(): Promise<void> {
     const requestStatus = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
@@ -64,5 +64,6 @@ export default class MainFeedPage extends Vue {
 <style lang="scss" scoped>
 .feed-container {
   background-color: #FAFBFB;
+  min-height: 100%;
 }
 </style>
