@@ -15,7 +15,7 @@
       <!-- -->
 
       <!-- 피드 아이템 영역 -->
-      <feed-item v-for="item in feedItems"
+      <feed-item v-for="item in feedItems.slice().reverse()"
         class="my-8"
         :key="item.index"
         :itemData="item" />
