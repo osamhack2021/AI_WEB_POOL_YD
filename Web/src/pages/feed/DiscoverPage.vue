@@ -350,7 +350,7 @@ export default class DiscoverPage extends Vue {
       number: 30,
     };
 
-    fetch("http://20.196.199.194:443/posts/discover", {
+    fetch(`${this.apiAddress}/posts/discover`, {
       method: "POST",
       body: JSON.stringify(post),
       headers: {
