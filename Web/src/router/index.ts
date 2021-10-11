@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import NonLoginLandingPage from "@/pages/NonLoginLandingPage.vue";
 import RegisterPage from "@/pages/account/RegisterPage.vue";
-import AccountMyPage from "@/pages/account/AccountMyPage.vue";
+import MyPage from "@/pages/account/MyPage.vue";
 import ArticleViewPage from "@/pages/article/ArticleViewPage.vue";
 import MainFeedPage from "@/pages/feed/MainFeedPage.vue";
 import DiscoverPage from "@/pages/feed/DiscoverPage.vue";
@@ -39,7 +39,10 @@ const routes: Array<RouteConfig> = [
   {
     path: "/me",
     name: "Account profile/information page",
-    component: AccountMyPage,
+    component: MyPage,
+    meta: {
+      appBarElevateOnScroll: true,
+    },
   },
 
   /* Article related routes */
