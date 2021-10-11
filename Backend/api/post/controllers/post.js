@@ -88,14 +88,30 @@ module.exports = {
                                 e = true;
                             };
                         });
-                        return filter1.indexOf(user.soldierData.rank) > -1
-                        && filter2.indexOf(user.soldierData.militaryBranch) > -1
-                        && e;
+                        return (filter1.indexOf(user.soldierData.rank) > -1 || filter1.length === 0)
+                        && (filter2.indexOf(user.soldierData.militaryBranch) > -1 || filter2.length === 0)
+                        && (e || filter3.length === 0);
                     }
                     return false;
                 });
-                console.log(users);
-                break;
+                users = await Promise.all(users.map(async user => {
+                    return {
+                        id: user.id,
+                        username: user.username,
+                        birthday: user.birthday,
+                        telno: user.telno,
+                        location: user.location,
+                        email: user.email,
+                        summary: user.summary,
+                        department: user.soldierData.department,
+                        militaryBranch: user.soldierData.militaryBranch,
+                        role: user.soldierData.role,
+                        profileImageUrl: user.thumbnail.url,
+                        postCount: user.posts.length,
+                        followersCount: user.followers.length
+                    }
+                }));
+                return { data: users } 
             case 'pool':
                 break;
             case 'recruition':
@@ -106,7 +122,7 @@ module.exports = {
                 });
                 posts = await strapi.query("post").find();
                 posts = posts.filter(post => post.postType === "recruition");
-                filter1 = filter1.map(el => {
+                filter1 = await Promise.all(filter1.map(async el => {
                     switch(el){
                         case "계급 무관": 
                             return "private";
@@ -119,8 +135,8 @@ module.exports = {
                         case "준장 이상":
                             return "general";
                     }
-                });
-                posts = await Promise.all(posts.filter(async post => {
+                }));
+                const isTarget = await Promise.all(posts.map(async post => {
                     let e = false;
                     let relatedBranches = await strapi.query("tag").find({id_in: post.jobInfo.relatedBranches});
                     relatedBranches.forEach(tag => {
@@ -128,20 +144,33 @@ module.exports = {
                             e = true;
                         }
                     });
-                    let group = await strapi.query("tag").find({id: post.jobInfo.group});
-                    return filter1.indexOf(post.jobInfo.minRank) > -1
-                        && e ;
-                        //&& filter3.indexOf(group.content) > -1;    
+                    let group = await strapi.query("tag").findOne({id: post.jobInfo.group});
+                    const result = (filter1.indexOf(post.jobInfo.minRank) > -1 || filter1.length === 0)
+                        && (e || filter2.length === 0)
+                        && (filter3.indexOf(group.content) > -1 || filter3.length === 0);
+                    return result;
                 }));
-                console.log(posts);
-                break; 
+                posts = posts.filter((post, idx) => {
+                    return isTarget[idx];
+                })
+                posts = await Promise.all(posts.map(async post => {
+                    let _author = await strapi.query("user", "users-permissions").findOne({id: post.author.id});
+                    let url = _author.thumbnail.url;  
+                    return {
+                        id: post.id,
+                        author: {
+                            id: post.author.id,
+                            username: post.author.username,
+                            profileImageUrl: url,
+                        },
+                        title: post.title,
+                        employmentType: post.jobInfo.employmentType,
+                        pay: post.jobInfo.pay,
+                        due: post.jobInfo.due
+                    }
+                }))
+                return { data : posts };
         }
-        const result = {
-            data: [
-                filter1, filter2, filter3
-            ]
-        }
-        return 'hi';
     },
     async test(ctx) {
         let posts = await strapi.query("post").model.find().in("postType", ["general"]);
