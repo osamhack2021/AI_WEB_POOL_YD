@@ -20,7 +20,7 @@
         <v-expansion-panel style="padding: 8px 16px;">
 
           <!-- panel header -->
-          <v-expansion-panel-header @click="onClick2(_subject)" style="padding: 0;">
+          <v-expansion-panel-header style="padding: 0;">
             <v-layout justify-center style="max-width: 100px; min-width:100px;">
               <v-chip label outlined>
                 {{ _subject.name }}
@@ -49,9 +49,18 @@
       </v-expansion-panels>
 
       <!-- search btn -->
-      <v-btn style="margin-top: 30px;">
+      <v-btn style="margin-top: 30px;" @click="search">
         검색
       </v-btn>
+    </v-layout>
+
+    <!-- search option selection -->
+    <v-layout style="max-width: 1000px; margin: 0 auto;" justfify-end>
+      <v-select
+        :items="searchOption"
+        style="max-width: 120px; margin-left: auto;"
+      >
+      </v-select>
     </v-layout>
 
     <!-- user diaplay -->
@@ -62,7 +71,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="_user.profileImageUrl" height="200px">
+          <v-img :src="apiAddress + _user.profileImageUrl" height="200px">
           </v-img>
 
           <!-- description -->
@@ -102,7 +111,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="_recruition.author.profileImageUrl" height="200px">
+          <v-img :src="apiAddress + _recruition.author.profileImageUrl" height="200px">
           </v-img>
 
           <!-- description -->
@@ -114,10 +123,10 @@
           </v-card-subtitle>
           <v-card-text>
             <div class="h4">
-              고용 형태 | {{ _recruition.employmentType }}
+              {{ _recruition.employmentType }}
             </div>
             <div class="h4">
-              급여 조건 | {{ _recruition.pay }}
+              {{ _recruition.pay }}
             </div>
           </v-card-text>
 
@@ -176,10 +185,10 @@ interface discoverUser {
   email: string,
   summary: string,
   department: string,
+  tags: Array<string>,
   militaryBranch: string,
   role: string,
   profileImageUrl: string,
-  tags: Array<string>,
   postCount: number,
   followersCount: number,
 }
@@ -187,6 +196,8 @@ interface discoverUser {
 @Component
 export default class DiscoverPage extends Vue {
   /* define variables */
+  apiAddress = "http://yd.somni.one";
+
   filters = [
     {
       name: "사용자 계정",
@@ -244,229 +255,58 @@ export default class DiscoverPage extends Vue {
     },
   ];
 
-  tags :tag[] = [];
-
   currentFilter = this.filters[0];
 
-  userDatas :discoverUser[] = [
-    {
-      id: "1",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-    {
-      id: "2",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-    {
-      id: "3",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-    {
-      id: "4",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-    {
-      id: "5",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-    {
-      id: "6",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-    {
-      id: "7",
-      username: "오주상",
-      birthday: "2000-04-12",
-      telno: "010-7933-4422",
-      location: "서울특별시 용산구 이촌로 87길 21",
-      email: "dhwntkd412@snu.ac.kr",
-      summary: "자고 싶다...",
-      department: "제1 기갑여단 전투근무지원대대",
-      militaryBranch: "군수-병기",
-      role: "k55계열 자주포정비병",
-      profileImageUrl: "https://picsum.photos/seed/four2/200",
-      tags: [
-        "인사계원", "개발자",
-      ],
-      postCount: 7,
-      followersCount: 24,
-    },
-  ];
+  tags :tag[] = [];
 
-  recruitionDatas :discoverRecruition[] = [
-    {
-      id: "1",
-      author: {
-        id: "1",
-        username: "맥도날드",
-        profileImageUrl: "https://picsum.photos/seed/one3/200",
+  searchOptions = {
+    user: [
+      {
+        text: "가입일",
+        value: "가입일",
       },
-      title: "맥도날드 레스토랑 관리직 매니저 트레이닝",
-      employmentType: "정규직",
-      pay: "보수 규정",
-      due: "2021-10-09",
-    },
-    {
-      id: "2",
-      author: {
-        id: "2",
-        username: "아워홈",
-        profileImageUrl: "https://picsum.photos/seed/four3/200",
+      {
+        text: "연관성",
+        value: "연관성",
       },
-      title: "아워홈 조리사 채용",
-      employmentType: "계약직(1년 단위)",
-      pay: "보수 규정",
-      due: "2021-10-10",
-    },
-    {
-      id: "2",
-      author: {
-        id: "2",
-        username: "아워홈",
-        profileImageUrl: "https://picsum.photos/seed/four3/200",
+      {
+        text: "팔로우 수",
+        value: "팔로우 수",
       },
-      title: "아워홈 조리사 채용",
-      employmentType: "계약직(1년 단위)",
-      pay: "보수 규정",
-      due: "2021-11-11",
-    },
-    {
-      id: "2",
-      author: {
-        id: "2",
-        username: "아워홈",
-        profileImageUrl: "https://picsum.photos/seed/four3/200",
+      {
+        text: "포스트 수",
+        value: "포스트 수",
       },
-      title: "아워홈 조리사 채용",
-      employmentType: "계약직(1년 단위)",
-      pay: "보수 규정",
-      due: "2021-11-11",
-    },
-    {
-      id: "2",
-      author: {
-        id: "2",
-        username: "아워홈",
-        profileImageUrl: "https://picsum.photos/seed/four3/200",
+    ],
+    pool: [],
+    recruition: [
+      {
+        text: "작성일",
+        value: "작성일",
       },
-      title: "아워홈 조리사 채용",
-      employmentType: "계약직(1년 단위)",
-      pay: "보수 규정",
-      due: "2021-11-11",
-    },
-    {
-      id: "2",
-      author: {
-        id: "2",
-        username: "아워홈",
-        profileImageUrl: "https://picsum.photos/seed/four3/200",
+      {
+        text: "연관성",
+        value: "연관성",
       },
-      title: "아워홈 조리사 채용",
-      employmentType: "계약직(1년 단위)",
-      pay: "보수 규정",
-      due: "2021-11-11",
-    },
-    {
-      id: "2",
-      author: {
-        id: "2",
-        username: "아워홈",
-        profileImageUrl: "https://picsum.photos/seed/four3/200",
+      {
+        text: "마감일",
+        value: "마감일",
       },
-      title: "아워홈 조리사 채용",
-      employmentType: "계약직(1년 단위)",
-      pay: "보수 규정",
-      due: "2021-11-11",
-    },
-  ]
+    ],
+  }
+
+  searchOption = this.searchOptions.user;
+
+  userDatas :discoverUser[] = [];
+
+  recruitionDatas :discoverRecruition[] = [];
 
   /* define methods */
   onClick1(val: filter): void{
     this.currentFilter = val;
+    if (val.name === "사용자 계정") this.searchOption = this.searchOptions.user;
+    else if (val.name === "POOL") this.searchOption = this.searchOptions.pool;
+    else this.searchOption = this.searchOptions.recruition;
   }
 
   onClick3(val: tag): void{
@@ -485,6 +325,53 @@ export default class DiscoverPage extends Vue {
     if (dday < 0) return "마감";
     if (dday === 0) return "D - day";
     return `D - ${dday}`;
+  }
+
+  search(): void {
+    const currentSubjects = this.currentFilter.subjects.map((_subject) => _subject.name);
+    const tags = this.tags.filter((_tag) => currentSubjects.indexOf(_tag.subject) > -1);
+    let target = null;
+    switch (this.currentFilter.name) {
+      case "사용자 계정":
+        target = "user";
+        break;
+      case "POOL":
+        target = "pool";
+        break;
+      case "채용 공고":
+        target = "recruition";
+        break;
+      default:
+        target = null;
+    }
+    const post = {
+      target,
+      tags,
+      number: 30,
+    };
+
+    fetch("http://20.196.199.194:443/posts/discover", {
+      method: "POST",
+      body: JSON.stringify(post),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        switch (post.target) {
+          case "user":
+            this.userDatas = data.data;
+            break;
+          case "pool":
+            break;
+          case "recruition":
+            this.recruitionDatas = data.data;
+            break;
+          default:
+            break;
+        }
+      });
   }
 }
 </script>
