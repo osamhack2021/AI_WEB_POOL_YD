@@ -36,13 +36,13 @@
            elevation="4"
            title="글 작성"
            @click="compose"
+           :loading="composing"
            :disabled="composing"
            rounded
            fab
            icon
            dark>
-      <v-icon v-if="!composing">mdi-send</v-icon>
-      <v-progress-circular v-else indeterminate />
+      <v-icon>mdi-send</v-icon>
     </v-btn>
     <!-- -->
   </v-card>
