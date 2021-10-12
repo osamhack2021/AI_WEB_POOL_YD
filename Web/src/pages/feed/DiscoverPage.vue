@@ -96,6 +96,11 @@
               <v-layout column align-center>
                 <div> {{ _user.postCount }} posts </div>
                 <div> {{ _user.followersCount }} followers </div>
+                <router-link :to="`/me/${_user.id}`" style="text-decoration:none;">
+                  <v-btn>
+                    프로필 이동
+                  </v-btn>
+                </router-link>
               </v-layout>
             </v-overlay>
           </v-fade-transition>
@@ -196,7 +201,7 @@ interface discoverUser {
 @Component
 export default class DiscoverPage extends Vue {
   /* define variables */
-  apiAddress = "http://yd.somni.one";
+  apiAddress = "https://yd.somni.one";
 
   filters = [
     {

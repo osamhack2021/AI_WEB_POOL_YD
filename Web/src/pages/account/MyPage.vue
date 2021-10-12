@@ -17,6 +17,7 @@
         <my-page-profile
           class="profile"
           style="flex: 0 1 16rem; height: 33rem; margin: 0 1rem"
+          :profileData="profileData"
         ></my-page-profile>
         <!-- 콘텐츠 (포스트, 기록) -->
         <div
@@ -103,14 +104,41 @@ export default class MyPage extends Vue {
   testDataAwards: IRecordsComponentProps = testDataAwards;
   testDataCredits: IRecordsComponentProps = testDataCredits;
 
+  profileData = {
+    soldierData: null,
+    followers: [],
+    followings: [],
+    thumbnail: null,
+  };
+
   tab = 0;
 
   handleCreate(e: unknown):void {
     console.log(e);
+    /* { kind: ..., date: ..., location: ..., title: ..., value: ... } */
+    /* create new experience & update sodilerData / user */
   }
 
   handleDelete(id: number):void {
     console.log(id);
+    /* delete experience */
+  }
+
+  created():void {
+    if (this.$route.params.id) {
+      fetch(`http://yd.somni.one/users/${this.$route.params.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          this.profileData = data;
+          /* Initialize testDataCredists & testDataAwards with data */
+        });
+    } else {
+      fetch("http://yd.somni.one/users/61616d97ba6b751e2cde287d")
+        .then((res) => res.json())
+        .then((data) => {
+          this.profileData = data;
+        });
+    }
   }
 }
 </script>
