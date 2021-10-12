@@ -20,6 +20,7 @@ module.exports = {
                 title: el.title,
                 contentPreview: el.content ? el.content : null,
                 previewMainImageUrl: el.images.length>0 ? el.images[0].url : null,
+                tags: el.tags.map(_tag => _tag.content),
                 commentsCount: el.comments.length,
                 likesCount: el.likes.length,
                 comments: comments.map(_co => {
@@ -58,6 +59,7 @@ module.exports = {
                 title: el.title,
                 contentPreview: el.content ? el.content : null,
                 previewMainImageUrl: el.images.length>0 ? el.images[0].url : null,
+                tags: el.tags.map(_tag => _tag.content),
                 commentsCount: el.comments.length,
                 likesCount: el.likes.length,
             };
