@@ -83,11 +83,11 @@
             <v-list-item-avatar style="align-self: flex-start"><v-img :src="$store.state.loginState.userInfo.profileImageUrl" /></v-list-item-avatar>
             <v-list-item-content class="pt-2">
               <v-list-item-title>댓글 남기기 <small>// {{ $store.state.loginState.userInfo.username }}</small></v-list-item-title>
-              <v-list-item-subtitle class="py-2"><v-textarea class="py-0 my-0" placeholder="글쓴이에게 하고싶은 말을 남겨보세요." rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
+              <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" placeholder="글쓴이에게 하고싶은 말을 남겨보세요." rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
 
               <v-layout>
                 <v-spacer />
-                <v-btn class="primary">댓글 남기기</v-btn>
+                <v-btn class="primary" :loading="leaveCommentProcessing" :disabled="leaveCommentProcessing" @click.stop.prevent="onLeaveCommentClick" >댓글 남기기</v-btn>
               </v-layout>
             </v-list-item-content>
           </v-list-item>
@@ -104,11 +104,13 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import goTo from "vuetify/lib/services/goto";
 import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
-import { IPost } from "@/interfaces/IDatabaseData";
+import { IComment, IPost } from "@/interfaces/IDatabaseData";
 
 @Component
 export default class PostViewPage extends Vue {
   postData!: IPost;
+  leaveCommentTextareaContent = "";
+  leaveCommentProcessing = false;
 
   created(): void {
     // TODO: $route.params.id 가지고 서버에 글 데이터 가져오기
@@ -162,6 +164,30 @@ export default class PostViewPage extends Vue {
       duration: 500,
       ...options,
     });
+  }
+
+  onLeaveCommentClick(): void {
+    this.leaveCommentProcessing = true;
+
+    // TODO: 서버 전송 파트
+
+    // TODO: 서버에서 상태값과 IComment 받기
+
+    setTimeout(() => { // 테스트용 (서버와의 통신 시뮬레이션)
+      const createdComment: IComment = { // 테스트용; 서버가 리턴한 IComment를 사용할것
+        id: Math.floor(Math.random() * 600000).toString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        author: this.$store.state.loginState.userInfo,
+        content: this.leaveCommentTextareaContent, // 이 항목도 서버가 리턴한 것 그대로 써야됨
+      };
+
+      this.postData.comments.push(createdComment);
+
+      // 클린업
+      this.leaveCommentTextareaContent = "";
+      this.leaveCommentProcessing = false;
+    }, Math.floor(Math.random() * 1000) + 500);
   }
 
   get mainImageUrl(): string {
