@@ -55,7 +55,7 @@
 
       <!-- 리액션 버튼 영역 -->
       <v-card-actions>
-        <v-layout row justify-space-between>
+        <v-layout row justify-space-between class="px-2">
           <v-btn class="pa-0 px-2" text @click.stop.prevent="scrollTo('#comments')"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
           <v-btn class="pa-0 px-2" text @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> 좋아요 {{ postData.likesCount }}개</v-btn>
         </v-layout>
