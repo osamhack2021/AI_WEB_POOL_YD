@@ -1,5 +1,6 @@
 <template>
   <v-responsive class="pb-8 page-container">
+    <!-- 상단 메인 이미지 영역 -->
     <v-img :src="postData.previewMainImageUrl"
            dark
            width="100%"
@@ -10,10 +11,14 @@
         <div class="text-h3 text-center">{{ postData.title }}</div>
       </v-layout>
     </v-img>
+    <!-- -->
 
     <v-card width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
+      <!-- 글 컨텐츠 영역 -->
       <v-card-text v-html="postData.contentFull" class="text-body-1" style="color: rgba(0, 0, 0, 0.8)" />
+      <!-- -->
 
+      <!-- 작성자 영역 -->
       <v-layout class="mt-8 pa-2">
         <v-spacer />
 
@@ -32,9 +37,11 @@
                  style="border-radius: 100%" />
         </v-layout>
       </v-layout>
+      <!-- -->
 
       <v-divider class="my-4" />
 
+      <!-- 태그 영역 -->
       <v-layout wrap>
         <v-btn v-for="tag in postData.tags"
               :key="tag"
@@ -42,15 +49,33 @@
               color="primary"
               class="ma-2">#{{ tag }}</v-btn>
       </v-layout>
+      <!-- -->
 
       <v-divider class="my-4" />
 
+      <!-- 리액션 버튼 영역 -->
       <v-card-actions>
-        <v-layout class="mt-2 mb-4" row justify-space-between>
-          <v-btn class="pa-0 px-2" text to="#comments"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
+        <v-layout row justify-space-between>
+          <v-btn class="pa-0 px-2" text @click.stop.prevent="scrollTo('#comments')"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
           <v-btn class="pa-0 px-2" text @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> 좋아요 {{ postData.likesCount }}개</v-btn>
         </v-layout>
       </v-card-actions>
+      <!-- -->
+
+      <!-- 댓글 목록 영역 -->
+      <v-layout id="comments" class="pa-2">
+        <v-list>
+          <v-list-item v-for="comment in postData.comments"
+                       :key="comment.id">
+            <v-list-item-avatar><v-img :src="comment.author.profileImageUrl" /></v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
+              <v-list-item-subtitle>{{ comment.content }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-layout>
+      <!-- -->
     </v-card>
   </v-responsive>
 </template>
@@ -58,6 +83,8 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import goTo from "vuetify/lib/services/goto";
+import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
 import { IPost } from "@/interfaces/IDatabaseData";
 
 @Component
@@ -80,10 +107,38 @@ export default class PostViewPage extends Vue {
       previewMainImageUrl: "https://picsum.photos/seed/post1/600/200",
       tags: ["Tag1", "태그2", "TAG3"],
       commentsCount: 10,
-      comments: [],
+      comments: [{
+        id: "comment111",
+        createdAt: new Date(Date.now() - 60000),
+        updatedAt: new Date(Date.now() - 60000),
+        author: this.$store.state.loginState.userInfo,
+        content: "테스트 댓글이에요",
+      }, {
+        id: "comment111",
+        createdAt: new Date(Date.now() - 60000),
+        updatedAt: new Date(Date.now() - 60000),
+        author: {
+          id: "user-44332211",
+          username: "지나가던사람",
+          profileImageUrl: "https://picsum.photos/seed/two1/200",
+        },
+        content: "헉 유용한 정보에염!!",
+      }],
       likesCount: 100,
       likes: [],
     };
+  }
+
+  mounted(): void {
+    if (this.$route.hash && this.postData) {
+      this.scrollTo(this.$route.hash);
+    } else {
+      this.scrollTo(0, { duration: 0 });
+    }
+  }
+
+  scrollTo(target: VuetifyGoToTarget, options?: Partial<GoToOptions>): void {
+    goTo(target, options);
   }
 
   get isPostUpdatedSincePublish() {
