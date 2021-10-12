@@ -1,7 +1,7 @@
 <template>
   <v-responsive class="pb-8 page-container">
     <!-- 상단 메인 이미지 영역 -->
-    <v-img :src="postData.previewMainImageUrl"
+    <v-img :src="mainImageUrl"
            dark
            width="100%"
            height="300px">
@@ -148,10 +148,18 @@ export default class PostViewPage extends Vue {
   }
 
   scrollTo(target: VuetifyGoToTarget, options?: Partial<GoToOptions>): void {
-    goTo(target, options);
+    goTo(target, {
+      easing: "easeOutQuint",
+      duration: 500,
+      ...options,
+    });
   }
 
-  get isPostUpdatedSincePublish() {
+  get mainImageUrl(): string {
+    return this.postData.previewMainImageUrl ?? "https://picsum.photos/id/1002/1600/900";
+  }
+
+  get isPostUpdatedSincePublish(): boolean {
     return this.postData.createdAt.getTime() !== this.postData.updatedAt.getTime();
   }
 }
