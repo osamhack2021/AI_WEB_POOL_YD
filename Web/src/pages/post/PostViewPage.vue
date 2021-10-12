@@ -18,8 +18,10 @@
         <v-spacer />
 
         <v-layout style="flex-grow: 0">
-          <v-layout justify-end align-center>
+          <v-layout column justify-center align-end>
             <div>written by <strong>{{ postData.author.username }}</strong></div>
+            <div style="font-size: 0.75em; color: gray">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
+            <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
           </v-layout>
 
           <img :src="postData.author.profileImageUrl"
@@ -27,6 +29,8 @@
               style="width: 64px; border-radius: 100%" />
         </v-layout>
       </v-layout>
+
+      <v-divider class="my-4" />
     </v-card>
   </v-responsive>
 </template>
@@ -58,6 +62,10 @@ export default class PostViewPage extends Vue {
       likesCount: 100,
       likes: [],
     };
+  }
+
+  get isPostUpdatedSincePublish() {
+    return this.postData.createdAt.getTime() !== this.postData.updatedAt.getTime();
   }
 }
 </script>
