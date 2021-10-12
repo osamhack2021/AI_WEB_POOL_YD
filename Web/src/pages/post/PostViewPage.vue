@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="pb-8">
+  <v-responsive class="pb-8 page-container">
     <v-img :src="postData.previewMainImageUrl"
            dark
            width="100%"
@@ -17,27 +17,40 @@
       <v-layout class="mt-8 pa-2">
         <v-spacer />
 
-        <v-layout style="flex-grow: 0">
-          <v-layout column justify-center align-end>
+        <v-layout justify-end style="flex-grow: 0; flex-wrap: wrap-reverse">
+          <v-layout column justify-center align-end class="mx-3">
             <div>written by <strong>{{ postData.author.username }}</strong></div>
-            <div style="font-size: 0.75em; color: gray">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
-            <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
+            <div style="font-size: 0.75em; color: gray; text-align: right">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
+            <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray; text-align: right">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
           </v-layout>
 
-          <img :src="postData.author.profileImageUrl"
-              class="ml-3 elevation-2"
-              style="width: 64px; border-radius: 100%" />
+          <v-img :src="postData.author.profileImageUrl"
+                 aspect-ratio="1"
+                 width="64px"
+                 max-width="64px"
+                 class="my-3 elevation-2"
+                 style="border-radius: 100%" />
         </v-layout>
       </v-layout>
 
       <v-divider class="my-4" />
 
-      <v-layout>
-        <span v-for="tag in postData.tags"
-              :key="tag">{{ tag }}</span>
+      <v-layout wrap>
+        <v-btn v-for="tag in postData.tags"
+              :key="tag"
+              outlined
+              color="primary"
+              class="ma-2">#{{ tag }}</v-btn>
       </v-layout>
 
       <v-divider class="my-4" />
+
+      <v-card-actions>
+        <v-layout class="mt-2 mb-4" row justify-space-between>
+          <v-btn class="pa-0 px-2" text to="#comments"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
+          <v-btn class="pa-0 px-2" text @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> 좋아요 {{ postData.likesCount }}개</v-btn>
+        </v-layout>
+      </v-card-actions>
     </v-card>
   </v-responsive>
 </template>
@@ -88,5 +101,19 @@ export default class PostViewPage extends Vue {
   left: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: -1;
+}
+
+.page-container {
+  min-height: 100vh;
+  background-color: #FAFBFB;
+}
+
+.tag {
+  margin: 0.1em 0.33em;
+  padding: 0.25em 0.75em;
+  border-radius: 8px;
+  color: white;
+  background-color: #4AF;
+  box-shadow: 0 0.15em 0.3em rgba(0, 0, 0, 0.25);
 }
 </style>
