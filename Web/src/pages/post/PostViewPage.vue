@@ -67,10 +67,10 @@
         <v-list>
           <v-list-item v-for="comment in postData.comments"
                        :key="comment.id">
-            <v-list-item-avatar><v-img :src="comment.author.profileImageUrl" /></v-list-item-avatar>
-            <v-list-item-content>
+            <v-list-item-avatar style="align-self: flex-start"><v-img :src="comment.author.profileImageUrl" /></v-list-item-avatar>
+            <v-list-item-content class="pt-2">
               <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
-              <v-list-item-subtitle>{{ comment.content }}</v-list-item-subtitle>
+              <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -112,9 +112,9 @@ export default class PostViewPage extends Vue {
         createdAt: new Date(Date.now() - 60000),
         updatedAt: new Date(Date.now() - 60000),
         author: this.$store.state.loginState.userInfo,
-        content: "테스트 댓글이에요",
+        content: "테스트 댓글이에요\n\n혹시 집에 가는 방법에 대해 아시나요?\n\n집에 정말 가고 싶어요",
       }, {
-        id: "comment111",
+        id: "comment222",
         createdAt: new Date(Date.now() - 60000),
         updatedAt: new Date(Date.now() - 60000),
         author: {
