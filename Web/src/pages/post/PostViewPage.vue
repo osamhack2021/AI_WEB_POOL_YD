@@ -31,6 +31,13 @@
       </v-layout>
 
       <v-divider class="my-4" />
+
+      <v-layout>
+        <span v-for="tag in postData.tags"
+              :key="tag">{{ tag }}</span>
+      </v-layout>
+
+      <v-divider class="my-4" />
     </v-card>
   </v-responsive>
 </template>
@@ -50,6 +57,7 @@ export default class PostViewPage extends Vue {
     // 아래는 테스트 데이터
     this.postData = {
       id: this.$route.params.id.toString(),
+      postType: "general",
       createdAt: new Date(Date.now() - 100000),
       updatedAt: new Date(Date.now() - 80000),
       author: this.$store.state.loginState.userInfo,
@@ -57,6 +65,7 @@ export default class PostViewPage extends Vue {
       contentPreview: "",
       contentFull: "<b>테스트 글</b> 입니다. 메렁",
       previewMainImageUrl: "https://picsum.photos/seed/post1/600/200",
+      tags: ["Tag1", "태그2", "TAG3"],
       commentsCount: 10,
       comments: [],
       likesCount: 100,
