@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-toolbar class="blue-grey" dense dark>
+    <v-toolbar class="blue-grey" dense dark elevation="2">
       <v-toolbar-title>피드에 간단한 글 올리기</v-toolbar-title>
 
       <v-spacer />
@@ -36,13 +36,13 @@
            elevation="4"
            title="글 작성"
            @click="compose"
+           :loading="composing"
            :disabled="composing"
            rounded
            fab
            icon
            dark>
-      <v-icon v-if="!composing">mdi-send</v-icon>
-      <v-progress-circular v-else indeterminate />
+      <v-icon>mdi-send</v-icon>
     </v-btn>
     <!-- -->
   </v-card>
