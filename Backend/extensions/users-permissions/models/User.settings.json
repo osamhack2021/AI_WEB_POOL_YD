@@ -58,6 +58,66 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "posts": {
+      "via": "author",
+      "collection": "post"
+    },
+    "comments": {
+      "via": "author",
+      "collection": "comment"
+    },
+    "postLikes": {
+      "via": "likes",
+      "collection": "post"
+    },
+    "followings": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "followers",
+      "dominant": true
+    },
+    "followers": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "followings"
+    },
+    "userType": {
+      "type": "enumeration",
+      "enum": [
+        "soldier",
+        "company"
+      ]
+    },
+    "telno": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "tags": {
+      "collection": "tag"
+    },
+    "soldierData": {
+      "model": "soldier-data"
+    },
+    "companyData": {
+      "model": "company-data"
     }
   }
 }

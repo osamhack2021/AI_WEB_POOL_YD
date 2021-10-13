@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "specs",
+  "info": {
+    "name": "spec"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "certificate",
+        "prize",
+        "education"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}

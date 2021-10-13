@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "job_infos",
+  "info": {
+    "name": "jobInfo",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "desc": {
+      "type": "text"
+    },
+    "pay": {
+      "type": "string"
+    },
+    "employmentType": {
+      "type": "string"
+    },
+    "minRank": {
+      "type": "enumeration",
+      "enum": [
+        "private",
+        "sergeant",
+        "lieutenant",
+        "major",
+        "general"
+      ]
+    },
+    "relatedBranches": {
+      "collection": "tag"
+    },
+    "group": {
+      "model": "tag"
+    }
+  }
+}
