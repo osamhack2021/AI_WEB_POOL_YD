@@ -126,14 +126,14 @@ export default class MyPage extends Vue {
 
   created():void {
     if (this.$route.params.id) {
-      fetch(`http://yd.somni.one/users/${this.$route.params.id}`)
+      fetch(`https://yd.somni.one/users/${this.$route.params.id}`)
         .then((res) => res.json())
         .then((data) => {
           this.profileData = data;
           /* Initialize testDataCredists & testDataAwards with data */
         });
     } else {
-      fetch("http://yd.somni.one/users/61616d97ba6b751e2cde287d")
+      fetch("https://yd.somni.one/users/61616d97ba6b751e2cde287d")
         .then((res) => res.json())
         .then((data) => {
           this.profileData = data;
