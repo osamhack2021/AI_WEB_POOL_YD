@@ -152,6 +152,8 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { AxiosResponse } from "axios";
+import { post as backendPost } from "@/util/BackendHelper";
 
 interface subject {
   name: string,
@@ -332,7 +334,7 @@ export default class DiscoverPage extends Vue {
     return `D - ${dday}`;
   }
 
-  search(): void {
+  async search(): Promise<void> {
     const currentSubjects = this.currentFilter.subjects.map((_subject) => _subject.name);
     const tags = this.tags.filter((_tag) => currentSubjects.indexOf(_tag.subject) > -1);
     let target = null;
@@ -355,28 +357,17 @@ export default class DiscoverPage extends Vue {
       number: 30,
     };
 
-    fetch(`${this.apiAddress}/posts/discover`, {
-      method: "POST",
-      body: JSON.stringify(post),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        switch (post.target) {
-          case "user":
-            this.userDatas = data.data;
-            break;
-          case "pool":
-            break;
-          case "recruition":
-            this.recruitionDatas = data.data;
-            break;
-          default:
-            break;
-        }
-      });
+    const response = await backendPost("/posts/discover", post) as AxiosResponse<{data: Array<unknown>}>;
+
+    if (response.status >= 400) {
+      // ERROR HANDLING
+    } else if (post.target === "user") {
+      this.userDatas = response.data.data as Array<discoverUser>;
+    } else if (post.target === "pool") {
+      // TODO
+    } else if (post.target === "recruition") {
+      this.recruitionDatas = response.data.data as Array<discoverRecruition>;
+    }
   }
 }
 </script>
