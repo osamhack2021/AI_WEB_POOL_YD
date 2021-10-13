@@ -3,7 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import NonLoginLandingPage from "@/pages/NonLoginLandingPage.vue";
 import RegisterPage from "@/pages/account/RegisterPage.vue";
 import MyPage from "@/pages/account/MyPage.vue";
-import ArticleViewPage from "@/pages/article/ArticleViewPage.vue";
+import PostViewPage from "@/pages/post/PostViewPage.vue";
 import MainFeedPage from "@/pages/feed/MainFeedPage.vue";
 import DiscoverPage from "@/pages/feed/DiscoverPage.vue";
 import PoolPage from "@/pages/pool/PoolPage.vue";
@@ -44,12 +44,20 @@ const routes: Array<RouteConfig> = [
       appBarElevateOnScroll: true,
     },
   },
+  {
+    path: "/me/:id",
+    name: "Others' account profile/information page",
+    component: MyPage,
+    meta: {
+      appBarElevateOnScroll: true,
+    },
+  },
 
   /* Article related routes */
   {
-    path: "/article/:id",
-    name: "Unified article view page",
-    component: ArticleViewPage,
+    path: "/post/:id",
+    name: "Unified post view page",
+    component: PostViewPage,
   },
 
   /* "POOL" related routes */

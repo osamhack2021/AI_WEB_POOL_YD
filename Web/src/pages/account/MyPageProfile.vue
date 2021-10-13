@@ -4,26 +4,26 @@
       class="profile__pic rounded-xl"
       aspect-ratio="1"
       width="100%"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      :src="`https://yd.somni.one${profileData.thumbnail.url}`"
     ></v-img>
     <div class="profile__title">
-      <div class="profile__name">지우석</div>
-      <div class="profile__id">@woosukji</div>
+      <div class="profile__name">{{ profileData.username }}</div>
+      <div class="profile__id">{{ profileData.email }}</div>
     </div>
-    <div class="profile__status">Stay hungry. Yes I'm hungry.</div>
+    <div class="profile__status">{{ profileData.summary }}</div>
     <div class="d-flex align-center">
       <v-btn plain small class="px-0">
         <v-icon small class="pr-1">mdi-account-multiple-outline</v-icon>
-        5 liked
+        {{ profileData.followers.length }} follower
       </v-btn>
       <div class="profile__divider px-1">·</div>
-      <v-btn plain small class="px-0">3 liking</v-btn>
+      <v-btn plain small class="px-0">{{ profileData.followings.length }} following</v-btn>
     </div>
-    <v-btn block small elevation="0" color="primary">like</v-btn>
+    <v-btn block small elevation="0" color="primary">follow</v-btn>
     <v-divider class="my-2"></v-divider>
     <div class="profile__detail">
-      <div>10비</div>
-      <div>작전정보체계운영병</div>
+      <div>{{ profileData.soldierData.department }}</div>
+      <div>{{ profileData.soldierData.role }}</div>
     </div>
   </div>
 </template>
@@ -31,9 +31,12 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
 @Component
-export default class MyPageProfile extends Vue {}
+export default class MyPageProfile extends Vue {
+  @Prop() readonly profileData: any;
+}
 </script>
 
 <style lang="scss" scoped>

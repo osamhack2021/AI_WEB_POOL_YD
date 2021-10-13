@@ -28,11 +28,13 @@ export interface IComment {
 export interface IPostDisplay {
   /* 뷰(피드) 표시용을 겸한 최소 게시글 정보 */
   id: string,
+  postType: "general" | "recruition",
   createdAt: Date,
   author: IUserDisplay,
   title: string,
   contentPreview: string,
   previewMainImageUrl?: string,
+  tags: Array<string>,
   commentsCount: number,
   likesCount: number,
 }

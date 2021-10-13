@@ -1,7 +1,7 @@
 <template>
-  <v-card hover ripple :to="{ path: `/article/${itemData.postInfo.id}` }" style="overflow: hidden">
+  <v-card hover ripple :to="{ path: `/post/${itemData.postInfo.id}` }" style="overflow: hidden">
     <!-- 타이틀 영역 -->
-    <v-img v-if="articleHasMainImage"
+    <v-img v-if="postHasMainImage"
            :src="itemData.postInfo.previewMainImageUrl"
            dark
            aspect-ratio="2.5"
@@ -39,10 +39,10 @@
     <!-- 카드 하단 영역 -->
     <v-card-actions>
       <v-layout class="pa-4" row justify-space-around>
-        <v-btn class="pa-0 px-1" text :to="{ path: `/article/${itemData.postInfo.id}#comments` }"><v-icon class="mr-1">mdi-message-reply-text</v-icon> {{ itemData.postInfo.commentsCount }}</v-btn>
+        <v-btn class="pa-0 px-1" text :to="{ path: `/post/${itemData.postInfo.id}`, hash: 'comments' }"><v-icon class="mr-1">mdi-message-reply-text</v-icon> {{ itemData.postInfo.commentsCount }}</v-btn>
         <v-btn class="pa-0 px-1 mx-2" text :color="itemData.likedByAccount ? 'pink' : ''" @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> {{ itemData.postInfo.likesCount }}</v-btn>
         <v-spacer />
-        <span class="mx-2 text--disabled"><v-icon>mdi-clock-outline</v-icon> {{ uploadDateAgo }}</span>
+        <span class="mx-2 text--disabled" @mouseover="isUploadDateHovering = true" @mouseleave="isUploadDateHovering = false"><v-icon>mdi-clock-outline</v-icon> {{ isUploadDateHovering ? itemData.postInfo.createdAt.toLocaleString() : uploadDateAgo }}</span>
       </v-layout>
     </v-card-actions>
     <!-- -->
@@ -59,6 +59,7 @@ import IFeedItem from "@/interfaces/IFeedItem";
 @Component
 export default class FeedItem extends Vue {
   @Prop({ required: true }) itemData!: IFeedItem;
+  isUploadDateHovering = false;
   recomputeIntervalId = -1;
   recomputeHack = false;
 
@@ -77,7 +78,7 @@ export default class FeedItem extends Vue {
     }
   }
 
-  get articleHasMainImage(): boolean {
+  get postHasMainImage(): boolean {
     if (this.itemData.postInfo.previewMainImageUrl) {
       return true;
     }
