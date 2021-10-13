@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "soldier_data",
+  "info": {
+    "name": "soldierData",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "birthday": {
+      "type": "date"
+    },
+    "department": {
+      "type": "string"
+    },
+    "militaryBranch": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "skills": {
+      "collection": "skill"
+    },
+    "specs": {
+      "collection": "spec"
+    },
+    "experiences": {
+      "collection": "experience"
+    }
+  }
+}

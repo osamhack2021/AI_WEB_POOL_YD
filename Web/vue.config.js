@@ -5,5 +5,18 @@ module.exports = {
   transpileDependencies: [
     "vuetify",
   ],
+  devServer: {
+    proxy: {
+        '/posts': {
+            "target": 'http://localhost:1337',
+        },
+        '/comments': {
+            "target": 'http://localhost:1337',
+        },
+        '/users': {
+            "target": 'http://localhost:1337',
+        },  
+    }
+  },
   css: { loaderOptions: { scss: { additionalData: " @import \"./src/styles/pool_styles.scss\"; " } } },
 };

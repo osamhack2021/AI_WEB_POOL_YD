@@ -52,8 +52,11 @@ export default class MainFeedPage extends Vue {
     } else {
       // TODO: likedByAccount 구하는 로직 (현재 유저가 해당 post에 좋아요를 했는지)
       response.data.data.forEach((postData) => {
+        const newPostData = postData;
+        newPostData.createdAt = new Date(postData.createdAt);
+
         this.feedItems.push({
-          postInfo: postData,
+          postInfo: newPostData,
           likedByAccount: false,
         });
       });

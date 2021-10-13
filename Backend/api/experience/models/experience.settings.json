@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "experiences",
+  "info": {
+    "name": "experience"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "prize",
+        "points"
+      ]
+    },
+    "detail": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}
