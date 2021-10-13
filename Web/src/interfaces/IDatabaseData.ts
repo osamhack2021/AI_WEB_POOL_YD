@@ -42,7 +42,7 @@ export interface IPostDisplay {
 export interface IPost extends IPostDisplay {
   /* 게시글 정보 */
   updatedAt: Date,
-  contentFull: string,
+  content: string,
   comments: Array<IComment>,
   likes: Array<IUserDisplay>,
 }
