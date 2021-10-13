@@ -12,6 +12,7 @@ module.exports = {
                 id: el.id,
                 createdAt: el.createdAt,
                 updatedAt: el.updatedAt,
+                publishedAt: el.published_at,
                 author: {
                     id: el.author.id,
                     username: el.author.username,
@@ -45,6 +46,47 @@ module.exports = {
         }));
         return { data : results };
     },
+    async findFullOne(ctx) {
+        const { id } = ctx.params;
+        const el = await strapi.query("post").findOne({id: id});
+        const commentIds = el.comments.map(_co => { return _co._id });
+        const comments = await strapi.query("comment").find({id_in: commentIds});
+        return {
+            id: el.id,
+            createdAt: el.createdAt,
+            updatedAt: el.updatedAt,
+            publishedAt: el.published_at,
+            author: {
+                id: el.author.id,
+                username: el.author.username,
+                profileImageUrl: el.author.thumbnail.url,
+            },
+            title: el.title,
+            contentPreview: el.content ? el.content : null,
+            previewMainImageUrl: el.images.length>0 ? el.images[0].url : null,
+            tags: el.tags.map(_tag => _tag.content),
+            commentsCount: el.comments.length,
+            likesCount: el.likes.length,
+            comments: comments.map(_co => {
+                return {
+                    id: _co.id,
+                    createdAt: _co.createdAt,
+                    updatedAt: _co.updatedAt,
+                    author: {
+                        id: _co.author.id,
+                        username: _co.author.username,
+                        profileImageUrl: _co.author.thumbnail.url,
+                    },
+                    content: _co.comment
+                }
+            }),
+            likes: el.likes.map(_user => { return {
+                id: _user.id,
+                username: _user.username,
+                profileImageUrl: _user.thumbnail.url
+            }})
+        };
+    },
     async preview(ctx) {
         const _posts = await strapi.query("post").find();
         const _preview = _posts.map(el => { 
@@ -65,6 +107,25 @@ module.exports = {
             };
         });
         return { data : _preview };
+    },
+    async findPreviewOne(ctx) {
+        const { id } = ctx.params;
+        const el = await strapi.query("post").findOne({id : id});
+        return {
+            id: el.id,
+            createdAt: el.createdAt,
+            author: {
+                id: el.author.id,
+                username: el.author.username,
+                profileImageUrl: el.author.thumbnail.url,
+            },
+            title: el.title,
+            contentPreview: el.content ? el.content : null,
+            previewMainImageUrl: el.images.length>0 ? el.images[0].url : null,
+            tags: el.tags.map(_tag => _tag.content),
+            commentsCount: el.comments.length,
+            likesCount: el.likes.length,
+        };
     },
     async discover(ctx) {
         const { body } = ctx.request;

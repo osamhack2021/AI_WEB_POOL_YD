@@ -18,8 +18,24 @@
     },
     {
       "method": "GET",
+      "path": "/posts/full/:id",
+      "handler": "post.findFullOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/posts/preview",
       "handler": "post.preview",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/posts/preview/:id",
+      "handler": "post.findPreviewOne",
       "config": {
         "policies": []
       }
