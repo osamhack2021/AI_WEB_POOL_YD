@@ -4,7 +4,7 @@
       class="profile__pic rounded-xl"
       aspect-ratio="1"
       width="100%"
-      :src="`http://yd.somni.one${profileData.thumbnail.url}`"
+      :src="`https://yd.somni.one${profileData.thumbnail.url}`"
     ></v-img>
     <div class="profile__title">
       <div class="profile__name">{{ profileData.username }}</div>
