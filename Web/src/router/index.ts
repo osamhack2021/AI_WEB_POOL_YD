@@ -44,6 +44,14 @@ const routes: Array<RouteConfig> = [
       appBarElevateOnScroll: true,
     },
   },
+  {
+    path: "/me/:id",
+    name: "Others' account profile/information page",
+    component: MyPage,
+    meta: {
+      appBarElevateOnScroll: true,
+    },
+  },
 
   /* Article related routes */
   {

@@ -14,7 +14,7 @@ const testDataCredits: IRecordsComponentProps = {
     value: 73,
     color: "blue",
   }, {
-    label: "가점",
+    label: "감점",
     value: 73,
     color: "red",
   },
