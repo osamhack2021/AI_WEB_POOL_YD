@@ -307,20 +307,20 @@ export default class DiscoverPage extends Vue {
   recruitionDatas :discoverRecruition[] = [];
 
   /* define methods */
-  onClick1(val: filter): void{
+  onClick1(val: filter): void {
     this.currentFilter = val;
     if (val.name === "사용자 계정") this.searchOption = this.searchOptions.user;
     else if (val.name === "POOL") this.searchOption = this.searchOptions.pool;
     else this.searchOption = this.searchOptions.recruition;
   }
 
-  onClick3(val: tag): void{
+  onClick3(val: tag): void {
     const idx = this.tags.findIndex((el) => el.subject === val.subject && el.tag === val.tag);
     if (idx > -1) console.log(idx); /* this.tags.splice(idx, 1); */
     else this.tags.push(val);
   }
 
-  onClick4(val: tag): void{
+  onClick4(val: tag): void {
     const idx = this.tags.findIndex((el) => el.subject === val.subject && el.tag === val.tag);
     this.tags.splice(idx, 1);
   }
