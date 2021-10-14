@@ -114,7 +114,7 @@ import Component from "vue-class-component";
 import goTo from "vuetify/lib/services/goto";
 import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
 import { IComment, IPost } from "@/interfaces/IDatabaseData";
-import { get as backendGet } from "@/util/BackendHelper";
+import { absolutePath as backendAbsolutePath, get as backendGet } from "@/util/BackendHelper";
 
 @Component
 export default class PostViewPage extends Vue {
@@ -124,7 +124,7 @@ export default class PostViewPage extends Vue {
   leaveCommentProcessing = false;
 
   async created(): Promise<void> {
-    const response = await backendGet(`/posts/${this.$route.params.id}`);
+    const response = await backendGet(`/posts/full/${this.$route.params.id}`);
 
     if (response.status >= 400) {
       // REQUEST ERROR HANDLING
@@ -134,6 +134,10 @@ export default class PostViewPage extends Vue {
       this.postData.likesCount = this.postData.likes.length;
       this.postData.createdAt = new Date(this.postData.createdAt);
       this.postData.updatedAt = new Date(this.postData.updatedAt);
+      this.postData.author.profileImageUrl = backendAbsolutePath(this.postData.author.profileImageUrl);
+      if (this.postData.previewMainImageUrl) {
+        this.postData.previewMainImageUrl = backendAbsolutePath(this.postData.previewMainImageUrl);
+      }
 
       this.postLoaded = true;
     }

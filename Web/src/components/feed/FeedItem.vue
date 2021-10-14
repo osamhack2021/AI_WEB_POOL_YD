@@ -55,6 +55,7 @@ import Component from "vue-class-component";
 import { format } from "timeago.js";
 import { Prop } from "vue-property-decorator";
 import IFeedItem from "@/interfaces/IFeedItem";
+import { absolutePath as backendAbsolutePath } from "@/util/BackendHelper";
 
 @Component
 export default class FeedItem extends Vue {
@@ -62,6 +63,13 @@ export default class FeedItem extends Vue {
   isUploadDateHovering = false;
   recomputeIntervalId = -1;
   recomputeHack = false;
+
+  created(): void {
+    this.itemData.postInfo.author.profileImageUrl = backendAbsolutePath(this.itemData.postInfo.author.profileImageUrl);
+    if (this.itemData.postInfo.previewMainImageUrl) {
+      this.itemData.postInfo.previewMainImageUrl = backendAbsolutePath(this.itemData.postInfo.previewMainImageUrl);
+    }
+  }
 
   mounted(): void {
     if (this.recomputeIntervalId === -1) {

@@ -12,7 +12,17 @@ function post(endpoint: string, data: Record<string, unknown>): Promise<AxiosRes
   });
 }
 
+function absolutePath(relativePath: string): string {
+  const regEx = /^https?:\/\//;
+
+  if (regEx.test(relativePath)) {
+    return relativePath;
+  }
+  return `${process.env.VUE_APP_BACKEND_URL}/${relativePath}`;
+}
+
 export {
   get,
   post,
+  absolutePath,
 };
