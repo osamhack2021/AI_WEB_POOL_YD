@@ -175,6 +175,7 @@ export default class PostViewPage extends Vue {
 
       if (this.postData) {
         this.postData.comments.push(createdComment);
+        this.postData.commentsCount = this.postData.comments.length;
       }
 
       // 클린업
