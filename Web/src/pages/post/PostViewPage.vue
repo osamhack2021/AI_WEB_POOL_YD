@@ -77,16 +77,18 @@
           <!-- 댓글 목록 영역 -->
           <v-container id="comments" class="pa-2">
             <v-list>
-              <!-- 댓글 리스트 -->
-              <v-list-item v-for="comment in postData.comments"
-                          :key="comment.id">
-                <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath(comment.author.profileImageUrl)" /></v-list-item-avatar>
-                <v-list-item-content class="pt-2">
-                  <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
-                  <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <!-- -->
+              <v-slide-x-reverse-transition group>
+                <!-- 댓글 리스트 -->
+                <v-list-item v-for="comment in postData.comments"
+                            :key="comment.id">
+                    <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath(comment.author.profileImageUrl)" /></v-list-item-avatar>
+                    <v-list-item-content class="pt-2">
+                      <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
+                      <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <!-- -->
+              </v-slide-x-reverse-transition>
 
               <v-divider class="my-2" />
 
