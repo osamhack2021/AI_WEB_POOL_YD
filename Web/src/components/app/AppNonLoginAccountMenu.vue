@@ -58,19 +58,7 @@ export default class AppNonLoginAccountMenu extends Vue {
   loginFormId = "";
   loginFormIdRules: Array<(value: string) => boolean | string> = [
     (value) => !!value || "ID를 입력해주세요.",
-    (value) => (value && /^[a-zA-Z.]+$/.test(value)) || "ID는 영문자 및 마침표(.)만 사용할 수 있습니다.",
-    (value) => (value && !/\.$/.test(value)) || "ID의 마지막 문자로 마침표(.)를 사용할 수 없습니다.",
-    (value) => {
-      const regExExec = /\.{2,}/.exec(value);
-
-      if (value && regExExec) {
-        if (regExExec.index > 0) {
-          return "마침표(.) 문자는 연속으로 입력할 수 없습니다.";
-        }
-      }
-
-      return true;
-    },
+    (value) => (value && /^[a-zA-Z0-9-.]+@[a-zA-Z0-9-]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/.test(value)) || "올바른 이메일 주소를 입력해주세요.",
   ];
   loginFormPassword = "";
   loginFormPasswordShow = false;
