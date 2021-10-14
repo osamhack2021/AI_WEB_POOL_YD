@@ -71,7 +71,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="apiAddress + _user.profileImageUrl" height="200px">
+          <v-img :src="absolutePath(_user.profileImageUrl)" height="200px">
           </v-img>
 
           <!-- description -->
@@ -116,7 +116,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="apiAddress + _recruition.author.profileImageUrl" height="200px">
+          <v-img :src="absolutePath(_recruition.author.profileImageUrl)" height="200px">
           </v-img>
 
           <!-- description -->
@@ -153,7 +153,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { AxiosResponse } from "axios";
-import { post as backendPost } from "@/util/BackendHelper";
+import { absolutePath as backendAbsolutePath, post as backendPost } from "@/util/BackendHelper";
 
 interface ISubject {
   name: string,
@@ -202,6 +202,8 @@ interface IDiscoverUser {
 
 @Component
 export default class DiscoverPage extends Vue {
+  absolutePath = backendAbsolutePath;
+
   /* define variables */
   filters = [
     {
