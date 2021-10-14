@@ -7,103 +7,108 @@
     </v-layout>
     <!-- -->
 
-    <v-responsive v-else class="pb-8 page-container">
+    <v-responsive v-if="postLoaded" class="pb-8 page-container">
       <!-- 상단 메인 이미지 영역 -->
-      <v-img :src="absolutePath(mainImageUrl)"
-            dark
-            width="100%"
-            height="300px">
-        <div class="post-image-darken-overlay"></div>
+      <v-slide-y-reverse-transition>
+        <v-img v-if="postLoadedDelayed100"
+               :src="absolutePath(mainImageUrl)"
+               dark
+               width="100%"
+               height="300px">
+          <div class="post-image-darken-overlay"></div>
 
-        <v-layout align-center justify-center fill-height class="mx-auto" style="max-width: 800px">
-          <div class="text-h3 text-center">{{ postData.title }}</div>
-        </v-layout>
-      </v-img>
+          <v-layout align-center justify-center fill-height class="mx-auto" style="max-width: 800px">
+            <div class="text-h3 text-center">{{ postData.title }}</div>
+          </v-layout>
+        </v-img>
+      </v-slide-y-reverse-transition>
       <!-- -->
 
-      <v-card width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
-        <!-- 글 컨텐츠 영역 -->
-        <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
-        <!-- -->
+      <v-slide-y-reverse-transition>
+        <v-card v-if="postLoadedDelayed200" width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
+          <!-- 글 컨텐츠 영역 -->
+          <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
+          <!-- -->
 
-        <!-- 작성자 영역 -->
-        <v-layout class="mt-8 pa-2">
-          <v-spacer />
+          <!-- 작성자 영역 -->
+          <v-layout class="mt-8 pa-2">
+            <v-spacer />
 
-          <v-layout justify-end style="flex-grow: 0; flex-wrap: wrap-reverse">
-            <v-layout column justify-center align-end class="mx-3">
-              <div>written by <strong>{{ postData.author.username }}</strong></div>
-              <div style="font-size: 0.75em; color: gray; text-align: right">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
-              <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray; text-align: right">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
+            <v-layout justify-end style="flex-grow: 0; flex-wrap: wrap-reverse">
+              <v-layout column justify-center align-end class="mx-3">
+                <div>written by <strong>{{ postData.author.username }}</strong></div>
+                <div style="font-size: 0.75em; color: gray; text-align: right">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
+                <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray; text-align: right">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
+              </v-layout>
+
+              <v-img :src="absolutePath(postData.author.profileImageUrl)"
+                    aspect-ratio="1"
+                    width="64px"
+                    max-width="64px"
+                    class="my-3 elevation-2"
+                    style="border-radius: 100%" />
             </v-layout>
-
-            <v-img :src="absolutePath(postData.author.profileImageUrl)"
-                  aspect-ratio="1"
-                  width="64px"
-                  max-width="64px"
-                  class="my-3 elevation-2"
-                  style="border-radius: 100%" />
           </v-layout>
-        </v-layout>
-        <!-- -->
+          <!-- -->
 
-        <v-divider class="my-4" />
+          <v-divider class="my-4" />
 
-        <!-- 태그 영역 -->
-        <v-layout wrap>
-          <v-btn v-for="tag in postData.tags"
-                :key="tag"
-                outlined
-                color="primary"
-                class="ma-2">#{{ tag }}</v-btn>
-        </v-layout>
-        <!-- -->
-
-        <v-divider class="my-4" />
-
-        <!-- 리액션 버튼 영역 -->
-        <v-card-actions>
-          <v-layout row justify-space-between class="px-2">
-            <v-btn class="pa-0 px-2" text @click.stop.prevent="scrollTo('#comments')"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
-            <v-btn class="pa-0 px-2" text @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> 좋아요 {{ postData.likesCount }}개</v-btn>
+          <!-- 태그 영역 -->
+          <v-layout wrap>
+            <v-btn v-for="tag in postData.tags"
+                  :key="tag"
+                  outlined
+                  color="primary"
+                  class="ma-2">#{{ tag }}</v-btn>
           </v-layout>
-        </v-card-actions>
-        <!-- -->
+          <!-- -->
 
-        <!-- 댓글 목록 영역 -->
-        <v-container id="comments" class="pa-2">
-          <v-list>
-            <!-- 댓글 리스트 -->
-            <v-list-item v-for="comment in postData.comments"
-                        :key="comment.id">
-              <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath(comment.author.profileImageUrl)" /></v-list-item-avatar>
-              <v-list-item-content class="pt-2">
-                <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
-                <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <!-- -->
+          <v-divider class="my-4" />
 
-            <v-divider class="my-2" />
+          <!-- 리액션 버튼 영역 -->
+          <v-card-actions>
+            <v-layout row justify-space-between class="px-2">
+              <v-btn class="pa-0 px-2" text @click.stop.prevent="scrollTo('#comments')"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
+              <v-btn class="pa-0 px-2" text @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> 좋아요 {{ postData.likesCount }}개</v-btn>
+            </v-layout>
+          </v-card-actions>
+          <!-- -->
 
-            <!-- 댓글 작성 -->
-            <v-list-item>
-              <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" /></v-list-item-avatar>
-              <v-list-item-content class="pt-2">
-                <v-list-item-title>댓글 남기기 <small>// {{ $store.state.loginState.userInfo.username }}</small></v-list-item-title>
-                <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" placeholder="글쓴이에게 하고싶은 말을 남겨보세요." rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
+          <!-- 댓글 목록 영역 -->
+          <v-container id="comments" class="pa-2">
+            <v-list>
+              <!-- 댓글 리스트 -->
+              <v-list-item v-for="comment in postData.comments"
+                          :key="comment.id">
+                <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath(comment.author.profileImageUrl)" /></v-list-item-avatar>
+                <v-list-item-content class="pt-2">
+                  <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
+                  <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <!-- -->
 
-                <v-layout>
-                  <v-spacer />
-                  <v-btn class="primary" :loading="leaveCommentProcessing" :disabled="leaveCommentProcessing" @click.stop.prevent="onLeaveCommentClick" >댓글 남기기</v-btn>
-                </v-layout>
-              </v-list-item-content>
-            </v-list-item>
-            <!-- -->
-          </v-list>
-        </v-container>
-        <!-- -->
-      </v-card>
+              <v-divider class="my-2" />
+
+              <!-- 댓글 작성 -->
+              <v-list-item>
+                <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" /></v-list-item-avatar>
+                <v-list-item-content class="pt-2">
+                  <v-list-item-title>댓글 남기기 <small>// {{ $store.state.loginState.userInfo.username }}</small></v-list-item-title>
+                  <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" placeholder="글쓴이에게 하고싶은 말을 남겨보세요." rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
+
+                  <v-layout>
+                    <v-spacer />
+                    <v-btn class="primary" :loading="leaveCommentProcessing" :disabled="leaveCommentProcessing" @click.stop.prevent="onLeaveCommentClick" >댓글 남기기</v-btn>
+                  </v-layout>
+                </v-list-item-content>
+              </v-list-item>
+              <!-- -->
+            </v-list>
+          </v-container>
+          <!-- -->
+        </v-card>
+      </v-slide-y-reverse-transition>
     </v-responsive>
   </v-container>
 </template>
@@ -122,6 +127,8 @@ export default class PostViewPage extends Vue {
 
   postData: IPost | null = null;
   postLoaded = false;
+  postLoadedDelayed100 = false;
+  postLoadedDelayed200 = false;
   leaveCommentTextareaContent = "";
   leaveCommentProcessing = false;
 
@@ -138,6 +145,8 @@ export default class PostViewPage extends Vue {
       this.postData.updatedAt = new Date(this.postData.updatedAt);
 
       this.postLoaded = true;
+      setTimeout(() => { this.postLoadedDelayed100 = true; }, 100);
+      setTimeout(() => { this.postLoadedDelayed200 = true; }, 200);
     }
   }
 
