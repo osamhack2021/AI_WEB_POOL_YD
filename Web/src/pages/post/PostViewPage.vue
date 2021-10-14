@@ -9,7 +9,7 @@
 
     <v-responsive v-else class="pb-8 page-container">
       <!-- 상단 메인 이미지 영역 -->
-      <v-img :src="mainImageUrl"
+      <v-img :src="absolutePath(mainImageUrl)"
             dark
             width="100%"
             height="300px">
@@ -23,7 +23,7 @@
 
       <v-card width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
         <!-- 글 컨텐츠 영역 -->
-        <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8)" />
+        <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 1.5" />
         <!-- -->
 
         <!-- 작성자 영역 -->
@@ -37,7 +37,7 @@
               <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray; text-align: right">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
             </v-layout>
 
-            <v-img :src="postData.author.profileImageUrl"
+            <v-img :src="absolutePath(postData.author.profileImageUrl)"
                   aspect-ratio="1"
                   width="64px"
                   max-width="64px"
@@ -76,7 +76,7 @@
             <!-- 댓글 리스트 -->
             <v-list-item v-for="comment in postData.comments"
                         :key="comment.id">
-              <v-list-item-avatar style="align-self: flex-start"><v-img :src="comment.author.profileImageUrl" /></v-list-item-avatar>
+              <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath(comment.author.profileImageUrl)" /></v-list-item-avatar>
               <v-list-item-content class="pt-2">
                 <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
                 <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
@@ -88,7 +88,7 @@
 
             <!-- 댓글 작성 -->
             <v-list-item>
-              <v-list-item-avatar style="align-self: flex-start"><v-img :src="$store.state.loginState.userInfo.profileImageUrl" /></v-list-item-avatar>
+              <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" /></v-list-item-avatar>
               <v-list-item-content class="pt-2">
                 <v-list-item-title>댓글 남기기 <small>// {{ $store.state.loginState.userInfo.username }}</small></v-list-item-title>
                 <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" placeholder="글쓴이에게 하고싶은 말을 남겨보세요." rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
@@ -118,6 +118,8 @@ import { absolutePath as backendAbsolutePath, get as backendGet } from "@/util/B
 
 @Component
 export default class PostViewPage extends Vue {
+  absolutePath = backendAbsolutePath;
+
   postData: IPost | null = null;
   postLoaded = false;
   leaveCommentTextareaContent = "";
@@ -134,10 +136,6 @@ export default class PostViewPage extends Vue {
       this.postData.likesCount = this.postData.likes.length;
       this.postData.createdAt = new Date(this.postData.createdAt);
       this.postData.updatedAt = new Date(this.postData.updatedAt);
-      this.postData.author.profileImageUrl = backendAbsolutePath(this.postData.author.profileImageUrl);
-      if (this.postData.previewMainImageUrl) {
-        this.postData.previewMainImageUrl = backendAbsolutePath(this.postData.previewMainImageUrl);
-      }
 
       this.postLoaded = true;
     }
