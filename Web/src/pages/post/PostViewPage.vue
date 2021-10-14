@@ -23,7 +23,7 @@
 
       <v-card width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
         <!-- 글 컨텐츠 영역 -->
-        <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 1.5" />
+        <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
         <!-- -->
 
         <!-- 작성자 영역 -->
