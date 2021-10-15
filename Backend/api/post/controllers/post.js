@@ -8,8 +8,35 @@ module.exports = {
         const results = await Promise.all(_posts.map(async el => {
             let commentIds = el.comments.map(_co => { return _co._id });
             let comments = await strapi.query("comment").find({id_in: commentIds});
+            let relatedBranches;
+            let group;
+            let minRank;
+            if(el.postType === "recruition"){
+                relatedBranches = await strapi.query("tag").find({id_in : el.jobInfo.relatedBranches});
+                relatedBranches = relatedBranches.map(el => el.content);
+                group = await strapi.query("tag").findOne({id: el.jobInfo.group});
+                group = group.content;
+                switch(el.jobInfo.minRank){
+                    case "private": 
+                        minRank = "계급 무관";
+                        break;
+                    case "sergeant":
+                        minRank = "하사 이상";
+                        break;
+                    case "lieutenant":
+                        minRank = "소위 이상";
+                        break;
+                    case "major":
+                        minRank = "소령 이상";
+                        break;
+                    case "general":
+                        minRank = "준장 이상";
+                        break;
+                }
+            }
             return {
                 id: el.id,
+                postType: el.postType,
                 createdAt: el.createdAt,
                 updatedAt: el.updatedAt,
                 publishedAt: el.published_at,
@@ -34,14 +61,23 @@ module.exports = {
                             username: _co.author.username,
                             profileImageUrl: _co.author.thumbnail.url,
                         },
-                        content: _co.comment
+                        content: _co.content
                     }
                 }),
                 likes: el.likes.map(_user => { return {
                     id: _user.id,
                     username: _user.username,
                     profileImageUrl: _user.thumbnail.url
-                }})
+                }}),
+                jobInfo: el.jobInfo ? {
+                    id: el.jobInfo.id,
+                    desc: el.jobInfo.desc,
+                    employmentType: el.jobInfo.employmentType,
+                    due: el.jobInfo.due,
+                    minRank,
+                    relatedBranches,
+                    group
+                } : null
             };
         }));
         return { data : results };
@@ -51,8 +87,35 @@ module.exports = {
         const el = await strapi.query("post").findOne({id: id});
         const commentIds = el.comments.map(_co => { return _co._id });
         const comments = await strapi.query("comment").find({id_in: commentIds});
+        let relatedBranches;
+        let group;
+        let minRank;
+        if(el.postType === "recruition"){
+            relatedBranches = await strapi.query("tag").find({id_in : el.jobInfo.relatedBranches});
+            relatedBranches = relatedBranches.map(el => el.content);
+            group = await strapi.query("tag").findOne({id: el.jobInfo.group});
+            group = group.content;
+            switch(el.jobInfo.minRank){
+                case "private": 
+                    minRank = "계급 무관";
+                    break;
+                case "sergeant":
+                    minRank = "하사 이상";
+                    break;
+                case "lieutenant":
+                    minRank = "소위 이상";
+                    break;
+                case "major":
+                    minRank = "소령 이상";
+                    break;
+                case "general":
+                    minRank = "준장 이상";
+                    break;
+            }
+        }
         return {
             id: el.id,
+            postType: el.postType,
             createdAt: el.createdAt,
             updatedAt: el.updatedAt,
             publishedAt: el.published_at,
@@ -77,21 +140,57 @@ module.exports = {
                         username: _co.author.username,
                         profileImageUrl: _co.author.thumbnail.url,
                     },
-                    content: _co.comment
+                    content: _co.content
                 }
             }),
             likes: el.likes.map(_user => { return {
                 id: _user.id,
                 username: _user.username,
                 profileImageUrl: _user.thumbnail.url
-            }})
+            }}),
+            jobInfo: el.jobInfo ? {
+                id: el.jobInfo.id,
+                desc: el.jobInfo.desc,
+                employmentType: el.jobInfo.employmentType,
+                due: el.jobInfo.due,
+                minRank,
+                relatedBranches,
+                group
+            } : null
         };
     },
     async preview(ctx) {
         const _posts = await strapi.query("post").find();
-        const _preview = _posts.map(el => { 
+        const _preview = await Promise.all(_posts.map(async el => {
+            let relatedBranches;
+            let group;
+            let minRank;
+            if(el.postType === "recruition"){
+                relatedBranches = await strapi.query("tag").find({id_in : el.jobInfo.relatedBranches});
+                relatedBranches = relatedBranches.map(el => el.content);
+                group = await strapi.query("tag").findOne({id: el.jobInfo.group});
+                group = group.content;
+                switch(el.jobInfo.minRank){
+                    case "private": 
+                        minRank = "계급 무관";
+                        break;
+                    case "sergeant":
+                        minRank = "하사 이상";
+                        break;
+                    case "lieutenant":
+                        minRank = "소위 이상";
+                        break;
+                    case "major":
+                        minRank = "소령 이상";
+                        break;
+                    case "general":
+                        minRank = "준장 이상";
+                        break;
+                }
+            }
             return {
                 id: el.id,
+                postType: el.postType,
                 createdAt: el.createdAt,
                 author: {
                     id: el.author.id,
@@ -99,20 +198,56 @@ module.exports = {
                     profileImageUrl: el.author.thumbnail.url,
                 },
                 title: el.title,
-                contentPreview: el.content ? el.content : null,
+                contentPreview: el.content ? el.content.replace(/<[^>]*>?/gm, '').slice(0,240) : null,
                 previewMainImageUrl: el.images.length>0 ? el.images[0].url : null,
                 tags: el.tags.map(_tag => _tag.content),
                 commentsCount: el.comments.length,
                 likesCount: el.likes.length,
+                jobInfo: el.jobInfo ? {
+                    id: el.jobInfo.id,
+                    desc: el.jobInfo.desc,
+                    employmentType: el.jobInfo.employmentType,
+                    due: el.jobInfo.due,
+                    minRank,
+                    relatedBranches,
+                    group
+                } : null
             };
-        });
+        }));
         return { data : _preview };
     },
     async findPreviewOne(ctx) {
         const { id } = ctx.params;
         const el = await strapi.query("post").findOne({id : id});
+        let relatedBranches;
+        let group;
+        let minRank;
+        if(el.postType === "recruition"){
+            relatedBranches = await strapi.query("tag").find({id_in : el.jobInfo.relatedBranches});
+            relatedBranches = relatedBranches.map(el => el.content);
+            group = await strapi.query("tag").findOne({id: el.jobInfo.group});
+            group = group.content;
+            switch(el.jobInfo.minRank){
+                case "private": 
+                    minRank = "계급 무관";
+                    break;
+                case "sergeant":
+                    minRank = "하사 이상";
+                    break;
+                case "lieutenant":
+                    minRank = "소위 이상";
+                    break;
+                case "major":
+                    minRank = "소령 이상";
+                    break;
+                case "general":
+                    minRank = "준장 이상";
+                    break;
+            }
+        }
         return {
             id: el.id,
+            postType: el.postType,
             createdAt: el.createdAt,
             author: {
                 id: el.author.id,
@@ -120,11 +255,20 @@ module.exports = {
                 profileImageUrl: el.author.thumbnail.url,
             },
             title: el.title,
-            contentPreview: el.content ? el.content : null,
+            contentPreview: el.content ? el.content.replace(/<[^>]*>?/gm, '').slice(0,240) : null,
             previewMainImageUrl: el.images.length>0 ? el.images[0].url : null,
             tags: el.tags.map(_tag => _tag.content),
             commentsCount: el.comments.length,
             likesCount: el.likes.length,
+            jobInfo: el.jobInfo ? {
+                id: el.jobInfo.id,
+                desc: el.jobInfo.desc,
+                employmentType: el.jobInfo.employmentType,
+                due: el.jobInfo.due,
+                minRank,
+                relatedBranches,
+                group
+            } : null
         };
     },
     async discover(ctx) {
