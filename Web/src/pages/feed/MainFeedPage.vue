@@ -19,14 +19,18 @@
         <v-container v-if="feedLoaded">
           <v-layout align-center>
             <v-spacer />
-            <v-checkbox v-model="onlyRecruitionChecked" label="채용 공고만 보기" hide-details />
+            <v-radio-group v-model="showPostType" row hide-details>
+              <v-radio label="전체 보기" value="all" class="ma-2" />
+              <v-radio label="일반 글만 보기" value="general" class="ma-2" />
+              <v-radio label="채용 공고만 보기" value="recruition" class="ma-2" />
+            </v-radio-group>
           </v-layout>
 
           <div v-for="item in feedItems.slice().reverse()"
                :key="item.index"
                class="my-8">
             <v-lazy :options="{ threshold: 0.5 }" min-height="0px" transition="slide-y-reverse-transition">
-              <feed-item v-if="!onlyRecruitionChecked || (onlyRecruitionChecked && item.postInfo.postType === 'recruition')"
+              <feed-item v-if="showPostType === 'all' || showPostType === item.postInfo.postType"
                         :itemData="item" />
             </v-lazy>
           </div>
@@ -57,7 +61,7 @@ export default class MainFeedPage extends Vue {
   feedItems: Array<IFeedItem> = new Array<IFeedItem>();
   feedLoaded = false;
 
-  onlyRecruitionChecked = false;
+  showPostType = "all";
 
   async created(): Promise<void> {
     const response = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
