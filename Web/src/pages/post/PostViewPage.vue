@@ -101,7 +101,7 @@
 
                   <v-layout>
                     <v-spacer />
-                    <v-btn class="primary" :loading="leaveCommentProcessing" :disabled="leaveCommentProcessing" @click.stop.prevent="onLeaveCommentClick" >댓글 남기기</v-btn>
+                    <v-btn class="primary" :loading="leaveCommentProcessing" :disabled="leaveCommentProcessing" @click.stop.prevent="onLeaveCommentClick">댓글 남기기</v-btn>
                   </v-layout>
                 </v-list-item-content>
               </v-list-item>
