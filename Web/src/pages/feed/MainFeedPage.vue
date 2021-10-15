@@ -37,8 +37,8 @@
           <div v-for="item in feedItems.slice().reverse()"
                :key="item.index"
                class="my-8">
-            <v-lazy :options="{ threshold: 0.5 }" min-height="0px" transition="slide-y-reverse-transition">
-              <feed-item v-if="showPostType === 'all' || showPostType === item.postInfo.postType"
+            <v-lazy :options="{ threshold: 0.5 }" :min-height="!feedItemFiltered(item.postInfo.postType) ? '150px' : '0px'" transition="slide-y-reverse-transition">
+              <feed-item v-if="!feedItemFiltered(item.postInfo.postType)"
                         :itemData="item" />
             </v-lazy>
           </div>
@@ -106,19 +106,17 @@ export default class MainFeedPage extends Vue {
     }
 
     // TODO: likedByAccount 구하는 로직 (현재 유저가 해당 post에 좋아요를 했는지)
-    const newFeedItems = new Array<IFeedItem>();
+    this.feedItems = new Array<IFeedItem>();
 
     response.data.data.forEach((postData) => {
       const newPostData = postData;
       newPostData.createdAt = new Date(postData.createdAt);
 
-      newFeedItems.push({
+      this.feedItems.push({
         postInfo: newPostData,
         likedByAccount: false,
       });
     });
-
-    this.feedItems = newFeedItems;
 
     return true;
   }
@@ -133,6 +131,14 @@ export default class MainFeedPage extends Vue {
     } else {
       this.feedLoaded = feedUpdateStatus;
     }
+  }
+
+  feedItemFiltered(postType: string): boolean {
+    if (this.showPostType === "all" || this.showPostType === postType) {
+      return false;
+    }
+
+    return true;
   }
 }
 </script>
