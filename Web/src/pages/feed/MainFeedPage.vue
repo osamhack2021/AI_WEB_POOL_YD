@@ -25,8 +25,10 @@
           <div v-for="item in feedItems.slice().reverse()"
                :key="item.index"
                class="my-8">
-            <feed-item v-if="!onlyRecruitionChecked || (onlyRecruitionChecked && item.postInfo.postType === 'recruition')"
-                       :itemData="item" />
+            <v-lazy :options="{ threshold: 0.5 }" min-height="50px" transition="slide-y-reverse-transition">
+              <feed-item v-if="!onlyRecruitionChecked || (onlyRecruitionChecked && item.postInfo.postType === 'recruition')"
+                        :itemData="item" />
+            </v-lazy>
           </div>
         </v-container>
       </v-slide-y-reverse-transition>

@@ -1,28 +1,16 @@
 <template>
-  <v-lazy v-model="isLazyShown" :options="{ threshold: 0.5 }" min-height="150px" transition="slide-y-reverse-transition">
-    <v-card hover ripple :to="{ path: `/post/${itemData.postInfo.id}` }" style="overflow: hidden">
-      <!-- 타이틀 영역 -->
-      <v-img v-if="postHasMainImage"
-            :src="absolutePath(itemData.postInfo.previewMainImageUrl)"
-            dark
-            aspect-ratio="2.5"
-            class="pa-3 align-end">
-        <div class="feed-image-darken-overlay"></div>
+  <v-card hover ripple :to="{ path: `/post/${itemData.postInfo.id}` }" style="overflow: hidden">
+    <!-- 타이틀 영역 -->
+    <v-img v-if="postHasMainImage"
+          :src="absolutePath(itemData.postInfo.previewMainImageUrl)"
+          dark
+          aspect-ratio="2.5"
+          class="pa-3 align-end">
+      <div class="feed-image-darken-overlay"></div>
 
-        <v-layout class="mt-0 ml-0" row align-center style="flex-wrap: nowrap">
-          <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
-                aspect-ratio="1"
-                class="elevation-2"
-                style="width: 64px; border-radius: 100%;" />
-
-          <v-layout column justify-start>
-            <v-card-title>{{ itemData.postInfo.title }}</v-card-title>
-            <v-card-subtitle>By {{ itemData.postInfo.author.username }}</v-card-subtitle>
-          </v-layout>
-        </v-layout>
-      </v-img>
-      <v-layout v-else class="mt-0 ml-3" row align-center style="flex-wrap: nowrap">
+      <v-layout class="mt-0 ml-0" row align-center style="flex-wrap: nowrap">
         <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
+              aspect-ratio="1"
               class="elevation-2"
               style="width: 64px; border-radius: 100%;" />
 
@@ -31,24 +19,34 @@
           <v-card-subtitle>By {{ itemData.postInfo.author.username }}</v-card-subtitle>
         </v-layout>
       </v-layout>
-      <!-- -->
+    </v-img>
+    <v-layout v-else class="mt-0 ml-3" row align-center style="flex-wrap: nowrap">
+      <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
+            class="elevation-2"
+            style="width: 64px; border-radius: 100%;" />
 
-      <!-- 콘텐츠(텍스트) 영역 -->
-      <v-card-text class="feed-item-content" v-html="itemData.postInfo.contentPreview"></v-card-text>
-      <!-- -->
+      <v-layout column justify-start>
+        <v-card-title>{{ itemData.postInfo.title }}</v-card-title>
+        <v-card-subtitle>By {{ itemData.postInfo.author.username }}</v-card-subtitle>
+      </v-layout>
+    </v-layout>
+    <!-- -->
 
-      <!-- 카드 하단 영역 -->
-      <v-card-actions>
-        <v-layout class="pa-4" row justify-space-around>
-          <v-btn class="pa-0 px-1" text :to="{ path: `/post/${itemData.postInfo.id}`, hash: 'comments' }"><v-icon class="mr-1">mdi-message-reply-text</v-icon> {{ itemData.postInfo.commentsCount }}</v-btn>
-          <v-btn class="pa-0 px-1 mx-2" text :color="itemData.likedByAccount ? 'pink' : ''" @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> {{ itemData.postInfo.likesCount }}</v-btn>
-          <v-spacer />
-          <span class="mx-2 text--disabled" @mouseover="isUploadDateHovering = true" @mouseleave="isUploadDateHovering = false"><v-icon>mdi-clock-outline</v-icon> {{ isUploadDateHovering ? itemData.postInfo.createdAt.toLocaleString() : uploadDateAgo }}</span>
-        </v-layout>
-      </v-card-actions>
-      <!-- -->
-    </v-card>
-  </v-lazy>
+    <!-- 콘텐츠(텍스트) 영역 -->
+    <v-card-text class="feed-item-content" v-html="itemData.postInfo.contentPreview"></v-card-text>
+    <!-- -->
+
+    <!-- 카드 하단 영역 -->
+    <v-card-actions>
+      <v-layout class="pa-4" row justify-space-around>
+        <v-btn class="pa-0 px-1" text :to="{ path: `/post/${itemData.postInfo.id}`, hash: 'comments' }"><v-icon class="mr-1">mdi-message-reply-text</v-icon> {{ itemData.postInfo.commentsCount }}</v-btn>
+        <v-btn class="pa-0 px-1 mx-2" text :color="itemData.likedByAccount ? 'pink' : ''" @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> {{ itemData.postInfo.likesCount }}</v-btn>
+        <v-spacer />
+        <span class="mx-2 text--disabled" @mouseover="isUploadDateHovering = true" @mouseleave="isUploadDateHovering = false"><v-icon>mdi-clock-outline</v-icon> {{ isUploadDateHovering ? itemData.postInfo.createdAt.toLocaleString() : uploadDateAgo }}</span>
+      </v-layout>
+    </v-card-actions>
+    <!-- -->
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -64,7 +62,6 @@ export default class FeedItem extends Vue {
   absolutePath = backendAbsolutePath;
 
   @Prop({ required: true }) itemData!: IFeedItem;
-  isLazyShown = false;
   isUploadDateHovering = false;
   recomputeIntervalId = -1;
   recomputeHack = false;
