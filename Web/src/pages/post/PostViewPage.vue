@@ -54,16 +54,16 @@
           <v-divider class="my-4" />
 
           <!-- 태그 영역 -->
-          <v-layout wrap>
+          <v-layout v-if="postData.postType === 'recruition'" wrap>
             <v-btn v-for="tag in postData.tags"
                   :key="tag"
                   outlined
                   color="primary"
                   class="ma-2">#{{ tag }}</v-btn>
           </v-layout>
-          <!-- -->
 
-          <v-divider class="my-4" />
+          <v-divider v-if="postData.postType === 'recruition'" class="my-4" />
+          <!-- -->
 
           <!-- 리액션 버튼 영역 -->
           <v-card-actions>
