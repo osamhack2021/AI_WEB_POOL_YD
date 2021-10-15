@@ -1,6 +1,14 @@
 <template>
   <v-card hover ripple :to="{ path: `/post/${itemData.postInfo.id}` }" style="overflow: hidden">
+    <v-layout v-if="itemData.postInfo.postType === 'recruition'"
+              justify-center
+              align-center
+              class="recruition-bar primary white--text">
+      <span>＊ 채용 / 모집 공고 ＊</span>
+    </v-layout>
+
     <!-- 타이틀 영역 -->
+    <!-- 메인 이미지가 있는 경우 -->
     <v-img v-if="postHasMainImage"
           :src="absolutePath(itemData.postInfo.previewMainImageUrl)"
           dark
@@ -8,6 +16,7 @@
           class="pa-3 align-end">
       <div class="feed-image-darken-overlay"></div>
 
+      <!-- 이미지 내 프로필 영역 -->
       <v-layout class="mt-0 ml-0" row align-center style="flex-wrap: nowrap">
         <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
               aspect-ratio="1"
@@ -19,7 +28,12 @@
           <v-card-subtitle>By {{ itemData.postInfo.author.username }}</v-card-subtitle>
         </v-layout>
       </v-layout>
+      <!-- -->
     </v-img>
+    <!-- -->
+
+    <!-- 메인 이미지가 없는 경우 -->
+    <!-- 이미지 외 프로필 영역 -->
     <v-layout v-else class="mt-0 ml-3" row align-center style="flex-wrap: nowrap">
       <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
             class="elevation-2"
@@ -30,6 +44,7 @@
         <v-card-subtitle>By {{ itemData.postInfo.author.username }}</v-card-subtitle>
       </v-layout>
     </v-layout>
+    <!-- -->
     <!-- -->
 
     <!-- 콘텐츠(텍스트) 영역 -->
@@ -138,6 +153,13 @@ export default class FeedItem extends Vue {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.recruition-bar {
+  height: 32px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
 
 .feed-image-darken-overlay {
