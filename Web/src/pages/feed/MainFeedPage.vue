@@ -5,20 +5,31 @@
       <feed-compose class="my-3" />
       <!-- -->
 
-      <v-divider class="my-8" />
+      <v-divider class="mt-8" />
 
       <!-- 피드 로딩 영역 -->
-      <v-layout v-if="!feedLoaded" justify-center align-center>
+      <v-layout v-if="!feedLoaded" justify-center align-center class="mt-8">
         <v-progress-circular indeterminate />
         <span class="ml-2">피드를 불러오는 중입니다...</span>
       </v-layout>
       <!-- -->
 
       <!-- 피드 아이템 영역 -->
-      <feed-item v-for="item in feedItems.slice().reverse()"
-        class="my-8"
-        :key="item.index"
-        :itemData="item" />
+      <v-slide-y-reverse-transition>
+        <v-container v-if="feedLoaded">
+          <v-layout align-center>
+            <v-spacer />
+            <v-checkbox v-model="onlyRecruitionChecked" label="채용 공고만 보기" hide-details />
+          </v-layout>
+
+          <div v-for="item in feedItems.slice().reverse()"
+               :key="item.index"
+               class="my-8">
+            <feed-item v-if="!onlyRecruitionChecked || (onlyRecruitionChecked && item.postInfo.postType === 'recruition')"
+                       :itemData="item" />
+          </div>
+        </v-container>
+      </v-slide-y-reverse-transition>
       <!-- -->
     </v-responsive>
   </v-container>
@@ -43,6 +54,8 @@ import { get as backendGet } from "@/util/BackendHelper";
 export default class MainFeedPage extends Vue {
   feedItems: Array<IFeedItem> = new Array<IFeedItem>();
   feedLoaded = false;
+
+  onlyRecruitionChecked = false;
 
   async created(): Promise<void> {
     const response = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
