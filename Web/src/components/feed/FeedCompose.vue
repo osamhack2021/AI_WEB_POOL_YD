@@ -60,7 +60,10 @@ export default class FeedCompose extends Vue {
     /* TODO: 글 작성 업로드 로직 */
     this.composing = true;
 
-    setTimeout(() => { this.composing = false; }, Math.random() * 1000 + 500);
+    setTimeout(() => {
+      this.composing = false;
+      this.$emit("compose-success");
+    }, Math.random() * 1000 + 500);
   }
 }
 </script>

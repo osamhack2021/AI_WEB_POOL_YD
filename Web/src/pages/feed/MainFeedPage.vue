@@ -2,7 +2,8 @@
   <v-container fluid class="feed-container">
     <v-responsive class="mx-auto pa-2 px-sm-6" max-width="800px">
       <!-- 피드 글 작성 영역 -->
-      <feed-compose class="my-3" />
+      <feed-compose class="my-3"
+                    @compose-success="refreshFeed" />
       <!-- -->
 
       <v-divider class="mt-8" />
