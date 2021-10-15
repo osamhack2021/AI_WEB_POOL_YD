@@ -54,8 +54,8 @@
     <!-- 카드 하단 영역 -->
     <v-card-actions>
       <v-layout class="pa-4" row justify-space-around>
-        <v-btn class="pa-0 px-1" text :to="{ path: `/post/${itemData.postInfo.id}`, hash: 'comments' }"><v-icon class="mr-1">mdi-message-reply-text</v-icon> {{ itemData.postInfo.commentsCount }}</v-btn>
-        <v-btn class="pa-0 px-1 mx-2" text :color="itemData.likedByAccount ? 'pink' : ''" @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> {{ itemData.postInfo.likesCount }}</v-btn>
+        <comments-button :useRoute="true" :postId="itemData.postInfo.id" :count="itemData.postInfo.commentsCount" />
+        <like-button :postId="itemData.postInfo.id" :liked="itemData.likedByAccount" :count="itemData.postInfo.likesCount" @like-status-update="likeStatusUpdated" class="mx-2" />
         <v-spacer />
         <span class="mx-2 text--disabled" @mouseover="isUploadDateHovering = true" @mouseleave="isUploadDateHovering = false"><v-icon>mdi-clock-outline</v-icon> {{ isUploadDateHovering ? itemData.postInfo.createdAt.toLocaleString() : uploadDateAgo }}</span>
       </v-layout>
@@ -69,10 +69,17 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { format } from "timeago.js";
 import { Prop } from "vue-property-decorator";
+import CommentsButton from "@/components/post/CommentsButton.vue";
+import LikeButton from "@/components/post/LikeButton.vue";
 import IFeedItem from "@/interfaces/IFeedItem";
 import { absolutePath as backendAbsolutePath } from "@/util/BackendHelper";
 
-@Component
+@Component({
+  components: {
+    CommentsButton,
+    LikeButton,
+  },
+})
 export default class FeedItem extends Vue {
   absolutePath = backendAbsolutePath;
 
@@ -103,6 +110,11 @@ export default class FeedItem extends Vue {
     }
   }
 
+  likeStatusUpdated(value: { likesCount: number, likedByAccount: boolean }): void {
+    this.itemData.postInfo.likesCount = value.likesCount;
+    this.itemData.likedByAccount = value.likedByAccount;
+  }
+
   get postHasMainImage(): boolean {
     if (this.itemData.postInfo.previewMainImageUrl) {
       return true;
@@ -118,31 +130,6 @@ export default class FeedItem extends Vue {
     this.recomputeHack;
 
     return format(this.itemData.postInfo.createdAt, "ko");
-  }
-
-  onLikeButtonClick(): void {
-    new Promise<Record<string, any>>((resolve) => {
-      // server communication logic here
-
-      // 테스트용 가짜 처리
-      setTimeout(() => {
-        resolve({ // New like status
-          index: this.itemData.postInfo.id,
-          likedByAccount: !this.itemData.likedByAccount,
-          likesCount: this.itemData.postInfo.likesCount + (this.itemData.likedByAccount ? -1 : 1),
-        });
-      }, Math.random() * 500 + 50);
-    }).then((value) => {
-      if (value.index === this.itemData.postInfo.id) {
-        this.itemData = {
-          postInfo: {
-            ...this.itemData.postInfo,
-            likesCount: value.likesCount,
-          },
-          likedByAccount: value.likedByAccount,
-        };
-      }
-    });
   }
 }
 </script>

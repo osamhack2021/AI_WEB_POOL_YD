@@ -68,8 +68,8 @@
           <!-- 리액션 버튼 영역 -->
           <v-card-actions>
             <v-layout row justify-space-between class="px-2">
-              <v-btn class="pa-0 px-2" text @click.stop.prevent="scrollTo('#comments')"><v-icon class="mr-1">mdi-message-reply-text</v-icon> 댓글 {{ postData.commentsCount }}개</v-btn>
-              <v-btn class="pa-0 px-2" text @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> 좋아요 {{ postData.likesCount }}개</v-btn>
+              <comments-button :count="postData.commentsCount" :descriptive="true" />
+              <like-button :postId="postData.id" :liked="postLikedByAccount" :count="postData.likesCount" :descriptive="true" @like-status-update="likeStatusUpdated" />
             </v-layout>
           </v-card-actions>
           <!-- -->
@@ -120,10 +120,17 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import goTo from "vuetify/lib/services/goto";
 import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
+import CommentsButton from "@/components/post/CommentsButton.vue";
+import LikeButton from "@/components/post/LikeButton.vue";
 import { IComment, IPost } from "@/interfaces/IDatabaseData";
 import { absolutePath as backendAbsolutePath, get as backendGet } from "@/util/BackendHelper";
 
-@Component
+@Component({
+  components: {
+    CommentsButton,
+    LikeButton,
+  },
+})
 export default class PostViewPage extends Vue {
   absolutePath = backendAbsolutePath;
 
@@ -166,6 +173,14 @@ export default class PostViewPage extends Vue {
       duration: 500,
       ...options,
     });
+  }
+
+  postLikedByAccount = false; // 임시
+  likeStatusUpdated(value: { likesCount: number, likedByAccount: boolean }): void {
+    if (this.postData) {
+      this.postData.likesCount = value.likesCount;
+      this.postLikedByAccount = value.likedByAccount;
+    }
   }
 
   onLeaveCommentClick(): void {
