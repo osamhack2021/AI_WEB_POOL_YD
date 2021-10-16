@@ -18,8 +18,32 @@
     },
     {
       "method": "GET",
+      "path": "/posts/full/:id",
+      "handler": "post.findFullOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/posts/preview",
       "handler": "post.preview",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/posts/preview/:id",
+      "handler": "post.findPreviewOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/posts/test",
+      "handler": "post.test",
       "config": {
         "policies": []
       }
@@ -36,6 +60,14 @@
       "method": "GET",
       "path": "/posts/:id",
       "handler": "post.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/posts/discover",
+      "handler": "post.discover",
       "config": {
         "policies": []
       }
