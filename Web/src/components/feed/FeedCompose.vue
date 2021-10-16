@@ -63,7 +63,7 @@ export default class FeedCompose extends Vue {
     setTimeout(() => {
       this.composing = false;
       this.$emit("compose-success");
-    }, Math.random() * 1000 + 500);
+    }, Math.floor(Math.random() * 1000 + 500));
   }
 }
 </script>
