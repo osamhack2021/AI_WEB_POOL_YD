@@ -1,4 +1,4 @@
-# 자소서 요약 API
+# 텍스트 요약 API
 # KoBART 기반
 import torch
 from kobart import get_kobart_tokenizer

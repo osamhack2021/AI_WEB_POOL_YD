@@ -7,7 +7,7 @@ from hanspell import spell_checker
 app = Flask(__name__)
 api = Api(app)
 
-# 자소서 요약 API
+# 자기소개서 요약 API
 @api.route("/summarize")
 class Summarizer(Resource):
     def post(self):
