@@ -12,7 +12,12 @@ api = Api(app)
 class Summarizer(Resource):
     def post(self):
         text = request.json.get("data")
-        return {"text_origin": text, "text_summarized": summarize_after_split(text)}
+        if len(text) < 1:
+            return {"error_msg": "입력 텍스트의 길이는 1자 이상이어야 합니다."}, 400
+        try:
+            return {"text_origin": text, "text_summarized": summarize_after_split(text)}
+        except Exception as exp:
+            return {"error_msg": "텍스트를 요약하는 과정에서 오류가 발생했습니다. 오류 메세지: " + str(exp)}, 400
 
 
 # 맞춤법 검사 API
@@ -20,8 +25,8 @@ class Summarizer(Resource):
 class SpellChecker(Resource):
     def post(self):
         text = request.json.get("data")
-        if len(text) > 500:
-            raise Exception("맞춤법 검사 API에 들어가는 텍스트는 500자 미만이어야 합니다.")
+        if len(text) > 500 or len(text) < 1:
+            return {"error_msg": "맞춤법 검사 API에 들어가는 텍스트는 1자 이상 500자 미만이어야 합니다."}, 400
 
         return {
             "text_origin": text,
