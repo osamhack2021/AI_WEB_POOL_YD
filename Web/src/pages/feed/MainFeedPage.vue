@@ -32,7 +32,7 @@ export default class MainFeedPage extends Vue {
       {
         postInfo: {
           id: "1a2b3c4d",
-          postType: "general",
+          postType: "recruition",
           author: {
             id: "user-11223344",
             username: "JWS",
@@ -51,7 +51,7 @@ export default class MainFeedPage extends Vue {
       {
         postInfo: {
           id: "4a3b2c1d",
-          postType: "general",
+          postType: "recruition",
           author: {
             id: "user-44332211",
             username: "CMG",
