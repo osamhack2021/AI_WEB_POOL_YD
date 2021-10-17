@@ -1,23 +1,25 @@
 <template>
   <v-app>
-    <v-app-bar v-if="!$route.meta.appBarHide" :elevate-on-scroll="$route.meta.appBarElevateOnScroll" color="white" app light dense>
-      <v-toolbar-title class="primary--text" style="font-weight: 900">
-        <router-link id="nav-title-text" :to="homeRouteUrl">{{ $store.state.appName }}</router-link>
-      </v-toolbar-title>
+    <v-expand-transition>
+      <v-app-bar v-if="!$route.meta.appBarHide" :elevate-on-scroll="$route.meta.appBarElevateOnScroll" color="white" app light dense>
+        <v-toolbar-title class="primary--text" style="font-weight: 900">
+          <router-link id="nav-title-text" :to="homeRouteUrl">{{ $store.state.appName }}</router-link>
+        </v-toolbar-title>
 
-      <v-spacer />
+        <v-spacer />
 
-      <!-- 탭 네비게이션 -->
-      <app-tab-navigation v-if="$store.state.loginState.loggedIn"
-                          tabsPosition="right"
-                          class="d-none d-sm-block" />
-      <!-- -->
+        <!-- 탭 네비게이션 -->
+        <app-tab-navigation v-if="$store.state.loginState.loggedIn"
+                            tabsPosition="right"
+                            class="d-none d-sm-block" />
+        <!-- -->
 
-      <!-- 로그인 사용자용 네비바 아이콘 -->
-      <app-login-account-menu v-if="$store.state.loginState.loggedIn"
-                              :logoutCallback="testLogout" />
-      <!-- -->
-    </v-app-bar>
+        <!-- 로그인 사용자용 네비바 아이콘 -->
+        <app-login-account-menu v-if="$store.state.loginState.loggedIn"
+                                :logoutCallback="testLogout" />
+        <!-- -->
+      </v-app-bar>
+    </v-expand-transition>
 
     <v-main>
       <v-container fluid>
