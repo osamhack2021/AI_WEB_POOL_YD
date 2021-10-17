@@ -19,7 +19,13 @@
                     clearable
                     required />
       <v-layout column>
-        <v-btn :disabled="!loginFormValidated" outlined rounded class="ma-2" type="submit" color="success">로그인</v-btn>
+        <v-btn :disabled="!loginFormValidated || isLoggingIn"
+               :loading="isLoggingIn"
+               type="submit"
+               color="success"
+               class="ma-2"
+               outlined
+               rounded>로그인</v-btn>
 
         <v-layout row align-center class="ma-2">
           <v-btn outlined rounded class="mr-2" color="blue" to="/register" style="flex-grow: 1">회원가입</v-btn>
@@ -49,20 +55,25 @@ export default class LoginForm extends Vue {
   ];
   loginFormPassword = "";
   loginFormPasswordShow = false;
+  isLoggingIn = false;
 
   async login(e: any): Promise<void> {
+    this.isLoggingIn = true;
+
     const success = await this.loginCallback({
       identifier: this.loginFormId,
       password: this.loginFormPassword,
     });
 
     if (success) {
-      // nothing
+      // Nothing to do
     } else {
       alert("올바르지 않은 계정 정보입니다.");
       this.loginFormPassword = "";
       (this.$refs["login-password"] as HTMLElement).focus();
     }
+
+    this.isLoggingIn = false;
   }
 
   testLogin(): void {
