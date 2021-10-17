@@ -3,13 +3,18 @@
     <v-img src="@/assets/images/landing.jpg"
            height="100vh"
            width="55vw"
-           position="bottom" />
+           position="bottom"
+           class="pa-2 align-end">
+      <span class="white--text text-subtitle-2" style="opacity: 0.75">Photo by <a href="https://unsplash.com/photos/XnN42lsNv28">Simone Mascellari</a>, used under <a href="https://unsplash.com/license">Unsplash License</a>.</span>
+    </v-img>
 
-    <v-card class="landing-content-area pa-6">
-      <v-layout align-center justify-start fill-height>
+    <v-card class="landing-content-area pa-6 pa-sm-12">
+      <v-layout column align-start justify-center fill-height>
+        <div class="text-h2 mb-12 blue--text" style="font-weight: 900">{{ $store.state.appName }}</div>
+
         <login-form :loginCallback="realLogin"
                     class="pa-4"
-                    style="max-width: 25vw; min-width: 300px" />
+                    style="max-width: 25vw; min-width: 300px; flex-grow: 0" />
       </v-layout>
     </v-card>
   </v-container>
@@ -50,6 +55,10 @@ export default class NonLoginLandingPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
+a {
+  color: currentColor !important;
+}
+
 .landing-content-area {
   position: fixed;
   right: 0;
