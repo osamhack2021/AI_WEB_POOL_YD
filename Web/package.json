@@ -9,11 +9,8 @@
     "gh-pages-deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^0.22.0",
-=======
     "@types/marked": "^3.0.1",
->>>>>>> Add types for marked
     "core-js": "^3.18.2",
     "delay": "^5.0.0",
     "marked": "^3.0.7",
