@@ -11,7 +11,7 @@
   <v-list>
     <v-list-item class="py-3" :to="`/me/${$store.state.loginState.userInfo.id}`">
       <v-layout align-center>
-        <img src="https://picsum.photos/200" style="width: 64px; height: 64px; border-radius: 100%;" />
+        <v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" style="width: 64px; height: 64px; border-radius: 100%;" />
 
         <v-layout class="ml-3" column>
           <span class="text-h6">{{ $store.state.loginState.userInfo.username }}</span>
@@ -33,9 +33,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
+import { absolutePath as backendAbsolutePath } from "@/util/BackendHelper";
 
 @Component
 export default class AppNonLoginAccountMenu extends Vue {
   @Prop({ required: true }) logoutCallback!: () => void;
+
+  absolutePath = backendAbsolutePath;
 }
 </script>
