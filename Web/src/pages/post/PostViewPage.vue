@@ -10,7 +10,7 @@
     <v-responsive v-if="postLoaded" class="pb-8 page-container">
       <!-- 상단 메인 이미지 영역 -->
       <v-slide-y-reverse-transition>
-        <v-img v-if="postLoadedDelayed100"
+        <v-img v-if="postLoadedTransitionStep1"
                :src="absolutePath(mainImageUrl)"
                dark
                width="100%"
@@ -25,7 +25,7 @@
       <!-- -->
 
       <v-slide-y-reverse-transition>
-        <v-card v-if="postLoadedDelayed200" width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
+        <v-card v-if="postLoadedTransitionStep2" width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
           <!-- 글 컨텐츠 영역 -->
           <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
           <!-- -->
@@ -119,6 +119,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import goTo from "vuetify/lib/services/goto";
+import delay from "delay";
 import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
 import CommentsButton from "@/components/post/CommentsButton.vue";
 import LikeButton from "@/components/post/LikeButton.vue";
@@ -136,8 +137,8 @@ export default class PostViewPage extends Vue {
 
   postData: IPost | null = null;
   postLoaded = false;
-  postLoadedDelayed100 = false;
-  postLoadedDelayed200 = false;
+  postLoadedTransitionStep1 = false;
+  postLoadedTransitionStep2 = false;
   leaveCommentTextareaContent = "";
   leaveCommentProcessing = false;
 
@@ -154,8 +155,11 @@ export default class PostViewPage extends Vue {
       this.postData.updatedAt = new Date(this.postData.updatedAt);
 
       this.postLoaded = true;
-      setTimeout(() => { this.postLoadedDelayed100 = true; }, 100);
-      setTimeout(() => { this.postLoadedDelayed200 = true; }, 200);
+
+      await delay(100);
+      this.postLoadedTransitionStep1 = true;
+      await delay(100);
+      this.postLoadedTransitionStep2 = true;
     }
   }
 
