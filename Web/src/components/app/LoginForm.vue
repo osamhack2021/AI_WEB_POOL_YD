@@ -7,6 +7,7 @@
                     :rules="loginFormIdRules"
                     @input="onInput"
                     label="ID (이메일 주소)"
+                    tabindex="1"
                     clearable
                     required
                     autofocus />
@@ -17,6 +18,7 @@
                     @click:append="loginFormPasswordShow = !loginFormPasswordShow"
                     @input="onInput"
                     label="비밀번호"
+                    tabindex="2"
                     ref="login-password"
                     clearable
                     required />
