@@ -7,7 +7,8 @@
                     :rules="loginFormIdRules"
                     label="ID"
                     clearable
-                    required />
+                    required
+                    autofocus />
       <v-text-field v-model="loginFormPassword"
                     :append-icon="loginFormPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[(value) => !!value || '비밀번호를 입력해주세요.']"
