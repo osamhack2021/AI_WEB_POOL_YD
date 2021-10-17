@@ -1,6 +1,8 @@
 'use strict';
 
-const { sanitizeEntity } = require('strapi-utils');
+const { sanitizeEntity } = require("strapi-utils");
+const http = require("http");
+const request = require("request");
 
 module.exports = {
     async full(ctx) {
@@ -382,6 +384,70 @@ module.exports = {
     async test(ctx) {
         let posts = await strapi.query("post").model.find().in("postType", ["general"]);
         console.log(posts);
+        return 'hi';
+    },
+    async embeddingAll(ctx) {
+        let posts = await strapi.query("post").find();
+        return 'hi';
+    },
+    async embeddingOne(ctx) {
+        const { id } = ctx.params;
+        let post = await strapi.query("post").findOne({id: id});
+        let { postType, author, title, content, jobInfo } = post;
+        if (content) {
+            content.replace(/<[^>]*>?/gm, '');
+        } else {
+            content = "";
+        }
+        if (postType === "recruition") {
+            jobInfo = await strapi.query("job-info").findOne({id: jobInfo.id});
+            let { desc, pay, employmentType, due, minRank, relatedBranches, group } = jobInfo;
+            switch(minRank){
+                case "private": 
+                    minRank = "계급 무관";
+                    break;
+                case "sergeant":
+                    minRank = "하사 이상";
+                    break;
+                case "lieutenant":
+                    minRank = "소위 이상";
+                    break;
+                case "major":
+                    minRank = "소령 이상";
+                    break;
+                case "general":
+                    minRank = "준장 이상";
+                    break;
+            }
+            content = content.concat(" ", jobInfo.desc, " ", employmentType, " ", due, " ", minRank, " ", group.content, " ");
+            content = relatedBranches.forEach(tag => { content.concat(tag.content) });
+        }
+        author = await strapi.query("user", "users-permissions").findOne({id: author.id});
+        const userEmbedding = author.embedding ? author.embedding.data : null;
+        const _request = {
+            // 요청하는 작업 종류. 현재 3가지 지원
+            request: "createPost",
+            
+            // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
+            createPostData: {
+                title, 
+                content, 
+                userEmbedding, // 사용자의 벡터 임베딩. 초기 None
+                userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
+            },
+        };
+        const options = {
+            uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
+            method: "POST",
+            form: _request,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        console.log(options);
+        request.post(options, (err, res, body) => {
+            console.log(body);
+        });
         return 'hi';
     }
 };
