@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pools",
+  "info": {
+    "name": "pool",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "members": {
+      "via": "pools",
+      "plugin": "users-permissions",
+      "collection": "user",
+      "dominant": true
+    },
+    "posts": {
+      "via": "pool",
+      "collection": "post"
+    },
+    "tags": {
+      "collection": "tag"
+    },
+    "admin": {
+      "via": "ownPools",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    }
+  }
+}
