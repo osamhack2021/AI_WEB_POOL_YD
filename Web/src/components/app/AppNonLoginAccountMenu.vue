@@ -15,7 +15,7 @@
         <div>
           <v-list-item-title class="mt-3 text-h6">로그인</v-list-item-title>
 
-          <v-form v-model="loginFormValidated" class="mt-4" ref="loginForm">
+          <v-form v-model="loginFormValidated" class="mt-4" ref="loginForm" @submit="login">
             <v-text-field v-model="loginFormId"
                           :rules="loginFormIdRules"
                           label="ID"
@@ -36,7 +36,7 @@
       </v-list-item>
 
       <!-- 테스트 -->
-      <v-list-item @click="loginCallback">
+      <v-list-item @click="testLoginCallback">
         <span>(테스트용 로그인)</span>
       </v-list-item>
       <!-- -->
@@ -51,7 +51,8 @@ import { Prop } from "vue-property-decorator";
 
 @Component
 export default class AppNonLoginAccountMenu extends Vue {
-  @Prop({ required: true }) loginCallback!: () => void;
+  @Prop({ required: true }) loginCallback!: (val :any) => boolean;
+  @Prop({ required: true }) testLoginCallback!: () => void;
 
   /* 로그인 폼 멤버 */
   loginFormValidated = false;
@@ -62,5 +63,20 @@ export default class AppNonLoginAccountMenu extends Vue {
   ];
   loginFormPassword = "";
   loginFormPasswordShow = false;
+
+  async login(e :any) :Promise<void> {
+    e.preventDefault();
+    const success = await this.loginCallback({
+      identifier: this.loginFormId,
+      password: this.loginFormPassword,
+    });
+    if (success) {
+      // nothing
+    } else {
+      alert("올바르지 않은 계정 정보입니다.");
+      this.loginFormId = "";
+      this.loginFormPassword = "";
+    }
+  }
 }
 </script>

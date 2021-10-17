@@ -13,7 +13,9 @@
 
       <!-- # 비로그인 사용자용 네비바 아이콘 -->
       <app-non-login-account-menu v-if="!$store.state.loginState.loggedIn"
-                                  :loginCallback="testLogin" />
+                                  :loginCallback="realLogin"
+                                  :testLoginCallback="testLogin"
+                                   />
       <!-- # -->
 
       <!-- # 로그인 사용자용 네비바 아이콘 -->
@@ -42,6 +44,7 @@ import { IUserDisplay } from "@/interfaces/IDatabaseData";
 import AppTabNavigation from "@/components/app/AppTabNavigation.vue";
 import AppNonLoginAccountMenu from "@/components/app/AppNonLoginAccountMenu.vue";
 import AppLoginAccountMenu from "@/components/app/AppLoginAccountMenu.vue";
+import { absolutePath, post } from "@/util/BackendHelper";
 
 @Component({
   components: {
@@ -53,7 +56,7 @@ import AppLoginAccountMenu from "@/components/app/AppLoginAccountMenu.vue";
 export default class App extends Vue {
   /* 앱 전역 $route 변경 감시 훅 */
   @Watch("$route", { immediate: true, deep: true })
-  onUrlChange(): void {
+  async onUrlChange(): Promise<void> {
     // 로그인 상태에 따른 라우트
     //   - 비로그인 사용자는 랜딩페이지 이외 접근 권한이 없어
     //     회원가입 페이지(/register)를 제외한
@@ -62,10 +65,16 @@ export default class App extends Vue {
     //   - 로그인 사용자는 주 페이지가 피드페이지(/feed)입니다.
     //     로그인 상태에서 랜딩페이지 접근 시도 시 피드페이지로
     //     이동합니다.
-    if (!this.$store.state.loginState.loggedIn && (this.$route.path !== "/register" && this.$route.path !== "/")) {
+    const userInfo = this.$cookies.get("user");
+    if (!this.$store.state.loginState.loggedIn && (this.$route.path !== "/register" && this.$route.path !== "/") && !userInfo) {
       this.$router.replace("/");
     } else if (this.$store.state.loginState.loggedIn && this.$route.path === "/") {
       this.$router.replace("/feed");
+    } else if (!this.$store.state.loginState.loggedIn && this.$route.path === "/" && userInfo) {
+      this.$store.dispatch("registerLoginState", userInfo);
+      this.$router.replace("/feed");
+    } else if (!this.$store.state.loginState.loggedIn && userInfo) {
+      this.$store.dispatch("registerLoginState", userInfo);
     }
   }
 
@@ -92,7 +101,29 @@ export default class App extends Vue {
     this.$router.push("/feed");
   }
 
+  async realLogin(val :any): Promise<boolean> {
+    try {
+      const response = await post("auth/local", val);
+      const { user, jwt }: { user: any, jwt: string } = response.data;
+      const userInfo = {
+        id: user.id,
+        username: user.username,
+        profileImageUrl: absolutePath(user.thumbnail.url),
+      };
+      this.$store.dispatch("registerLoginState", userInfo);
+      /* set jwt in cookie */
+      this.$cookies.set("jwt", jwt);
+      this.$cookies.set("user", userInfo);
+      this.$router.push("/feed");
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   testLogout(): void {
+    this.$cookies.remove("jwt");
+    this.$cookies.remove("user");
     this.$store.dispatch("unreigsterLoginState");
     this.$router.push("/");
   }
