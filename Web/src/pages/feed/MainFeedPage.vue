@@ -91,7 +91,7 @@ export default class MainFeedPage extends Vue {
     /* */
   }
 
-  unmounted(): void {
+  beforeDestroy(): void {
     if (this.feedAutoRefreshIntervalId !== -1) {
       clearInterval(this.feedAutoRefreshIntervalId);
       this.feedAutoRefreshIntervalId = -1;
