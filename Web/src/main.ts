@@ -8,6 +8,7 @@ import store from "@/store";
 import vuetify from "@/plugins/vuetify";
 import "@/plugins/class-component";
 import "@/plugins/timeago";
+import "@/plugins/vue-cookies";
 // 스타일시트
 import "@/styles/main.scss";
 /* # */
