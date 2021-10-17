@@ -15,6 +15,7 @@
                     :type="loginFormPasswordShow ? 'text' : 'password'"
                     @click:append="loginFormPasswordShow = !loginFormPasswordShow"
                     label="비밀번호"
+                    ref="login-password"
                     clearable
                     required />
       <v-layout column>
@@ -59,8 +60,8 @@ export default class LoginForm extends Vue {
       // nothing
     } else {
       alert("올바르지 않은 계정 정보입니다.");
-      this.loginFormId = "";
       this.loginFormPassword = "";
+      (this.$refs["login-password"] as HTMLElement).focus();
     }
   }
 
