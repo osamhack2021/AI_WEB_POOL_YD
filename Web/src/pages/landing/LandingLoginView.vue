@@ -1,12 +1,7 @@
 <template>
-  <v-layout column align-start justify-center fill-height>
-    <div class="text-h1 mb-6 blue--text" style="font-weight: 900">{{ $store.state.appName }}</div>
-    <p class="text-h4 my-6" style="font-weight:700">국군 장병의 자기 계발과 취업 정보 습득을 한 곳에.<br>POOL에 흠뻑 빠져보세요.</p>
-
-    <login-form :loginCallback="realLogin"
-                class="pa-4"
-                style="max-width: 25vw; min-width: 400px; flex-grow: 0" />
-  </v-layout>
+  <login-form :loginCallback="realLogin"
+              class="pa-4"
+              style="max-width: 25vw; min-width: 400px; flex-grow: 0" />
 </template>
 
 <script lang="ts">
