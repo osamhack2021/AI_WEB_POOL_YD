@@ -16,6 +16,9 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Landing page for non-login user",
     component: NonLoginLandingPage,
+    meta: {
+      appBarHide: true,
+    },
   },
 
   /* Feed related routes */

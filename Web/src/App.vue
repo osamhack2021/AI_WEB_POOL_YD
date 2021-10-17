@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar :elevate-on-scroll="$route.meta.appBarElevateOnScroll ? true : false" color="white" app light dense>
+    <v-app-bar v-if="!$route.meta.appBarHide" :elevate-on-scroll="$route.meta.appBarElevateOnScroll" color="white" app light dense>
       <v-toolbar-title class="primary--text" style="font-weight: 900">
         <router-link id="nav-title-text" :to="homeRouteUrl">{{ $store.state.appName }}</router-link>
       </v-toolbar-title>
@@ -14,8 +14,7 @@
       <!-- # 비로그인 사용자용 네비바 아이콘 -->
       <app-non-login-account-menu v-if="!$store.state.loginState.loggedIn"
                                   :loginCallback="realLogin"
-                                  :testLoginCallback="testLogin"
-                                   />
+                                  :testLoginCallback="testLogin" />
       <!-- # -->
 
       <!-- # 로그인 사용자용 네비바 아이콘 -->
@@ -101,7 +100,7 @@ export default class App extends Vue {
     this.$router.push("/feed");
   }
 
-  async realLogin(val :any): Promise<boolean> {
+  async realLogin(val: any): Promise<boolean> {
     try {
       const response = await post("auth/local", val);
       const { user, jwt }: { user: any, jwt: string } = response.data;
