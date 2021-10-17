@@ -5,6 +5,7 @@
     <v-form v-model="loginFormValidated" class="mt-4" @submit.prevent="login">
       <v-text-field v-model="loginFormId"
                     :rules="loginFormIdRules"
+                    @input="onInput"
                     label="ID (이메일 주소)"
                     clearable
                     required
@@ -14,10 +15,16 @@
                     :rules="[(value) => !!value || '비밀번호를 입력해주세요.']"
                     :type="loginFormPasswordShow ? 'text' : 'password'"
                     @click:append="loginFormPasswordShow = !loginFormPasswordShow"
+                    @input="onInput"
                     label="비밀번호"
                     ref="login-password"
                     clearable
                     required />
+
+      <v-slide-x-reverse-transition>
+        <v-alert v-if="errorMessage" type="error" class="my-4" dense>{{ errorMessage }}</v-alert>
+      </v-slide-x-reverse-transition>
+
       <v-layout column>
         <v-btn :disabled="!loginFormValidated || isLoggingIn"
                :loading="isLoggingIn"
@@ -56,6 +63,7 @@ export default class LoginForm extends Vue {
   loginFormPassword = "";
   loginFormPasswordShow = false;
   isLoggingIn = false;
+  errorMessage!: string;
 
   async login(e: any): Promise<void> {
     this.isLoggingIn = true;
@@ -68,7 +76,8 @@ export default class LoginForm extends Vue {
     if (success) {
       // Nothing to do
     } else {
-      alert("올바르지 않은 계정 정보입니다.");
+      this.errorMessage = "일치하는 계정 정보를 찾을 수 없습니다.";
+
       this.loginFormPassword = "";
       (this.$refs["login-password"] as HTMLElement).focus();
     }
@@ -85,6 +94,10 @@ export default class LoginForm extends Vue {
 
     this.$store.dispatch("registerLoginState", loginUserInfo);
     this.$router.push("/feed");
+  }
+
+  onInput(): void {
+    this.errorMessage = "";
   }
 }
 </script>
