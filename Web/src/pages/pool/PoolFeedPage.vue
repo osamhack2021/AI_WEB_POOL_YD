@@ -29,7 +29,7 @@
                 <v-overlay v-if="hover" absolute>
                   <v-layout column align-center>
                     <div class="mb-2">{{ pool.members.length }} divers</div>
-                    <router-link :to="`/pool/${pool.name}`" style="text-decoration: none;">
+                    <router-link :to="`/pool/${pool.id}`" style="text-decoration: none;">
                       <v-btn>풀 이동</v-btn>
                     </router-link>
                   </v-layout>
@@ -100,40 +100,31 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { absolutePath, get } from "@/util/BackendHelper";
 
 @Component
 export default class PoolFeedPage extends Vue {
-  samplePool :any = {
-    name: "",
-    summary: "",
-    members: [],
-    admin: "",
-    tags: [],
-    imageUrl: "",
-    posts: [],
-    createdAt: "",
-  };
-
   myPools :any[] = [];
 
-  address = "https://yd.somni.one";
-
   async created() :Promise<void> {
-    fetch(`${this.address}/pools`)
-      .then((res) => res.json())
-      .then((data) => {
-        this.myPools = data.map((el :any) => {
-          let { createdAt } = el;
-          createdAt = new Date(createdAt);
-          createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
-          return {
-            ...el,
-            createdAt,
-            imageUrl: `${this.address}${data[0].image.url}`,
-            tags: el.tags.map((tag :any) => tag.content),
-          };
-        });
+    const response :any = await get("pools");
+
+    if (response.status >= 400) {
+      // error
+    } else {
+      const { data } = response;
+      this.myPools = data.map((el :any) => {
+        let { createdAt } = el;
+        createdAt = new Date(createdAt);
+        createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
+        return {
+          ...el,
+          createdAt,
+          imageUrl: `${absolutePath(el.image.url)}`,
+          tags: el.tags.map((tag :any) => tag.content),
+        };
       });
+    }
   }
 }
 </script>

@@ -66,6 +66,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import FeedItemComponent from "@/components/feed/FeedItem.vue";
 import FeedComposeComponent from "@/components/feed/FeedCompose.vue";
+import { absolutePath, get } from "@/util/BackendHelper";
 
 @Component({
   components: {
@@ -74,8 +75,6 @@ import FeedComposeComponent from "@/components/feed/FeedCompose.vue";
   },
 })
 export default class PoolPage extends Vue {
-  address = "https://yd.somni.one";
-
   samplePool :any = {
     name: "",
     summary: "",
@@ -165,20 +164,24 @@ export default class PoolPage extends Vue {
   }
 
   async created(): Promise<void> {
-    fetch(`${this.address}/pools`)
-      .then((res) => res.json())
-      .then((data) => {
-        let { createdAt } = data[0];
-        createdAt = new Date(createdAt);
-        createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
-        this.samplePool = {
-          ...data[0],
-          createdAt,
-          imageUrl: `${this.address}${data[0].image.url}`,
-          tags: data[0].tags.map((el :any) => el.content),
-        };
-        this.setAverageColor(this.samplePool.imageUrl);
-      });
+    const response :any = await get(`pools/${this.$route.params.id}`);
+
+    if (response.status >= 400) {
+      // error
+    } else {
+      const { data } = response;
+      console.log(data);
+      let { createdAt } = data;
+      createdAt = new Date(createdAt);
+      createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
+      this.samplePool = {
+        ...data,
+        createdAt,
+        imageUrl: `${absolutePath(data.image.url)}`,
+        tags: data.tags.map((el :any) => el.content),
+      };
+      this.setAverageColor(this.samplePool.imageUrl);
+    }
   }
 
   onClick1(val :string) {
