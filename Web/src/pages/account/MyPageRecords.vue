@@ -216,11 +216,11 @@ export default class MyPageRecords extends Vue {
       : this.inputValue;
 
     this.$emit("create", {
-      kind: this.kind,
+      type: this.kind === "가감점" ? "points" : "prize",
       date: this.inputDate,
       location: this.inputLocation,
       title: this.inputTitle,
-      value,
+      value: String(value),
     });
 
     this.initializeInputs();

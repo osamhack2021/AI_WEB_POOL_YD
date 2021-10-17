@@ -9,7 +9,7 @@
   </template>
 
   <v-list>
-    <v-list-item class="py-3" to="/me">
+    <v-list-item class="py-3" :to="`/me/${$store.state.loginState.userInfo.id}`">
       <v-layout align-center>
         <img src="https://picsum.photos/200" style="width: 64px; height: 64px; border-radius: 100%;" />
 

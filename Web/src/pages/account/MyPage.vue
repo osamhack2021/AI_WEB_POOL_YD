@@ -50,22 +50,22 @@
                 <my-page-records
                   style="flex: 0 1 48%"
                   class="official-records"
-                  :inputLabels="testDataCredits.inputLabels"
-                  :summaryNumbers="testDataCredits.summaryNumbers"
-                  :cardContentsList="testDataCredits.cardContentsList"
-                  :isLastInputNumber="testDataCredits.isLastInputNumber"
-                  :kind="testDataCredits.kind"
+                  :inputLabels="CreditsData.inputLabels"
+                  :summaryNumbers="CreditsData.summaryNumbers"
+                  :cardContentsList="CreditsData.cardContentsList"
+                  :isLastInputNumber="CreditsData.isLastInputNumber"
+                  :kind="CreditsData.kind"
                   @create="handleCreate"
                   @delete="handleDelete"
                 ></my-page-records>
                 <my-page-records
                   style="flex: 0 1 48%"
                   class="official-records"
-                  :inputLabels="testDataAwards.inputLabels"
-                  :summaryNumbers="testDataAwards.summaryNumbers"
-                  :cardContentsList="testDataAwards.cardContentsList"
-                  :isLastInputNumber="testDataAwards.isLastInputNumber"
-                  :kind="testDataAwards.kind"
+                  :inputLabels="AwardsData.inputLabels"
+                  :summaryNumbers="AwardsData.summaryNumbers"
+                  :cardContentsList="AwardsData.cardContentsList"
+                  :isLastInputNumber="AwardsData.isLastInputNumber"
+                  :kind="AwardsData.kind"
                   @create="handleCreate"
                   @delete="handleDelete"
                 ></my-page-records>
@@ -81,20 +81,15 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { AxiosResponse } from "axios";
 import MyPageProfile from "@/pages/account/MyPageProfile.vue";
 import MyPagePosts from "@/pages/account/MyPagePosts.vue";
 import MyPageRecords from "@/pages/account/MyPageRecords.vue";
-import { IUser } from "@/interfaces/IDatabaseData";
-import { get as backendGet } from "@/util/BackendHelper";
+import {
+  get as backendGet, post as backendPost, put, del,
+} from "@/util/BackendHelper";
 import type { IRecordsComponentProps } from "./IRecordsData";
 import { testDataAwards, testDataCredits } from "./RecordsTestData";
-
-interface IProfileData {
-  soldierData: Record<string, unknown>,
-  followers: Array<IUser>,
-  followings: Array<IUser>,
-  thumbnail: Record<string, unknown>,
-}
 
 @Component({
   components: {
@@ -110,27 +105,112 @@ export default class MyPage extends Vue {
     tabHeight: "2.5rem",
   };
 
-  testDataAwards: IRecordsComponentProps = testDataAwards;
-  testDataCredits: IRecordsComponentProps = testDataCredits;
+  AwardsData: IRecordsComponentProps = testDataAwards;
+  CreditsData: IRecordsComponentProps = testDataCredits;
 
-  profileData: IProfileData = {
-    soldierData: {},
+  profileData = {
+    id: "",
+    soldierData: {
+      id: "",
+      experiences: [{}],
+    },
     followers: [],
     followings: [],
-    thumbnail: {},
+    thumbnail: "",
   };
 
   tab = 0;
 
-  handleCreate(e: unknown): void {
-    console.log(e);
-    /* { kind: ..., date: ..., location: ..., title: ..., value: ... } */
-    /* create new experience & update sodilerData / user */
+  updateRecordsData(soldierData: any) {
+    /* do sth with profileData */
+    const awards = soldierData.experiences.filter((el: any) => el.type === "prize");
+    const credits = soldierData.experiences.filter((el: any) => el.type === "points");
+    let creditsSum = 0;
+    const Awards = awards.map((el: any) => {
+      console.log(el);
+      return {
+        id: el.id,
+        date: el.date,
+        location: el.location,
+        title: el.title,
+        value: el.value,
+      };
+    });
+    const Credits = credits.map((el: any) => {
+      creditsSum += parseInt(el.value, 10);
+      return {
+        id: el.id,
+        date: el.date,
+        location: el.location,
+        title: el.title,
+        value: `${el.value}점`,
+      };
+    });
+    this.AwardsData = {
+      ...this.AwardsData,
+      cardContentsList: Awards,
+      summaryNumbers: [
+        {
+          label: "개수",
+          value: Awards.length,
+          color: "blue",
+        },
+      ],
+    };
+    this.CreditsData = {
+      ...this.CreditsData,
+      cardContentsList: Credits,
+      summaryNumbers: [
+        {
+          label: "가점",
+          value: creditsSum,
+          color: "blue",
+        },
+        {
+          label: "감점",
+          value: 0,
+          color: "red",
+        },
+      ],
+    };
   }
 
-  handleDelete(id: number): void {
-    console.log(id);
+  async handleCreate(e: Record<string, unknown>) :Promise<void> {
+    const { soldierData } = this.profileData;
+    const exp: any[] = soldierData.experiences;
+    /* give immediate change */
+    exp.push(e);
+    this.updateRecordsData(soldierData);
+    /* update user data */
+    const response = await backendPost("/experiences", e) as AxiosResponse<{data: Array<unknown>}>;
+    const { data } = response;
+    exp.pop();
+    exp.push(data);
+    this.updateRecordsData(soldierData);
+    this.profileData = {
+      ...this.profileData,
+      soldierData,
+    };
+    put(`soldier-data/${soldierData.id}`, soldierData);
+  }
+
+  handleDelete(id: number):void {
+    const { soldierData } = this.profileData;
+    let exp: any[] = soldierData.experiences;
+    /* give immediate change */
+    exp = exp.filter((el) => el.id !== id);
+    const soldierData2 = {
+      ...soldierData,
+      experiences: exp,
+    };
+    this.updateRecordsData(soldierData2);
+    this.profileData = {
+      ...this.profileData,
+      soldierData: soldierData2,
+    };
+
     /* delete experience */
+    del(`experiences/${id}`);
   }
 
   async created(): Promise<void> {
@@ -140,16 +220,19 @@ export default class MyPage extends Vue {
       if (response.status >= 400) {
         // ERROR HANDLING
       } else {
-        this.profileData = response.data as IProfileData;
-      }
-    } else {
-      // 임시 로그인 대응용 (추후 삭제 예정)
-      const response = await backendGet("/users/61616d97ba6b751e2cde287d");
-
-      if (response.status >= 400) {
-        // ERROR HANDLING
-      } else {
-        this.profileData = response.data as IProfileData;
+        this.profileData = response.data;
+        const { data } :{ data :any } = response;
+        const response2 = await backendGet(`soldier-data/${data.soldierData.id}`);
+        if (response2.status >= 400) {
+          // error
+        } else {
+          const data2 = response2.data;
+          this.profileData = {
+            ...data,
+            soldierData: data2,
+          };
+          this.updateRecordsData(data2);
+        }
       }
     }
   }
