@@ -9,9 +9,10 @@
   </template>
 
   <v-list>
-    <v-list-item class="py-3" :to="`/me/${$store.state.loginState.userInfo.id}`">
+    <v-list-item class="py-2" :to="`/me/${$store.state.loginState.userInfo.id}`">
       <v-layout align-center>
-        <v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" style="width: 64px; height: 64px; border-radius: 100%;" />
+        <img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)"
+             style="width: 64px; height: 64px; border-radius: 100%;" />
 
         <v-layout class="ml-3" column>
           <span class="text-h6">{{ $store.state.loginState.userInfo.username }}</span>
@@ -20,8 +21,10 @@
       </v-layout>
     </v-list-item>
 
+    <v-divider class="my-2" />
+
     <v-list-item @click="logoutCallback">
-      <v-icon>mdi-logout</v-icon>
+      <v-icon class="mr-2">mdi-logout</v-icon>
       <span>로그아웃</span>
     </v-list-item>
   </v-list>
