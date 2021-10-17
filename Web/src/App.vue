@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="white" light dense :elevate-on-scroll="$route.meta.appBarElevateOnScroll ? true : false">
+    <v-app-bar :elevate-on-scroll="$route.meta.appBarElevateOnScroll ? true : false" color="white" app light dense>
       <v-toolbar-title class="primary--text" style="font-weight: 900">
         <router-link id="nav-title-text" :to="homeRouteUrl">{{ $store.state.appName }}</router-link>
       </v-toolbar-title>
@@ -101,6 +101,8 @@ export default class App extends Vue {
 
 <style lang="scss">
 .v-app-bar {
+  z-index: 10 !important;
+
   #nav-title-text {
     position: relative;
 

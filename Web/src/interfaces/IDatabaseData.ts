@@ -25,6 +25,16 @@ export interface IComment {
   content: string,
 }
 
+export interface IJobInfo {
+  id: string,
+  desc: string,
+  due: Date,
+  employmentType: string,
+  group: string,
+  minRank: string,
+  relatedBranches: Array<string>,
+}
+
 export interface IPostDisplay {
   /* 뷰(피드) 표시용을 겸한 최소 게시글 정보 */
   id: string,
@@ -34,6 +44,7 @@ export interface IPostDisplay {
   title: string,
   contentPreview: string,
   previewMainImageUrl?: string,
+  jobInfo?: IJobInfo,
   tags: Array<string>,
   commentsCount: number,
   likesCount: number,
@@ -42,7 +53,7 @@ export interface IPostDisplay {
 export interface IPost extends IPostDisplay {
   /* 게시글 정보 */
   updatedAt: Date,
-  contentFull: string,
+  content: string,
   comments: Array<IComment>,
   likes: Array<IUserDisplay>,
 }

@@ -71,7 +71,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="apiAddress + _user.profileImageUrl" height="200px">
+          <v-img :src="absolutePath(_user.profileImageUrl)" height="200px">
           </v-img>
 
           <!-- description -->
@@ -116,7 +116,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="apiAddress + _recruition.author.profileImageUrl" height="200px">
+          <v-img :src="absolutePath(_recruition.author.profileImageUrl)" height="200px">
           </v-img>
 
           <!-- description -->
@@ -152,23 +152,25 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { AxiosResponse } from "axios";
+import { absolutePath as backendAbsolutePath, post as backendPost } from "@/util/BackendHelper";
 
-interface subject {
+interface ISubject {
   name: string,
   tags: Array<string>,
 }
 
-interface filter {
+interface IFilter {
   name: string,
-  subjects: Array<subject>
+  subjects: Array<ISubject>
 }
 
-interface tag {
+interface ITag {
   subject: string,
   tag: string,
 }
 
-interface discoverRecruition {
+interface IDiscoverRecruition {
   id: string,
   author: {
     id: string,
@@ -181,7 +183,7 @@ interface discoverRecruition {
   due: string,
 }
 
-interface discoverUser {
+interface IDiscoverUser {
   id: string,
   username: string,
   birthday: string,
@@ -200,9 +202,9 @@ interface discoverUser {
 
 @Component
 export default class DiscoverPage extends Vue {
-  /* define variables */
-  apiAddress = "https://yd.somni.one";
+  absolutePath = backendAbsolutePath;
 
+  /* define variables */
   filters = [
     {
       name: "사용자 계정",
@@ -262,7 +264,7 @@ export default class DiscoverPage extends Vue {
 
   currentFilter = this.filters[0];
 
-  tags :tag[] = [];
+  tags: ITag[] = [];
 
   searchOptions = {
     user: [
@@ -302,25 +304,25 @@ export default class DiscoverPage extends Vue {
 
   searchOption = this.searchOptions.user;
 
-  userDatas :discoverUser[] = [];
+  userDatas: IDiscoverUser[] = [];
 
-  recruitionDatas :discoverRecruition[] = [];
+  recruitionDatas: IDiscoverRecruition[] = [];
 
   /* define methods */
-  onClick1(val: filter): void {
+  onClick1(val: IFilter): void {
     this.currentFilter = val;
     if (val.name === "사용자 계정") this.searchOption = this.searchOptions.user;
     else if (val.name === "POOL") this.searchOption = this.searchOptions.pool;
     else this.searchOption = this.searchOptions.recruition;
   }
 
-  onClick3(val: tag): void {
+  onClick3(val: ITag): void {
     const idx = this.tags.findIndex((el) => el.subject === val.subject && el.tag === val.tag);
     if (idx > -1) console.log(idx); /* this.tags.splice(idx, 1); */
     else this.tags.push(val);
   }
 
-  onClick4(val: tag): void {
+  onClick4(val: ITag): void {
     const idx = this.tags.findIndex((el) => el.subject === val.subject && el.tag === val.tag);
     this.tags.splice(idx, 1);
   }
@@ -332,7 +334,7 @@ export default class DiscoverPage extends Vue {
     return `D - ${dday}`;
   }
 
-  search(): void {
+  async search(): Promise<void> {
     const currentSubjects = this.currentFilter.subjects.map((_subject) => _subject.name);
     const tags = this.tags.filter((_tag) => currentSubjects.indexOf(_tag.subject) > -1);
     let target = null;
@@ -355,28 +357,17 @@ export default class DiscoverPage extends Vue {
       number: 30,
     };
 
-    fetch(`${this.apiAddress}/posts/discover`, {
-      method: "POST",
-      body: JSON.stringify(post),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        switch (post.target) {
-          case "user":
-            this.userDatas = data.data;
-            break;
-          case "pool":
-            break;
-          case "recruition":
-            this.recruitionDatas = data.data;
-            break;
-          default:
-            break;
-        }
-      });
+    const response = await backendPost("/posts/discover", post) as AxiosResponse<{data: Array<unknown>}>;
+
+    if (response.status >= 400) {
+      // ERROR HANDLING
+    } else if (post.target === "user") {
+      this.userDatas = response.data.data as Array<IDiscoverUser>;
+    } else if (post.target === "pool") {
+      // TODO
+    } else if (post.target === "recruition") {
+      this.recruitionDatas = response.data.data as Array<IDiscoverRecruition>;
+    }
   }
 }
 </script>

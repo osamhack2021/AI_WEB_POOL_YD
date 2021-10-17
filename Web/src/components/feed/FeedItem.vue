@@ -10,15 +10,15 @@
     <!-- 타이틀 영역 -->
     <!-- 메인 이미지가 있는 경우 -->
     <v-img v-if="postHasMainImage"
-           :src="itemData.postInfo.previewMainImageUrl"
-           dark
-           aspect-ratio="2.5"
-           class="pa-3 align-end">
+          :src="absolutePath(itemData.postInfo.previewMainImageUrl)"
+          dark
+          aspect-ratio="2.5"
+          class="pa-3 align-end">
       <div class="feed-image-darken-overlay"></div>
 
       <!-- 이미지 내 프로필 영역 -->
       <v-layout class="mt-0 ml-0" row align-center style="flex-wrap: nowrap">
-        <img :src="itemData.postInfo.author.profileImageUrl"
+        <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
               aspect-ratio="1"
               class="elevation-2"
               style="width: 64px; border-radius: 100%;" />
@@ -35,7 +35,7 @@
     <!-- 메인 이미지가 없는 경우 -->
     <!-- 이미지 외 프로필 영역 -->
     <v-layout v-else class="mt-0 ml-3" row align-center style="flex-wrap: nowrap">
-      <img :src="itemData.postInfo.author.profileImageUrl"
+      <img :src="absolutePath(itemData.postInfo.author.profileImageUrl)"
             class="elevation-2"
             style="width: 64px; border-radius: 100%;" />
 
@@ -54,8 +54,8 @@
     <!-- 카드 하단 영역 -->
     <v-card-actions>
       <v-layout class="pa-4" row justify-space-around>
-        <v-btn class="pa-0 px-1" text :to="{ path: `/post/${itemData.postInfo.id}`, hash: 'comments' }"><v-icon class="mr-1">mdi-message-reply-text</v-icon> {{ itemData.postInfo.commentsCount }}</v-btn>
-        <v-btn class="pa-0 px-1 mx-2" text :color="itemData.likedByAccount ? 'pink' : ''" @click.stop.prevent="onLikeButtonClick"><v-icon class="mr-1">mdi-heart</v-icon> {{ itemData.postInfo.likesCount }}</v-btn>
+        <comments-button :useRoute="true" :postId="itemData.postInfo.id" :count="itemData.postInfo.commentsCount" />
+        <like-button :postId="itemData.postInfo.id" :liked="itemData.likedByAccount" :count="itemData.postInfo.likesCount" @like-status-update="likeStatusUpdated" class="mx-2" />
         <v-spacer />
         <span class="mx-2 text--disabled" @mouseover="isUploadDateHovering = true" @mouseleave="isUploadDateHovering = false"><v-icon>mdi-clock-outline</v-icon> {{ isUploadDateHovering ? itemData.postInfo.createdAt.toLocaleString() : uploadDateAgo }}</span>
       </v-layout>
@@ -69,14 +69,31 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { format } from "timeago.js";
 import { Prop } from "vue-property-decorator";
+import CommentsButton from "@/components/post/CommentsButton.vue";
+import LikeButton from "@/components/post/LikeButton.vue";
 import IFeedItem from "@/interfaces/IFeedItem";
+import { absolutePath as backendAbsolutePath } from "@/util/BackendHelper";
 
-@Component
+@Component({
+  components: {
+    CommentsButton,
+    LikeButton,
+  },
+})
 export default class FeedItem extends Vue {
+  absolutePath = backendAbsolutePath;
+
   @Prop({ required: true }) itemData!: IFeedItem;
   isUploadDateHovering = false;
   recomputeIntervalId = -1;
   recomputeHack = false;
+
+  created(): void {
+    this.itemData.postInfo.author.profileImageUrl = backendAbsolutePath(this.itemData.postInfo.author.profileImageUrl);
+    if (this.itemData.postInfo.previewMainImageUrl) {
+      this.itemData.postInfo.previewMainImageUrl = backendAbsolutePath(this.itemData.postInfo.previewMainImageUrl);
+    }
+  }
 
   mounted(): void {
     if (this.recomputeIntervalId === -1) {
@@ -91,6 +108,11 @@ export default class FeedItem extends Vue {
       clearInterval(this.recomputeIntervalId);
       this.recomputeIntervalId = -1;
     }
+  }
+
+  likeStatusUpdated(value: { likesCount: number, likedByAccount: boolean }): void {
+    this.itemData.postInfo.likesCount = value.likesCount;
+    this.itemData.likedByAccount = value.likedByAccount;
   }
 
   get postHasMainImage(): boolean {
@@ -108,31 +130,6 @@ export default class FeedItem extends Vue {
     this.recomputeHack;
 
     return format(this.itemData.postInfo.createdAt, "ko");
-  }
-
-  onLikeButtonClick(): void {
-    new Promise<Record<string, any>>((resolve) => {
-      // server communication logic here
-
-      // 테스트용 가짜 처리
-      setTimeout(() => {
-        resolve({ // New like status
-          index: this.itemData.postInfo.id,
-          likedByAccount: !this.itemData.likedByAccount,
-          likesCount: this.itemData.postInfo.likesCount + (this.itemData.likedByAccount ? -1 : 1),
-        });
-      }, Math.random() * 500 + 50);
-    }).then((value) => {
-      if (value.index === this.itemData.postInfo.id) {
-        this.itemData = {
-          postInfo: {
-            ...this.itemData.postInfo,
-            likesCount: value.likesCount,
-          },
-          likedByAccount: value.likedByAccount,
-        };
-      }
-    });
   }
 }
 </script>

@@ -84,8 +84,17 @@ import Component from "vue-class-component";
 import MyPageProfile from "@/pages/account/MyPageProfile.vue";
 import MyPagePosts from "@/pages/account/MyPagePosts.vue";
 import MyPageRecords from "@/pages/account/MyPageRecords.vue";
+import { IUser } from "@/interfaces/IDatabaseData";
+import { get as backendGet } from "@/util/BackendHelper";
 import type { IRecordsComponentProps } from "./IRecordsData";
 import { testDataAwards, testDataCredits } from "./RecordsTestData";
+
+interface IProfileData {
+  soldierData: Record<string, unknown>,
+  followers: Array<IUser>,
+  followings: Array<IUser>,
+  thumbnail: Record<string, unknown>,
+}
 
 @Component({
   components: {
@@ -104,40 +113,44 @@ export default class MyPage extends Vue {
   testDataAwards: IRecordsComponentProps = testDataAwards;
   testDataCredits: IRecordsComponentProps = testDataCredits;
 
-  profileData = {
-    soldierData: null,
+  profileData: IProfileData = {
+    soldierData: {},
     followers: [],
     followings: [],
-    thumbnail: null,
+    thumbnail: {},
   };
 
   tab = 0;
 
-  handleCreate(e: unknown):void {
+  handleCreate(e: unknown): void {
     console.log(e);
     /* { kind: ..., date: ..., location: ..., title: ..., value: ... } */
     /* create new experience & update sodilerData / user */
   }
 
-  handleDelete(id: number):void {
+  handleDelete(id: number): void {
     console.log(id);
     /* delete experience */
   }
 
-  created():void {
+  async created(): Promise<void> {
     if (this.$route.params.id) {
-      fetch(`https://yd.somni.one/users/${this.$route.params.id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          this.profileData = data;
-          /* Initialize testDataCredists & testDataAwards with data */
-        });
+      const response = await backendGet(`/users/${this.$route.params.id}`);
+
+      if (response.status >= 400) {
+        // ERROR HANDLING
+      } else {
+        this.profileData = response.data as IProfileData;
+      }
     } else {
-      fetch("https://yd.somni.one/users/61616d97ba6b751e2cde287d")
-        .then((res) => res.json())
-        .then((data) => {
-          this.profileData = data;
-        });
+      // 임시 로그인 대응용 (추후 삭제 예정)
+      const response = await backendGet("/users/61616d97ba6b751e2cde287d");
+
+      if (response.status >= 400) {
+        // ERROR HANDLING
+      } else {
+        this.profileData = response.data as IProfileData;
+      }
     }
   }
 }
