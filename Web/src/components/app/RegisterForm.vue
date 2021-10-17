@@ -22,6 +22,14 @@
                     ref="login-password"
                     clearable
                     required />
+      <v-text-field v-model="registerFormPasswordConfirm"
+                    :rules="[(value) => (value === registerFormPassword) || '비밀번호가 일치하지 않습니다.']"
+                    :type="registerFormPasswordShow ? 'text' : 'password'"
+                    @input="onInput"
+                    label="비밀번호 확인"
+                    tabindex="3"
+                    clearable
+                    required />
 
       <v-slide-x-reverse-transition>
         <v-alert v-if="errorMessage" type="error" class="my-4" dense>{{ errorMessage }}</v-alert>
@@ -62,6 +70,7 @@ export default class LoginForm extends Vue {
     (value) => (value && value.length < 8) || "비밀번호는 8자리 이상 입력해 주세요.",
   ];
   registerFormPasswordShow = false;
+  registerFormPasswordConfirm = "";
   isRegistering = false;
   errorMessage = "";
 
