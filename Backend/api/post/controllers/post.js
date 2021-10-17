@@ -4,6 +4,14 @@ const { sanitizeEntity } = require("strapi-utils");
 const http = require("http");
 const request = require("request");
 
+function getResult(options){
+    return new Promise(resolve => {
+        request.post(options, (err, res, body) => {
+            resolve(JSON.parse(body));
+        });
+    });
+}
+
 module.exports = {
     async full(ctx) {
         const _posts = await strapi.query("post").find();
@@ -382,72 +390,164 @@ module.exports = {
         }
     },
     async test(ctx) {
-        let posts = await strapi.query("post").model.find().in("postType", ["general"]);
-        console.log(posts);
-        return 'hi';
-    },
-    async embeddingAll(ctx) {
-        let posts = await strapi.query("post").find();
-        return 'hi';
-    },
-    async embeddingOne(ctx) {
         const { id } = ctx.params;
-        let post = await strapi.query("post").findOne({id: id});
-        let { postType, author, title, content, jobInfo } = post;
-        if (content) {
-            content.replace(/<[^>]*>?/gm, '');
+        if (id !== "all") {
+            let post = await strapi.query("post").findOne({id: id});
+            let { postType, author, title, content, jobInfo } = post;
+            if (content) {
+                content.replace(/<[^>]*>?/gm, '');
+            } else {
+                content = "";
+            }
+            if (postType === "recruition") {
+                jobInfo = await strapi.query("job-info").findOne({id: jobInfo.id});
+                let { desc, pay, employmentType, due, minRank, relatedBranches, group } = jobInfo;
+                switch(minRank){
+                    case "private": 
+                        minRank = "계급 무관";
+                        break;
+                    case "sergeant":
+                        minRank = "하사 이상";
+                        break;
+                    case "lieutenant":
+                        minRank = "소위 이상";
+                        break;
+                    case "major":
+                        minRank = "소령 이상";
+                        break;
+                    case "general":
+                        minRank = "준장 이상";
+                        break;
+                }
+                content = content.concat(" ", jobInfo.desc, " ", employmentType, " ", due, " ", minRank, " ", group.content, " ");
+                relatedBranches.forEach(tag => { content.concat(tag.content) });
+            }
+            author = await strapi.query("user", "users-permissions").findOne({id: author.id});
+            const userEmbedding = author.embedding ? author.embedding.data : null;
+            const _request = {
+                // 요청하는 작업 종류. 현재 3가지 지원
+                request: "createPost",
+                
+                // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
+                createPostData: {
+                    title, 
+                    content, 
+                    userEmbedding, // 사용자의 벡터 임베딩. 초기 None
+                    userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
+                },
+            };
+            const options = {
+                uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
+                method: "POST",
+                body: _request,
+                json: true
+            };
+            const data = await getResult(options);
+            author = {
+                ...author,
+                embedding: {
+                    data: data.userEmbedding,
+                }
+            };
+            post = {
+                ...post,
+                embedding: {
+                    data: data.postEmbedding,
+                }
+            };
+            author = await strapi.query("user", "users-permissions").update({id: author.id}, author);
+            post = await strapi.query("post").update({id: post.id}, post);
+            return { author, post };
         } else {
-            content = "";
-        }
-        if (postType === "recruition") {
-            jobInfo = await strapi.query("job-info").findOne({id: jobInfo.id});
-            let { desc, pay, employmentType, due, minRank, relatedBranches, group } = jobInfo;
-            switch(minRank){
-                case "private": 
-                    minRank = "계급 무관";
-                    break;
-                case "sergeant":
-                    minRank = "하사 이상";
-                    break;
-                case "lieutenant":
-                    minRank = "소위 이상";
-                    break;
-                case "major":
-                    minRank = "소령 이상";
-                    break;
-                case "general":
-                    minRank = "준장 이상";
-                    break;
-            }
-            content = content.concat(" ", jobInfo.desc, " ", employmentType, " ", due, " ", minRank, " ", group.content, " ");
-            content = relatedBranches.forEach(tag => { content.concat(tag.content) });
-        }
-        author = await strapi.query("user", "users-permissions").findOne({id: author.id});
-        const userEmbedding = author.embedding ? author.embedding.data : null;
-        const _request = {
-            // 요청하는 작업 종류. 현재 3가지 지원
-            request: "createPost",
+            const posts = await strapi.query("post").find();
+            const users = await strapi.query("user", "users-permissions").find();
+            // 초기화 
+            await Promise.all(users.map(async user => {
+                const _user = {
+                    ...user,
+                    embedding: null
+                };
+                await strapi.query("user", "users-permissions").update({id: user.id}, _user);
+                return _user;
+            }));
+            await Promise.all(posts.map(async post => {
+                const _post = {
+                    ...post,
+                    embedding: null
+                };
+                await strapi.query("post").update({id: post.id}, _post);
+                return _post;
+            }));
+            // embedding 값 feed
+            await Promise.all(posts.map(async post => {
+                let { postType, author, title, content, jobInfo } = post;
+                if (content) {
+                    content = content.replace(/<[^>]*>?/gm, '');
+                } else {
+                    content = "";
+                }
+                if (postType === "recruition") {
+                    jobInfo = await strapi.query("job-info").findOne({id: jobInfo.id});
+                    let { desc, pay, employmentType, due, minRank, relatedBranches, group } = jobInfo;
+                    switch(minRank){
+                        case "private": 
+                            minRank = "계급 무관";
+                            break;
+                        case "sergeant":
+                            minRank = "하사 이상";
+                            break;
+                        case "lieutenant":
+                            minRank = "소위 이상";
+                            break;
+                        case "major":
+                            minRank = "소령 이상";
+                            break;
+                        case "general":
+                            minRank = "준장 이상";
+                            break;
+                    }
+                    content = content.concat(" ", jobInfo.desc, " ", employmentType, " ", due, " ", minRank, " ", group.content, " ");
+                    relatedBranches.forEach(tag => { content.concat(tag.content) });
+                }
+                author = await strapi.query("user", "users-permissions").findOne({id: author.id});
+                const userEmbedding = author.embedding ? author.embedding.data : null;
+                const _request = {
+                    // 요청하는 작업 종류. 현재 3가지 지원
+                    request: "createPost",
+                    
+                    // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
+                    createPostData: {
+                        title, 
+                        content, 
+                        userEmbedding, // 사용자의 벡터 임베딩. 초기 None
+                        userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
+                    },
+                };
+                const options = {
+                    uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
+                    method: "POST",
+                    body: _request,
+                    json: true
+                };
+                const data = await getResult(options);
+                author = {
+                    ...author,
+                    embedding: {
+                        data: data.userEmbedding,
+                    }
+                };
+                post = {
+                    ...post,
+                    embedding: {
+                        data: data.postEmbedding,
+                    }
+                };
+                author = await strapi.query("user", "users-permissions").update({id: author.id}, author);
+                post = await strapi.query("post").update({id: post.id}, post);
+                return true;
+            }));
             
-            // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
-            createPostData: {
-                title, 
-                content, 
-                userEmbedding, // 사용자의 벡터 임베딩. 초기 None
-                userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
-            },
-        };
-        const options = {
-            uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
-            method: "POST",
-            form: _request,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        console.log(options);
-        request.post(options, (err, res, body) => {
-            console.log(body);
-        });
-        return 'hi';
+            return "done";
+        }
     }
 };

@@ -42,23 +42,7 @@
     },
     {
       "method": "GET",
-      "path": "/posts/embedding",
-      "handler": "post.embeddingAll",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/posts/embedding/:id",
-      "handler": "post.embeddingOne",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/posts/test",
+      "path": "/posts/test/:id",
       "handler": "post.test",
       "config": {
         "policies": []
