@@ -27,7 +27,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import VueSimplemde from "vue-simplemde";
-/* import { marked } from "marked"; */
+import marked from "marked";
 
 @Component({
   components: {
@@ -36,16 +36,17 @@ import VueSimplemde from "vue-simplemde";
 })
 export default class PostComposePage extends Vue {
   editorContent = "";
-  /*
+
   get renderedEditorContent() {
     return marked(this.editorContent);
-  } */
+  }
 
   composing = false;
 
   compose(): void {
     /* TODO: 글 작성 업로드 로직 */
     this.composing = true;
+    console.log(this.renderedEditorContent);
     setTimeout(() => {
       this.composing = false;
       this.$emit("compose-success");
