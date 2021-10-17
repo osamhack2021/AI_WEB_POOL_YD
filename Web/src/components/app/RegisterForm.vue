@@ -45,7 +45,7 @@
                 style="flex-grow: 1"
                 outlined
                 rounded>회원가입</v-btn>
-          <v-btn outlined rounded class="mr-2" color="red" to="/">취소</v-btn>
+          <v-btn text class="mr-2" color="red" to="/">취소</v-btn>
         </v-layout>
       </v-layout>
     </v-form>
