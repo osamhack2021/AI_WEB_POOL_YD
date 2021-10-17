@@ -65,7 +65,7 @@ export default class LoginForm extends Vue {
   loginFormPassword = "";
   loginFormPasswordShow = false;
   isLoggingIn = false;
-  errorMessage!: string;
+  errorMessage = "";
 
   async login(e: any): Promise<void> {
     this.isLoggingIn = true;
