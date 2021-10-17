@@ -10,6 +10,11 @@
     <h4 align="center">Powered by <i>Team YeonDeung</i></h4>
 </div>
 
+<div align="center">
+    <img src="https://github.com/osamhack2021/AI_WEB_POOL_YD/actions/workflows/github-pages-deploy.yml/badge.svg?branch=develop" />
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+</div>
+
 ## 프로잭트 소개
 - 설명 기입
 
