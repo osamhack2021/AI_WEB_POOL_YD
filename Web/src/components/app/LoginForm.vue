@@ -5,7 +5,7 @@
     <v-form v-model="loginFormValidated" class="mt-4" @submit.prevent="login">
       <v-text-field v-model="loginFormId"
                     :rules="loginFormIdRules"
-                    label="ID"
+                    label="ID (이메일 주소)"
                     clearable
                     required
                     autofocus />
@@ -43,7 +43,7 @@ export default class LoginForm extends Vue {
   loginFormValidated = false;
   loginFormId = "";
   loginFormIdRules: Array<(value: string) => boolean | string> = [
-    (value) => !!value || "ID를 입력해주세요.",
+    (value) => !!value || "ID (이메일 주소)를 입력해주세요.",
     (value) => (value && /^[a-zA-Z0-9-.]+@[a-zA-Z0-9-]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/.test(value)) || "올바른 이메일 주소를 입력해주세요.",
   ];
   loginFormPassword = "";
