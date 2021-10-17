@@ -91,6 +91,7 @@ export default class LoginForm extends Vue {
     const loginUserInfo: IUserDisplay = {
       id: "testId",
       username: "테스트 계정",
+      department: "테스트 소속",
       profileImageUrl: "https://picsum.photos/200",
     };
 

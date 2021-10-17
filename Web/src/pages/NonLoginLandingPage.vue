@@ -28,6 +28,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import delay from "delay";
 import LoginForm from "@/components/app/LoginForm.vue";
+import { IUserDisplay } from "@/interfaces/IDatabaseData";
 import { absolutePath, post } from "@/util/BackendHelper";
 
 @Component({
@@ -47,9 +48,10 @@ export default class NonLoginLandingPage extends Vue {
     try {
       const response = await post("auth/local", val);
       const { user, jwt }: { user: any, jwt: string } = response.data;
-      const userInfo = {
+      const userInfo: IUserDisplay = {
         id: user.id,
         username: user.username,
+        department: user.soldierData.department,
         profileImageUrl: absolutePath(user.thumbnail.url),
       };
       this.$store.dispatch("registerLoginState", userInfo);

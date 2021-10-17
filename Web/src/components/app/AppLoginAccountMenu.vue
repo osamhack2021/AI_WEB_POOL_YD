@@ -1,6 +1,7 @@
 <template>
   <v-menu offset-y
-        min-width="250px"
+        min-width="200px"
+        max-width="350px"
         transition="slide-y-transition">
   <template v-slot:activator="{ on, attrs }">
     <v-btn icon v-on="on" v-bind="attrs">
@@ -16,7 +17,7 @@
 
         <v-layout class="ml-3" column>
           <span class="text-h6">{{ $store.state.loginState.userInfo.username }}</span>
-          <span>{{ $store.state.loginState.userInfo.id }}</span>
+          <span>{{ $store.state.loginState.userInfo.department }}</span>
         </v-layout>
       </v-layout>
     </v-list-item>
