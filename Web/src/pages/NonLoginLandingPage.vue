@@ -4,17 +4,18 @@
            height="100vh"
            width="55vw"
            position="bottom"
-           class="pa-2 align-end">
+           class="pa-2 align-end d-none d-md-flex">
       <span class="white--text text-subtitle-2" style="opacity: 0.75">Photo by <a href="https://unsplash.com/photos/XnN42lsNv28">Simone Mascellari</a>, used under <a href="https://unsplash.com/license">Unsplash License</a>.</span>
     </v-img>
 
-    <v-card class="landing-content-area pa-6 pa-sm-12">
+    <v-card class="landing-content-area pa-12">
       <v-layout column align-start justify-center fill-height>
-        <div class="text-h2 mb-12 blue--text" style="font-weight: 900">{{ $store.state.appName }}</div>
+        <div class="text-h1 mb-6 blue--text" style="font-weight: 900">{{ $store.state.appName }}</div>
+        <p class="text-h4 my-6" style="font-weight:700">국군 장병의 자기 계발과 취업 정보 습득을 한 곳에.<br>POOL에 흠뻑 빠져보세요.</p>
 
         <login-form :loginCallback="realLogin"
                     class="pa-4"
-                    style="max-width: 25vw; min-width: 300px; flex-grow: 0" />
+                    style="max-width: 25vw; min-width: 400px; flex-grow: 0" />
       </v-layout>
     </v-card>
   </v-container>
@@ -63,9 +64,14 @@ a {
   position: fixed;
   right: 0;
   top: 0;
-  width: 50vw;
+  width: 100vw;
   height: 100vh;
-  font-size: 1.5em;
-  border-radius: 5vw 0 0 5vw !important;
+}
+
+@media (min-width: 960px) {
+  .landing-content-area {
+    width: 50vw;
+    border-radius: 5vw 0 0 5vw !important;
+  }
 }
 </style>
