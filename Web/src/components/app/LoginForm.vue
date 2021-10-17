@@ -1,6 +1,6 @@
 <template>
   <v-layout column>
-    <v-list-item-title class="mt-3 text-h6" style="align-self: flex-start">로그인</v-list-item-title>
+    <v-list-item-title class="mt-3 text-h4" style="align-self: flex-start">로그인</v-list-item-title>
 
     <v-form v-model="loginFormValidated" class="mt-4" @submit.prevent="login">
       <v-text-field v-model="loginFormId"
