@@ -350,6 +350,16 @@ module.exports = {
                         });
                         return (e1 || filter1.length === 0) && (e2 || filter2.length === 0);
                     });
+                    pools = pools.map(pool => {
+                        return {
+                            id: pool.id,
+                            name: pool.name,
+                            summary: pool.summary,
+                            tags: pool.tags.map(tag => tag.content),
+                            memberCount: pool.members.length,
+                            imageUrl: pool.image.url
+                        };
+                    });
                     return { data: pools };
                 case 'recruition':
                     tags.forEach(tag => {
