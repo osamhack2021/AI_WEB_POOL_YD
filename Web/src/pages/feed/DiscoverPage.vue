@@ -63,6 +63,49 @@
       </v-select>
     </v-layout>
 
+    <!-- pool diaplay -->
+    <v-layout v-if="currentFilter.name === 'POOL'" justify-start wrap style="max-width: 1000px; margin: 0 auto;">
+
+      <!-- card design -->
+      <v-hover v-slot="{ hover }" v-for="(_pool, idx) in poolDatas" :key="idx" :v-if="false" style="width:230px; margin: 20px 10px;">
+        <v-card hover>
+
+          <!-- image section -->
+          <v-img :src="_pool.imageUrl" height="200px">
+          </v-img>
+
+          <!-- description -->
+          <v-card-title>
+            {{ _pool.name }}
+          </v-card-title>
+          <v-card-subtitle>
+            {{ _pool.summary }}
+          </v-card-subtitle>
+          <v-card-text>
+            <v-chip-group>
+              <v-chip v-for="(tag, idx) in _pool.tags" :key="idx">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
+
+          <!-- hover overlay -->
+          <v-fade-transition>
+            <v-overlay v-if="hover" absolute>
+              <v-layout column align-center>
+                <div class="mb-6"> {{ _pool.memberCount }} divers </div>
+                <router-link :to="`/pool/${_pool.id}`" style="text-decoration:none;">
+                  <v-btn>
+                    Pool 이동
+                  </v-btn>
+                </router-link>
+              </v-layout>
+            </v-overlay>
+          </v-fade-transition>
+        </v-card>
+      </v-hover>
+    </v-layout>
+
     <!-- user diaplay -->
     <v-layout v-if="currentFilter.name === '사용자 계정'" justify-start wrap style="max-width: 1000px; margin: 0 auto;">
 
@@ -94,8 +137,8 @@
           <v-fade-transition>
             <v-overlay v-if="hover" absolute>
               <v-layout column align-center>
-                <div> {{ _user.postCount }} posts </div>
-                <div> {{ _user.followersCount }} followers </div>
+                <div class="mb-4"> {{ _user.postCount }} posts </div>
+                <div class="mb-4"> {{ _user.followersCount }} followers </div>
                 <router-link :to="`/me/${_user.id}`" style="text-decoration:none;">
                   <v-btn>
                     프로필 이동
@@ -139,7 +182,14 @@
           <v-fade-transition>
             <v-overlay v-if="hover" absolute>
               <v-layout column align-center>
-                {{ calculateDday(new Date(_recruition.due)) }}
+                <div class="mb-6">
+                  {{ calculateDday(new Date(_recruition.due)) }}
+                </div>
+                <router-link :to="`/post/${_recruition.id}`" style="text-decoration:none;">
+                  <v-btn>
+                    게시글 이동
+                  </v-btn>
+                </router-link>
               </v-layout>
             </v-overlay>
           </v-fade-transition>
@@ -181,6 +231,15 @@ interface IDiscoverRecruition {
   employmentType: string,
   pay: string,
   due: string,
+}
+
+interface IDiscoverPool {
+  id: string,
+  name: string,
+  summary: string,
+  tags: Array<string>,
+  memberCount: number,
+  imageUrl: string,
 }
 
 interface IDiscoverUser {
@@ -235,6 +294,20 @@ export default class DiscoverPage extends Vue {
     {
       name: "POOL",
       subjects: [
+        {
+          name: "관심 병과",
+          tags: ["보병", "기갑", "포병", "방공", "정보", "공병",
+            "정보통신", "항공", "화생방", "군수-병기", "군수-병참",
+            "군수-수송", "인사", "군사경찰", "재정", "공보정훈",
+            "의무", "법무", "군종"],
+        },
+        {
+          name: "관심 직군",
+          tags: ["경영·사무·금융·보험직", "연구직 및 공학 기술직",
+            "교육·법률·사회복지·경찰·소방직 및 군인", "보건·의료직",
+            "예술·디자인·방송·스포츠직", "미용·여행·숙박·음식·경비·청소직",
+            "영업·판매·운전·운송직", "건설·채굴직", "설치·정비·생산직", "농림어업직"],
+        },
       ],
     },
     {
@@ -306,6 +379,49 @@ export default class DiscoverPage extends Vue {
 
   userDatas: IDiscoverUser[] = [];
 
+  poolDatas: IDiscoverPool[] = [
+    {
+      id: "123",
+      name: "자소서 쓰다 막힌 행정병들 모여라",
+      tags: ["인사", "행정병"],
+      memberCount: 17,
+      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
+      imageUrl: "https://picsum.photos/200",
+    },
+    {
+      id: "123",
+      name: "자소서 쓰다 막힌 행정병들 모여라",
+      tags: ["인사", "행정병"],
+      memberCount: 17,
+      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
+      imageUrl: "https://picsum.photos/200",
+    },
+    {
+      id: "123",
+      name: "자소서 쓰다 막힌 행정병들 모여라",
+      tags: ["인사", "행정병"],
+      memberCount: 17,
+      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
+      imageUrl: "https://picsum.photos/200",
+    },
+    {
+      id: "123",
+      name: "자소서 쓰다 막힌 행정병들 모여라",
+      tags: ["인사", "행정병"],
+      memberCount: 17,
+      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
+      imageUrl: "https://picsum.photos/200",
+    },
+    {
+      id: "123",
+      name: "자소서 쓰다 막힌 행정병들 모여라",
+      tags: ["인사", "행정병"],
+      memberCount: 17,
+      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
+      imageUrl: "https://picsum.photos/200",
+    },
+  ];
+
   recruitionDatas: IDiscoverRecruition[] = [];
 
   /* define methods */
@@ -365,7 +481,7 @@ export default class DiscoverPage extends Vue {
     } else if (post.target === "user") {
       this.userDatas = response.data.data as Array<IDiscoverUser>;
     } else if (post.target === "pool") {
-      // TODO
+      this.poolDatas = response.data.data as Array<IDiscoverPool>;
     } else if (post.target === "recruition") {
       this.recruitionDatas = response.data.data as Array<IDiscoverRecruition>;
     }
