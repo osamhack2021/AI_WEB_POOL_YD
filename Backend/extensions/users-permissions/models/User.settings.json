@@ -118,6 +118,17 @@
     },
     "companyData": {
       "model": "company-data"
+    },
+    "pools": {
+      "via": "members",
+      "collection": "pool"
+    },
+    "ownPools": {
+      "via": "admin",
+      "collection": "pool"
+    },
+    "embedding": {
+      "type": "json"
     }
   }
 }
