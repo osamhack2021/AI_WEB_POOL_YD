@@ -93,7 +93,16 @@
                 <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" /></v-list-item-avatar>
                 <v-list-item-content class="pt-2">
                   <v-list-item-title>댓글 남기기 <small>// {{ $store.state.loginState.userInfo.username }}</small></v-list-item-title>
-                  <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" :placeholder="'글쓴이에게 하고싶은 말을 남겨보세요.'" rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
+                  <v-list-item-subtitle class="py-2">
+                    <v-textarea v-model="leaveCommentTextareaContent"
+                                :placeholder="'글쓴이에게 하고싶은 말을 남겨보세요.\nCtrl+Enter 키 조합으로 댓글을 작성할 수 있습니다.'"
+                                @keypress.ctrl.enter="onLeaveCommentClick"
+                                class="py-0 my-0"
+                                rows="3"
+                                auto-grow
+                                hide-details
+                                no-resize />
+                  </v-list-item-subtitle>
 
                   <v-layout>
                     <v-spacer />

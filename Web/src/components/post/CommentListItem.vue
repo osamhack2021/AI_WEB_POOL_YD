@@ -7,7 +7,7 @@
           <span>{{ commentData.author.username }}</span>
 
           <v-layout v-if="commentData.author.id === $store.state.loginState.userInfo.id" align-center class="ml-2">
-            <v-btn icon x-small class="mx-1"><v-icon>mdi-pencil</v-icon></v-btn>
+            <v-btn icon x-small class="mx-1" title="댓글 수정"><v-icon>mdi-pencil</v-icon></v-btn>
             <v-btn icon x-small class="mx-1" title="댓글 삭제" @click.prevent="deleteComment"><v-icon>mdi-delete</v-icon></v-btn>
           </v-layout>
         </v-layout>
