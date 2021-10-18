@@ -1,7 +1,5 @@
 <template>
-  <login-form :loginCallback="realLogin"
-              class="pa-4"
-              style="max-width: 25vw; min-width: 400px; flex-grow: 0" />
+  <login-form :loginCallback="realLogin" />
 </template>
 
 <script lang="ts">

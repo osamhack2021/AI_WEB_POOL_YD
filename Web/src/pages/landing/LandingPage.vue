@@ -8,14 +8,14 @@
       <span class="white--text text-subtitle-2" style="opacity: 0.75">Photo by <a href="https://unsplash.com/photos/XnN42lsNv28">Simone Mascellari</a>, used under <a href="https://unsplash.com/license">Unsplash License</a>.</span>
     </v-img>
 
-    <v-card class="landing-content-area pa-16">
+    <v-card class="landing-content-area pa-8 pa-sm-16" style="overflow-y: auto">
       <v-slide-x-reverse-transition>
-        <v-layout v-if="transitionStep1" column align-start justify-center fill-height>
+        <v-layout v-if="transitionStep1" column align-start justify-center>
           <div class="text-h1 mb-6 blue--text" style="font-weight: 900">{{ $store.state.appName }}</div>
           <p class="text-h4 my-6" style="font-weight: 700">국군 장병의 자기 계발과 취업 정보 습득을 한 곳에.<br>POOL에 흠뻑 빠져보세요.</p>
 
           <v-slide-x-reverse-transition leave-absolute>
-            <router-view />
+            <router-view class="pa-4" style="max-width: 50vw; min-width: 250px; flex-grow: 0"/>
           </v-slide-x-reverse-transition>
         </v-layout>
       </v-slide-x-reverse-transition>
