@@ -379,48 +379,7 @@ export default class DiscoverPage extends Vue {
 
   userDatas: IDiscoverUser[] = [];
 
-  poolDatas: IDiscoverPool[] = [
-    {
-      id: "123",
-      name: "자소서 쓰다 막힌 행정병들 모여라",
-      tags: ["인사", "행정병"],
-      memberCount: 17,
-      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
-      imageUrl: "https://picsum.photos/200",
-    },
-    {
-      id: "123",
-      name: "자소서 쓰다 막힌 행정병들 모여라",
-      tags: ["인사", "행정병"],
-      memberCount: 17,
-      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
-      imageUrl: "https://picsum.photos/200",
-    },
-    {
-      id: "123",
-      name: "자소서 쓰다 막힌 행정병들 모여라",
-      tags: ["인사", "행정병"],
-      memberCount: 17,
-      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
-      imageUrl: "https://picsum.photos/200",
-    },
-    {
-      id: "123",
-      name: "자소서 쓰다 막힌 행정병들 모여라",
-      tags: ["인사", "행정병"],
-      memberCount: 17,
-      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
-      imageUrl: "https://picsum.photos/200",
-    },
-    {
-      id: "123",
-      name: "자소서 쓰다 막힌 행정병들 모여라",
-      tags: ["인사", "행정병"],
-      memberCount: 17,
-      summary: "행정병 복무 경험을 자소서에 녹이는 팁을 공유하기 위한 풀",
-      imageUrl: "https://picsum.photos/200",
-    },
-  ];
+  poolDatas: IDiscoverPool[] = [];
 
   recruitionDatas: IDiscoverRecruition[] = [];
 
