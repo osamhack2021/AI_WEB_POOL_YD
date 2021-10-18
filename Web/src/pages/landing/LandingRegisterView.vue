@@ -1,6 +1,5 @@
 <template>
-  <register-form class="pa-4"
-                 style="max-width: 25vw; min-width: 400px; flex-grow: 0" />
+  <register-form />
 </template>
 
 <script lang="ts">

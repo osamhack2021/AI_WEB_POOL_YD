@@ -38,7 +38,7 @@
 
         <v-layout row align-center class="ma-2">
           <v-btn outlined rounded class="mr-2" color="blue" to="/register" style="flex-grow: 1">회원가입</v-btn>
-          <v-btn outlined rounded small class="ml-2" color="red" @click="testLogin">테스트 로그인</v-btn>
+          <v-btn outlined rounded small class="ml-2" color="red" @click="testLogin">TEST</v-btn>
         </v-layout>
       </v-layout>
     </v-form>
