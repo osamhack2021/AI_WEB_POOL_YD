@@ -103,7 +103,7 @@ export default class FeedItem extends Vue {
     }
   }
 
-  unmounted(): void {
+  beforeDestroy(): void {
     if (this.recomputeIntervalId !== -1) {
       clearInterval(this.recomputeIntervalId);
       this.recomputeIntervalId = -1;

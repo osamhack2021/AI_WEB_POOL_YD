@@ -221,7 +221,8 @@ export default class MyPage extends Vue {
         // ERROR HANDLING
       } else {
         this.profileData = response.data;
-        const { data } :{ data :any } = response;
+        console.log(this.profileData);
+        const { data }: { data: any } = response;
         const response2 = await backendGet(`soldier-data/${data.soldierData.id}`);
         if (response2.status >= 400) {
           // error

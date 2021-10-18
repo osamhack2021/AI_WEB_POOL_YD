@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.22.0",
     "core-js": "^3.18.2",
+    "delay": "^5.0.0",
     "timeago.js": "^4.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",

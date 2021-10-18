@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import NonLoginLandingPage from "@/pages/NonLoginLandingPage.vue";
-import RegisterPage from "@/pages/account/RegisterPage.vue";
+import LandingPage from "@/pages/landing/LandingPage.vue";
+import LandingLoginView from "@/pages/landing/LandingLoginView.vue";
+import LandingRegisterView from "@/pages/landing/LandingRegisterView.vue";
 import MyPage from "@/pages/account/MyPage.vue";
 import PostViewPage from "@/pages/post/PostViewPage.vue";
 import MainFeedPage from "@/pages/feed/MainFeedPage.vue";
@@ -14,31 +15,47 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Landing page for non-login user",
-    component: NonLoginLandingPage,
+    name: "landing",
+    component: LandingPage,
+    meta: {
+      appBarHide: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "landing-login",
+        component: LandingLoginView,
+        meta: {
+          appBarHide: true,
+        },
+      },
+      {
+        path: "/register",
+        name: "landing-register",
+        component: LandingRegisterView,
+        meta: {
+          appBarHide: true,
+        },
+      },
+    ],
   },
 
   /* Feed related routes */
   {
     path: "/feed",
-    name: "Main feed page",
+    name: "feed",
     component: MainFeedPage,
   },
   {
     path: "/discover",
-    name: "Discover page",
+    name: "discover",
     component: DiscoverPage,
   },
 
   /* Account related routes */
   {
-    path: "/register",
-    name: "Account registration page",
-    component: RegisterPage,
-  },
-  {
     path: "/me",
-    name: "Account profile/information page",
+    name: "mypage",
     component: MyPage,
     meta: {
       appBarElevateOnScroll: true,
@@ -46,7 +63,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/me/:id",
-    name: "Others' account profile/information page",
+    name: "mypage-id",
     component: MyPage,
     meta: {
       appBarElevateOnScroll: true,
@@ -56,19 +73,19 @@ const routes: Array<RouteConfig> = [
   /* Article related routes */
   {
     path: "/post/:id",
-    name: "Unified post view page",
+    name: "post-id",
     component: PostViewPage,
   },
 
   /* "POOL" related routes */
   {
     path: "/pool",
-    name: "POOL feed & management page",
+    name: "pool",
     component: PoolFeedPage,
   },
   {
     path: "/pool/:id",
-    name: "Individual POOL page",
+    name: "pool-id",
     component: PoolPage,
   },
 ];

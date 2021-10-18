@@ -2,6 +2,7 @@ export interface IUserDisplay {
   /* 뷰 표시용을 겸한 사용자 최소 정보 */
   id: string,
   username: string,
+  department: string,
   profileImageUrl: string,
 }
 
