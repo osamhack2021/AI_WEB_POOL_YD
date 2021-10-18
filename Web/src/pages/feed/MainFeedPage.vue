@@ -57,7 +57,7 @@ import FeedItemComponent from "@/components/feed/FeedItem.vue";
 import FeedComposeComponent from "@/components/feed/FeedCompose.vue";
 import IFeedItem from "@/interfaces/IFeedItem";
 import { IPostDisplay } from "@/interfaces/IDatabaseData";
-import { get as backendGet } from "@/util/BackendHelper";
+import { get as backendGet, post as backendPost } from "@/util/BackendHelper";
 
 @Component({
   components: {
@@ -99,7 +99,13 @@ export default class MainFeedPage extends Vue {
   }
 
   async updateFeedItems(): Promise<boolean> {
-    const response = await backendGet("/posts/preview") as AxiosResponse<{data: Array<IPostDisplay>}>;
+    const post = {
+      type: "recommend",
+      userID: this.$store.state.loginState.userInfo.id,
+    };
+    const response = await backendPost("posts/discover", post) as AxiosResponse<Array<IPostDisplay>>;
+
+    const { data } = response;
 
     if (response.status >= 400) {
       return false;
@@ -108,7 +114,7 @@ export default class MainFeedPage extends Vue {
     // TODO: likedByAccount 구하는 로직 (현재 유저가 해당 post에 좋아요를 했는지)
     this.feedItems = new Array<IFeedItem>();
 
-    response.data.data.forEach((postData) => {
+    data.forEach((postData) => {
       const newPostData = postData;
       newPostData.createdAt = new Date(postData.createdAt);
 

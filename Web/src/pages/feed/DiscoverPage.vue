@@ -352,6 +352,7 @@ export default class DiscoverPage extends Vue {
         target = null;
     }
     const post = {
+      type: "discover",
       target,
       tags,
       number: 30,
