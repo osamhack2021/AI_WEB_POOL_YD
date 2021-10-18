@@ -42,7 +42,7 @@
     },
     {
       "method": "GET",
-      "path": "/posts/test",
+      "path": "/posts/test/:id",
       "handler": "post.test",
       "config": {
         "policies": []
