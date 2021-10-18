@@ -79,14 +79,10 @@
             <v-list>
               <v-slide-x-reverse-transition group>
                 <!-- 댓글 리스트 -->
-                <v-list-item v-for="comment in postData.comments"
-                            :key="comment.id">
-                    <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath(comment.author.profileImageUrl)" /></v-list-item-avatar>
-                    <v-list-item-content class="pt-2">
-                      <v-list-item-title>{{ comment.author.username }}</v-list-item-title>
-                      <v-list-item-subtitle style="white-space: pre-wrap">{{ comment.content }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
+                <comment-list-item v-for="comment in postData.comments"
+                                   :key="comment.id"
+                                   :commentData="comment"
+                                   @comment-delete="onCommentDelete" />
                 <!-- -->
               </v-slide-x-reverse-transition>
 
@@ -124,6 +120,7 @@ import { AxiosResponse } from "axios";
 import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
 import CommentsButton from "@/components/post/CommentsButton.vue";
 import LikeButton from "@/components/post/LikeButton.vue";
+import CommentListItem from "@/components/post/CommentListItem.vue";
 import { IComment, IPost } from "@/interfaces/IDatabaseData";
 import { absolutePath as backendAbsolutePath, get as backendGet, post as backendPost } from "@/util/BackendHelper";
 
@@ -131,6 +128,7 @@ import { absolutePath as backendAbsolutePath, get as backendGet, post as backend
   components: {
     CommentsButton,
     LikeButton,
+    CommentListItem,
   },
 })
 export default class PostViewPage extends Vue {
@@ -227,6 +225,13 @@ export default class PostViewPage extends Vue {
       newPostData.updatedAt = new Date(newPostData.updatedAt);
 
       this.postData = newPostData;
+    }
+  }
+
+  onCommentDelete(id: string): void {
+    if (this.postData) {
+      this.postData.comments = this.postData.comments.filter((e) => e.id !== id);
+      this.postData.commentsCount = this.postData.comments.length;
     }
   }
 
