@@ -8,7 +8,7 @@
 
           <v-layout v-if="commentData.author.id === $store.state.loginState.userInfo.id" align-center class="ml-2">
             <v-btn icon x-small class="mx-1" title="댓글 수정"><v-icon>mdi-pencil</v-icon></v-btn>
-            <v-btn icon x-small class="mx-1" title="댓글 삭제" @click.prevent="deleteComment"><v-icon>mdi-delete</v-icon></v-btn>
+            <v-btn icon x-small class="mx-1" title="댓글 삭제" :disabled="isDeleting" :loading="isDeleting" @click.prevent="deleteComment"><v-icon>mdi-delete</v-icon></v-btn>
           </v-layout>
         </v-layout>
       </v-list-item-title>
@@ -29,8 +29,11 @@ export default class CommentListItem extends Vue {
   absolutePath = backendAbsolutePath;
 
   @Prop() commentData!: IComment;
+  isDeleting = false;
 
   async deleteComment(): Promise<void> {
+    this.isDeleting = true;
+
     const response = await backendDel(`/comments/${this.commentData.id}`) as AxiosResponse<Record<string, any>>;
 
     if (response.status >= 400) {
@@ -38,6 +41,8 @@ export default class CommentListItem extends Vue {
     } else if (response.status < 400 && this.commentData.id === response.data.id) {
       this.$emit("comment-delete", response.data.id);
     }
+
+    this.isDeleting = false;
   }
 }
 </script>
