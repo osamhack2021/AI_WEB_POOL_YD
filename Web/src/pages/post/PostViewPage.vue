@@ -68,7 +68,7 @@
           <!-- 리액션 버튼 영역 -->
           <v-card-actions>
             <v-layout row justify-space-between class="px-2">
-              <comments-button :count="postData.commentsCount" :descriptive="true" />
+              <comments-button :postId="postData.id" :count="postData.commentsCount" :descriptive="true" />
               <like-button :postId="postData.id" :liked="postLikedByAccount" :count="postData.likesCount" :descriptive="true" @like-status-update="likeStatusUpdated" />
             </v-layout>
           </v-card-actions>
@@ -97,7 +97,7 @@
                 <v-list-item-avatar style="align-self: flex-start"><v-img :src="absolutePath($store.state.loginState.userInfo.profileImageUrl)" /></v-list-item-avatar>
                 <v-list-item-content class="pt-2">
                   <v-list-item-title>댓글 남기기 <small>// {{ $store.state.loginState.userInfo.username }}</small></v-list-item-title>
-                  <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" placeholder="글쓴이에게 하고싶은 말을 남겨보세요." rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
+                  <v-list-item-subtitle class="py-2"><v-textarea v-model="leaveCommentTextareaContent" class="py-0 my-0" :placeholder="'글쓴이에게 하고싶은 말을 남겨보세요.'" rows="3" auto-grow hide-details no-resize /></v-list-item-subtitle>
 
                   <v-layout>
                     <v-spacer />
@@ -120,11 +120,12 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import goTo from "vuetify/lib/services/goto";
 import delay from "delay";
+import { AxiosResponse } from "axios";
 import { GoToOptions, VuetifyGoToTarget } from "vuetify/types/services/goto.d";
 import CommentsButton from "@/components/post/CommentsButton.vue";
 import LikeButton from "@/components/post/LikeButton.vue";
 import { IComment, IPost } from "@/interfaces/IDatabaseData";
-import { absolutePath as backendAbsolutePath, get as backendGet } from "@/util/BackendHelper";
+import { absolutePath as backendAbsolutePath, get as backendGet, post as backendPost } from "@/util/BackendHelper";
 
 @Component({
   components: {
@@ -143,24 +144,14 @@ export default class PostViewPage extends Vue {
   leaveCommentProcessing = false;
 
   async created(): Promise<void> {
-    const response = await backendGet(`/posts/full/${this.$route.params.id}`);
+    await this.updatePostData();
 
-    if (response.status >= 400) {
-      // REQUEST ERROR HANDLING
-    } else {
-      this.postData = response.data as IPost;
-      this.postData.commentsCount = this.postData.comments.length;
-      this.postData.likesCount = this.postData.likes.length;
-      this.postData.createdAt = new Date(this.postData.createdAt);
-      this.postData.updatedAt = new Date(this.postData.updatedAt);
+    this.postLoaded = true;
 
-      this.postLoaded = true;
-
-      await delay(100);
-      this.postLoadedTransitionStep1 = true;
-      await delay(100);
-      this.postLoadedTransitionStep2 = true;
-    }
+    await delay(100);
+    this.postLoadedTransitionStep1 = true;
+    await delay(100);
+    this.postLoadedTransitionStep2 = true;
   }
 
   mounted(): void {
@@ -187,31 +178,56 @@ export default class PostViewPage extends Vue {
     }
   }
 
-  onLeaveCommentClick(): void {
+  async onLeaveCommentClick(): Promise<void> {
     this.leaveCommentProcessing = true;
 
-    // TODO: 서버 전송 파트
+    if (this.postData) {
+      const response = await backendPost("/comments", {
+        content: this.leaveCommentTextareaContent,
+        author: this.$store.state.loginState.userInfo.id,
+        post: this.postData.id,
+      }) as AxiosResponse<Record<string, any>>;
 
-    // TODO: 서버에서 상태값과 IComment 받기
+      if (response.status >= 400) {
+        // ERROR HANDLING
+      } else {
+        const responseComment = response.data;
+        const newComment: IComment = {
+          id: responseComment.id,
+          createdAt: new Date(responseComment.createdAt),
+          updatedAt: new Date(responseComment.updatedAt),
+          content: responseComment.content,
+          author: {
+            id: responseComment.author.id,
+            username: responseComment.author.username,
+            profileImageUrl: backendAbsolutePath(responseComment.author.thumbnail.url),
+          },
+        };
 
-    setTimeout(() => { // 테스트용 (서버와의 통신 시뮬레이션)
-      const createdComment: IComment = { // 테스트용; 서버가 리턴한 IComment를 사용할것
-        id: Math.floor(Math.random() * 600000).toString(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        author: this.$store.state.loginState.userInfo,
-        content: this.leaveCommentTextareaContent, // 이 항목도 서버가 리턴한 것 그대로 써야됨
-      };
-
-      if (this.postData) {
-        this.postData.comments.push(createdComment);
+        this.postData.comments.push(newComment);
         this.postData.commentsCount = this.postData.comments.length;
       }
+    }
 
-      // 클린업
-      this.leaveCommentTextareaContent = "";
-      this.leaveCommentProcessing = false;
-    }, Math.floor(Math.random() * 1000) + 500);
+    // 클린업
+    this.leaveCommentTextareaContent = "";
+    this.leaveCommentProcessing = false;
+  }
+
+  async updatePostData(): Promise<void> {
+    const response = await backendGet(`/posts/full/${this.$route.params.id}`);
+
+    if (response.status >= 400) {
+      // REQUEST ERROR HANDLING
+    } else {
+      const newPostData = response.data as IPost;
+      newPostData.commentsCount = newPostData.comments.length;
+      newPostData.likesCount = newPostData.likes.length;
+      newPostData.createdAt = new Date(newPostData.createdAt);
+      newPostData.updatedAt = new Date(newPostData.updatedAt);
+
+      this.postData = newPostData;
+    }
   }
 
   get mainImageUrl(): string {
