@@ -71,7 +71,7 @@
         <v-card hover>
 
           <!-- image section -->
-          <v-img :src="_pool.imageUrl" height="200px">
+          <v-img :src="absolutePath(_pool.imageUrl)" height="200px">
           </v-img>
 
           <!-- description -->
