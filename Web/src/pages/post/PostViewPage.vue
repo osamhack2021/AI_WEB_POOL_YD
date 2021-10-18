@@ -147,6 +147,7 @@ export default class PostViewPage extends Vue {
   postLoaded = false;
   postLoadedTransitionStep1 = false;
   postLoadedTransitionStep2 = false;
+  postLikedByAccount = false;
   leaveCommentTextareaContent = "";
   leaveCommentProcessing = false;
 
@@ -177,7 +178,6 @@ export default class PostViewPage extends Vue {
     });
   }
 
-  postLikedByAccount = false; // 임시
   likeStatusUpdated(value: { likesCount: number, likedByAccount: boolean }): void {
     if (this.postData) {
       this.postData.likesCount = value.likesCount;
@@ -232,6 +232,7 @@ export default class PostViewPage extends Vue {
       newPostData.likesCount = newPostData.likes.length;
       newPostData.createdAt = new Date(newPostData.createdAt);
       newPostData.updatedAt = new Date(newPostData.updatedAt);
+      this.postLikedByAccount = (newPostData.likes.find((e) => e.id === this.$store.state.loginState.userInfo.id) && true) ?? false;
 
       this.postData = newPostData;
     }
