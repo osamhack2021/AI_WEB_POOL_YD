@@ -97,7 +97,7 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 			<img style="width:450px;" src="/Doc/imgs/profile-page.png">
 		</td>
 		<td>
-			<img style="width:450px;" src="/Doc/imgs/profile-page.png">
+			<img style="width:450px;" src="/Doc/imgs/feed-page.png">
 		</td>
 	</tr>
 	<tr>
@@ -123,17 +123,25 @@ POOL 서비스에 사용된 AI 기술에 대한 자세한 소개는 [여기](Abo
 
 ## 🖥️기술 스택 (Technique Used)
 
-### FRONT END
+### WEB FRONTEND
 
-- Vue.js
+- [Vue.js](https://vuejs.org/)
+	- [Vuex](https://vuex.vuejs.org/)
+	- [Vue-Router](https://router.vuejs.org/)
+	- [Vuetify](https://vuetifyjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-### WEB SERVER
+### WEB BACKEND
 
-- Node.js
+- [Node.js](https://nodejs.org/)
+- [MongoDB](https://www.mongodb.com/)
+- [Strapi](https://strapi.io/)
+- [GitHub Actions](https://github.com/features/actions)
 
-### ML SERVER
+### ML BACKEND
 
-- pytorch, transformer (머신러닝)
-- Flask (API 서버)
-
-> ML 서버에 대한 자세한 정보는 [여기](/ai-backend)에서 확인하실 수 있습니다.
+- [pytorch](https://github.com/pytorch/pytorch)
+	- [pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning)
+- [transformer](https://github.com/huggingface/transformers)
+- [flask](https://github.com/pallets/flask)
+	- [flask-restx](https://github.com/python-restx/flask-restx)
