@@ -445,9 +445,13 @@ module.exports = {
                 }
             }
             const options = {
-                uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
+                uri: "http://20.69.87.34:80/api/v1/service/pool-ai-aks-api/score",
                 method: "POST",
                 body: _request,
+                Authorization: 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 json: true
             };
             const data = await getResult(options);
@@ -551,16 +555,19 @@ module.exports = {
                 
                 // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
                 createPostData: {
-                    title, 
                     content, 
                     userEmbedding, // 사용자의 벡터 임베딩. 초기 None
                     userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
                 },
             };
             const options = {
-                uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
+                uri: "http://20.69.87.34:80/api/v1/service/pool-ai-aks-api/score",
                 method: "POST",
                 body: _request,
+                Authorization: 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 json: true
             };
             const data = await getResult(options);
@@ -645,9 +652,13 @@ module.exports = {
                     },
                 };
                 const options = {
-                    uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
+                    uri: "http://20.69.87.34:80/api/v1/service/pool-ai-aks-api/score",
                     method: "POST",
                     body: _request,
+                    Authorization: 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     json: true
                 };
                 const data = await getResult(options);
