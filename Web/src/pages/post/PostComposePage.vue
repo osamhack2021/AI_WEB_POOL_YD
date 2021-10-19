@@ -15,8 +15,9 @@
                     height="48px"
                     style="border-radius: 100%; flex-grow: 0" />
               <v-text-field v-model="editorTitle"
-                            autofocus
                             :rules="[(value) => !!value || '제목을 입력해주세요.']"
+                            @input="composeErrorMessage = ''"
+                            autofocus
                             label="글 제목"
                             height="1.5em"
                             class="ml-3"
@@ -24,9 +25,14 @@
             </v-layout>
 
             <vue-simplemde v-model="editorContent"
-                          class="editor"
-                          ref="markdownEditor"
-                          :configs="{ spellChecker: false }" />
+                           @input="composeErrorMessage = ''"
+                           class="editor"
+                           ref="markdownEditor"
+                           :configs="{ spellChecker: false }" />
+
+            <v-slide-x-reverse-transition>
+              <v-alert v-if="!!composeErrorMessage" type="error" class="my-4">{{ composeErrorMessage }}</v-alert>
+            </v-slide-x-reverse-transition>
 
             <v-layout class="ma-4">
               <v-spacer />
@@ -68,6 +74,7 @@ export default class PostComposePage extends Vue {
   }
 
   composing = false;
+  composeErrorMessage = "";
   composeDone = false;
 
   mounted(): void {
@@ -76,8 +83,13 @@ export default class PostComposePage extends Vue {
 
   async onCompose(): Promise<void> {
     this.composing = true;
+    this.composeErrorMessage = "";
 
-    if (this.editorContent) {
+    if (!this.editorTitle) {
+      this.composeErrorMessage = "글의 제목을 입력해주세요!";
+    } else if (!this.editorContent) {
+      this.composeErrorMessage = "글의 내용을 입력해주세요!";
+    } else {
       const response = await backendPost("posts", {
         title: this.editorTitle,
         content: this.editorContent,
@@ -92,8 +104,6 @@ export default class PostComposePage extends Vue {
         embedding: [],
       }) as AxiosResponse<Record<string, any>>;
 
-      this.composing = false;
-
       if (response.status >= 400) {
         // ERROR HANDLING
         console.log("error occurred");
@@ -106,6 +116,8 @@ export default class PostComposePage extends Vue {
         }, 1000);
       }
     }
+
+    this.composing = false;
   }
 }
 </script>
