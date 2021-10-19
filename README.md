@@ -97,7 +97,7 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 			<img style="width:450px;" src="/Doc/imgs/profile-page.png">
 		</td>
 		<td>
-			<img style="width:450px;" src="/Doc/imgs/feed-page.png">
+			<img style="width:450px;" src="/Doc/imgs/feed-page.JPG">
 		</td>
 	</tr>
 	<tr>
