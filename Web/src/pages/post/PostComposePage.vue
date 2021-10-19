@@ -1,44 +1,46 @@
 <template>
   <v-container fluid class="compose-container">
     <v-responsive class="py-4">
-      <v-card class="mx-auto pa-8" style="max-width: 800px">
-        <v-card-title class="text-h3"><v-icon x-large color="rgba(0, 0, 0, 0.87)" class="mr-2">mdi-pencil</v-icon> 글 에디터</v-card-title>
-        <v-card-subtitle class="mt-2 text-subtitle-1"><a href="https://ko.wikipedia.org/wiki/%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4">마크다운</a> 문법을 사용하여 글을 작성할 수 있습니다.</v-card-subtitle>
+      <v-slide-y-reverse-transition>
+        <v-card v-if="pageLoaded" class="mx-auto pa-8" style="max-width: 800px">
+          <v-card-title class="text-h3"><v-icon x-large color="rgba(0, 0, 0, 0.87)" class="mr-2">mdi-pencil</v-icon> 글 에디터</v-card-title>
+          <v-card-subtitle class="mt-2 text-subtitle-1"><a href="https://ko.wikipedia.org/wiki/%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4">마크다운</a> 문법을 사용하여 글을 작성할 수 있습니다.</v-card-subtitle>
 
-        <v-divider />
+          <v-divider />
 
-        <v-layout column class="mt-4">
-          <v-layout row align-center class="ma-0 mb-4">
-            <v-img :src="$store.state.loginState.userInfo.profileImageUrl"
-                   width="48px"
-                   height="48px"
-                   style="border-radius: 100%; flex-grow: 0" />
-            <v-text-field v-model="editorTitle"
-                          label="글 제목"
-                          height="1.5em"
-                          class="ml-3 text-heading-6"
-                          style="flex-grow: 1; font-weight: bold; font-size: 1.25em" />
+          <v-layout column class="mt-4">
+            <v-layout row align-center class="ma-0 mb-4">
+              <v-img :src="$store.state.loginState.userInfo.profileImageUrl"
+                    width="48px"
+                    height="48px"
+                    style="border-radius: 100%; flex-grow: 0" />
+              <v-text-field v-model="editorTitle"
+                            label="글 제목"
+                            height="1.5em"
+                            class="ml-3 text-heading-6"
+                            style="flex-grow: 1; font-weight: bold; font-size: 1.25em" />
+            </v-layout>
+
+            <vue-simplemde v-model="editorContent"
+                          class="editor"
+                          ref="markdownEditor"
+                          :configs="{ spellChecker: false }" />
+            <v-btn class="primary"
+                  elevation="4"
+                  title="글 작성"
+                  @click="onCompose"
+                  :loading="composing"
+                  :disabled="composing"
+                  rounded
+                  fab
+                  icon
+                  dark>
+              <v-icon v-if="composeDone">mdi-send</v-icon>
+              <v-icon v-else>mdi-send</v-icon>
+            </v-btn>
           </v-layout>
-
-          <vue-simplemde v-model="editorContent"
-                         class="editor"
-                         ref="markdownEditor"
-                         :configs="{ spellChecker: false }" />
-          <v-btn class="primary"
-                 elevation="4"
-                 title="글 작성"
-                 @click="onCompose"
-                 :loading="composing"
-                 :disabled="composing"
-                 rounded
-                 fab
-                 icon
-                 dark>
-            <v-icon v-if="composeDone">mdi-send</v-icon>
-            <v-icon v-else>mdi-send</v-icon>
-          </v-btn>
-        </v-layout>
-      </v-card>
+        </v-card>
+      </v-slide-y-reverse-transition>
     </v-responsive>
   </v-container>
 </template>
@@ -57,6 +59,8 @@ import { post as backendPost } from "@/util/BackendHelper";
   },
 })
 export default class PostComposePage extends Vue {
+  pageLoaded = false;
+
   editorContent = "";
   editorTitle = "";
 
@@ -66,6 +70,10 @@ export default class PostComposePage extends Vue {
 
   composing = false;
   composeDone = false;
+
+  mounted(): void {
+    this.pageLoaded = true;
+  }
 
   async onCompose(): Promise<void> {
     this.composing = true;
