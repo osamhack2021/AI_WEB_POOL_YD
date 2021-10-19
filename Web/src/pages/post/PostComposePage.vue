@@ -94,20 +94,11 @@ export default class PostComposePage extends Vue {
         title: this.editorTitle,
         content: this.editorContent,
         author: this.$store.state.loginState.userInfo.id,
-        comments: [],
-        likes: [],
-        images: [],
         postType: "general",
-        tags: [],
-        jobinfo: "",
-        pool: "",
-        embedding: [],
       }) as AxiosResponse<Record<string, any>>;
 
       if (response.status >= 400) {
-        // ERROR HANDLING
-        console.log("error occurred");
-        console.log(response);
+        this.composeErrorMessage = `서버에 전송하는 중 오류가 발생했습니다.\n${response.status}: ${response.statusText}`;
       } else {
         const responsePost = response.data;
         this.composeDone = true;
