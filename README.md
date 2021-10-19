@@ -1,17 +1,29 @@
-[//]: <> (### 본 페이지는 샘플입니다. 아래의 *[샘플 양식에 포함되어 있는 항목은 필수 기재사항]* 입니다.)
-[//]: <> (해당 내용은 모두 예시이며 설명이 부족하거나 추가하고싶은 부분이 있으면 개발자님이 추가해서 작성하셔도 무관합니다.)
-[//]: <> (동영상, 이미지, 텍스트 적용 전부 자유)
+<p align="center"><img src="Doc/imgs/TOP_LOGO.png"></p>
+<p align="center">
+	<a href="">
+		<img src="Doc/imgs/btn_viewdemo.png" />
+	</a>
+	<a href="https://sable-drum-e05.notion.site/OSAM-cbc20c6efb6d466cb2c057926138eeb5">
+		<img src="Doc/imgs/btn_devpage.png" />
+	</a>
+	<a href="osam21-ai-nightwork.slack.com">
+		<img src="Doc/imgs/btn_contactus.png" />
+	</a>
+</p>
 
-<div align="center">
-<h1 align="center"><i>pool</i></h1>
-    <div align="center">
-        <img src="Doc/imgs/pool-logos_240x240.png" alt="POOL logo"></a>
-    </div>
-    <h4 align="center">Powered by <i>Team YeonDeung</i></h4>
-</div>
+<p align="center">
+	<a href="https://github.com/osamhack2021/AI_WEB_POOL_YD/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/osamhack2021/AI_WEB_POOL_YD"></a>
+	<a href="https://github.com/osamhack2021/AI_WEB_POOL_YD/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/osamhack2021/AI_WEB_POOL_YD"></a>
+	<a href="https://github.com/osamhack2021/AI_WEB_POOL_YD/blob/develop/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/osamhack2021/AI_WEB_POOL_YD"></a>
+</p>
 
-## 프로잭트 소개
-- 설명 기입
+#
+
+> **군생활동안 성장하는 나의 이야기를 기록하고 공유하는, 자기개발 및 취업연결 SNS 플랫폼 "POOL" 입니다.**
+
+***POOL*** 은 군생활 중에도 미래를 향해 달려가는 국군 장병들의 노력으로 채워집니다. 군대 안에서 울고 웃으며, 목표를 위해 노력하면서 성장하는 우리들. 그러나 세상은 우리가 '삽질' 중이라고 합니다. 풀에 가득 채운 나의 군생활 및 자기개발 기록은, 내가 군생활을 헛되이 보내지 않았음을 증명하는 자료가 됩니다.
+
+[아이템 기획서 살펴보기](https://osam.kr/projectBlog/63/intro)
 
 
 ## 기능 설명
