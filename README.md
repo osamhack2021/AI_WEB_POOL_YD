@@ -27,19 +27,13 @@
   
 
 <p align="center">
-
 <a  href="https://github.com/osamhack2021/AI_WEB_POOL_YD/graphs/contributors"><img  alt="GitHub contributors"  src="https://img.shields.io/github/contributors/osamhack2021/AI_WEB_POOL_YD"></a>
-
 <a  href="https://github.com/osamhack2021/AI_WEB_POOL_YD/stargazers"><img  alt="GitHub Repo stars"  src="https://img.shields.io/github/stars/osamhack2021/AI_WEB_POOL_YD"></a>
-
 <a  href="https://github.com/osamhack2021/AI_WEB_POOL_YD/blob/develop/LICENSE.md"><img  alt="GitHub"  src="https://img.shields.io/github/license/osamhack2021/AI_WEB_POOL_YD"></a>
-
 </p>
 
 <p align="center">
-
 <a  href="https://github.com/osamhack2021/AI_WEB_POOL_YD/actions"><img  src="https://github.com/osamhack2021/AI_WEB_POOL_YD/actions/workflows/github-pages-deploy.yml/badge.svg?branch=develop"  /></a>
-
 </p>
 
   
