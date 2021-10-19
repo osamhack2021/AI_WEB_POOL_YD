@@ -4,6 +4,7 @@ import LandingPage from "@/pages/landing/LandingPage.vue";
 import LandingLoginView from "@/pages/landing/LandingLoginView.vue";
 import LandingRegisterView from "@/pages/landing/LandingRegisterView.vue";
 import MyPage from "@/pages/account/MyPage.vue";
+import ResumeWriterPage from "@/pages/account/ResumeWriterPage.vue";
 import PostViewPage from "@/pages/post/PostViewPage.vue";
 import MainFeedPage from "@/pages/feed/MainFeedPage.vue";
 import DiscoverPage from "@/pages/feed/DiscoverPage.vue";
@@ -68,6 +69,11 @@ const routes: Array<RouteConfig> = [
     meta: {
       appBarElevateOnScroll: true,
     },
+  },
+  {
+    path: "/resume",
+    name: "resume-writer",
+    component: ResumeWriterPage,
   },
 
   /* Article related routes */
