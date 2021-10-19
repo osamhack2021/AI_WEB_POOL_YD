@@ -436,7 +436,7 @@ module.exports = {
             }));
             let feedPosts = followingPosts.concat(poolPosts);
             const userEmbedding = user.embedding ? user.embedding.data : null;
-            const postEmbeddingList = feedPosts.map(feed => feed.embedding.data);
+            const postEmbeddingList = feedPosts.map(feed => (feed.embedding ? feed.embedding.data : null));
             const _request = {
                 request: "rankRelevantPosts",
                 rankRelevantPostsData: {
