@@ -61,7 +61,7 @@
 <table align="center">
 	<tr>
 		<td>
-			<a href="https://www.youtube.com/watch?v=suvEYpgqv18"><img src="/Doc/imgs/video_thumbnail"></a>
+			<a href="https://www.youtube.com/"><img src="/Doc/imgs/video_thumbnail"></a>
 		</td>
 	</tr>
 	<tr>
@@ -89,7 +89,27 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 	- **취창업 정보 제공**: 사용자에게 맞는 박람회, 공모전, 채용 행사 등 취업 관련 행사 정보와 기업 정보를 제공합니다.
 	- **기업 계정**: 관심있는 기업의 스토리, 채용정보 등을 볼 수 있는 기업 전용 계정입니다.
 
-  
+## 🔎 UI / UX
+
+<table align="center">
+	<tr>
+		<td>
+			<img style="width:450px;" src="/Doc/imgs/profile-page">
+		</td>
+		<td>
+			<img style="width:450px;" src="/Doc/imgs/profile-page">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<b>프로필 페이지</b>
+		</td>
+		<td align="center">
+			<b>피드 페이지</b>
+		</td>
+	</tr>
+</table>
+
 ## 🤷‍왜 POOL에 AI가 필요하죠?
 
 POOL은 자기계발을 기록하고, 나아가 취업까지 연결해 주는 소셜 미디어형 서비스입니다. 그런 POOL에 왜 AI가 필요했을까요?  
