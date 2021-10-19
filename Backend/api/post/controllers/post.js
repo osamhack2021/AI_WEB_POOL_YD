@@ -290,6 +290,7 @@ module.exports = {
             let filter2 = [];
             let filter3 = [];
             let users;
+            let pools;
             let posts;
             switch(target) {
                 case 'user':
@@ -332,7 +333,34 @@ module.exports = {
                     }));
                     return { data: users } 
                 case 'pool':
-                    break;
+                    tags.forEach(tag => {
+                        if (tag.subject === "관심 병과") filter1.push(tag.content);
+                        else filter2.push(tag.content);
+                    });
+                    pools = await strapi.query("pool").find();
+                    pools = pools.filter(pool => {
+                        let e1 = false;
+                        let e2 = false;
+                        const _tags = pool.tags.map(_tag => _tag.content);
+                        _tags.forEach(_tag => {
+                            if (filter1.indexOf(_tag) > -1) e1 = true;
+                        });
+                        _tags.forEach(_tag => {
+                            if (filter2.indexOf(_tag) > -1) e2 = true;
+                        });
+                        return (e1 || filter1.length === 0) && (e2 || filter2.length === 0);
+                    });
+                    pools = pools.map(pool => {
+                        return {
+                            id: pool.id,
+                            name: pool.name,
+                            summary: pool.summary,
+                            tags: pool.tags.map(tag => tag.content),
+                            memberCount: pool.members.length,
+                            imageUrl: pool.image.url
+                        };
+                    });
+                    return { data: pools };
                 case 'recruition':
                     tags.forEach(tag => {
                         if (tag.subject === "계급 조건") filter1.push(tag.tag);
