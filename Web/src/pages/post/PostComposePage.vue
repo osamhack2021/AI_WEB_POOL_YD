@@ -38,6 +38,7 @@
               <v-spacer />
               <post-compose-button :descriptive="true"
                                    :loading="composing"
+                                   :complete="composeDone"
                                    :clickCallback="onCompose"
                                    style="min-width: 150px" />
             </v-layout>
@@ -83,6 +84,7 @@ export default class PostComposePage extends Vue {
 
   async onCompose(): Promise<void> {
     this.composing = true;
+    this.composeDone = false;
     this.composeErrorMessage = "";
 
     if (!this.editorTitle) {
@@ -102,9 +104,10 @@ export default class PostComposePage extends Vue {
       } else {
         const responsePost = response.data;
         this.composeDone = true;
+
         setTimeout(() => {
           this.$router.push(`/post/${responsePost.id}`);
-        }, 1000);
+        }, 2000);
       }
     }
 
