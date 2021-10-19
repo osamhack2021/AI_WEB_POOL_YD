@@ -7,7 +7,7 @@ const request = require("request");
 function getResult(options){
     return new Promise(resolve => {
         request.post(options, (err, res, body) => {
-            resolve(JSON.parse(body));
+            resolve(body);
         });
     });
 }
