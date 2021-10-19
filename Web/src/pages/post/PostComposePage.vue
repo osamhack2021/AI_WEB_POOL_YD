@@ -2,7 +2,7 @@
   <v-container fluid class="compose-container">
     <v-responsive class="py-4">
       <v-slide-y-reverse-transition>
-        <v-card v-if="pageLoaded" class="mx-auto pa-8" style="max-width: 800px">
+        <v-card v-if="pageLoaded" class="mx-auto px-8 py-6" style="max-width: 800px">
           <v-card-title class="text-h3"><v-icon x-large color="rgba(0, 0, 0, 0.87)" class="mr-2">mdi-pencil</v-icon> 글 에디터</v-card-title>
           <v-card-subtitle class="mt-2 text-subtitle-1"><a href="https://ko.wikipedia.org/wiki/%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4">마크다운</a> 문법을 사용하여 글을 작성할 수 있습니다.</v-card-subtitle>
 
@@ -18,7 +18,7 @@
                             autofocus
                             label="글 제목"
                             height="1.5em"
-                            class="ml-3 text-heading-6"
+                            class="ml-3"
                             style="flex-grow: 1; font-weight: bold; font-size: 1.25em" />
             </v-layout>
 
