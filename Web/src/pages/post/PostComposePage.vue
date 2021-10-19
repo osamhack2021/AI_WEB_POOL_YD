@@ -27,19 +27,14 @@
                           class="editor"
                           ref="markdownEditor"
                           :configs="{ spellChecker: false }" />
-            <v-btn class="primary"
-                  elevation="4"
-                  title="글 작성"
-                  @click="onCompose"
-                  :loading="composing"
-                  :disabled="composing"
-                  rounded
-                  fab
-                  icon
-                  dark>
-              <v-icon v-if="composeDone">mdi-send</v-icon>
-              <v-icon v-else>mdi-send</v-icon>
-            </v-btn>
+
+            <v-layout class="ma-4">
+              <v-spacer />
+              <post-compose-button :descriptive="true"
+                                   :loading="composing"
+                                   :clickCallback="onCompose"
+                                   style="min-width: 150px" />
+            </v-layout>
           </v-layout>
         </v-card>
       </v-slide-y-reverse-transition>
@@ -53,10 +48,12 @@ import Component from "vue-class-component";
 import VueSimplemde from "vue-simplemde";
 import marked from "marked";
 import { AxiosResponse } from "axios";
+import PostComposeButton from "@/components/post/PostComposeButton.vue";
 import { post as backendPost } from "@/util/BackendHelper";
 
 @Component({
   components: {
+    PostComposeButton,
     VueSimplemde,
   },
 })

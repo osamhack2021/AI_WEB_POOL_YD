@@ -32,6 +32,9 @@
     <!-- -->
 
     <!-- 작성 버튼 -->
+    <post-compose-button :loading="composing"
+                         :clickCallback="compose"
+                         class="compose-button" />
     <v-btn class="primary compose-button"
            elevation="4"
            title="글 작성"
@@ -51,8 +54,13 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import PostComposeButton from "@/components/post/PostComposeButton.vue";
 
-@Component
+@Component({
+  components: {
+    PostComposeButton,
+  },
+})
 export default class FeedCompose extends Vue {
   composing = false;
 
