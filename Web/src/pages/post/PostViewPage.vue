@@ -55,6 +55,14 @@
             <v-layout v-if="postOwnedByAccount" class="mt-2">
               <v-spacer />
 
+              <v-btn text
+                     small
+                     color="rgba(0, 0, 0, 0.75)"
+                     class="pa-2"
+                     title="미구현 기능입니다."
+                     disabled>
+                <v-icon>mdi-pencil</v-icon> 수정 <small>(미구현)</small>
+              </v-btn>
               <v-btn :disabled="deletePostProcessing"
                      :loading="deletePostProcessing"
                      @click="deletePost"
@@ -62,7 +70,7 @@
                      small
                      color="rgba(0, 0, 0, 0.75)"
                      class="pa-2">
-                <v-icon>mdi-delete</v-icon> 글 삭제
+                <v-icon>mdi-delete</v-icon> 삭제
               </v-btn>
             </v-layout>
             <!-- -->
