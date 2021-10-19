@@ -10,14 +10,17 @@
   },
   "dependencies": {
     "axios": "^0.22.0",
+    "@types/marked": "^3.0.1",
     "core-js": "^3.18.2",
     "delay": "^5.0.0",
+    "marked": "^3.0.7",
     "timeago.js": "^4.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-cookies": "^1.7.4",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
+    "vue-simplemde": "^2.0.0",
     "vuetify": "^2.5.9",
     "vuex": "^3.4.0"
   },
