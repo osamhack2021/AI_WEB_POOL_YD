@@ -97,6 +97,7 @@
                     <v-textarea v-model="leaveCommentTextareaContent"
                                 :placeholder="'글쓴이에게 하고싶은 말을 남겨보세요.\nCtrl+Enter 키 조합으로 댓글을 작성할 수 있습니다.'"
                                 @keypress.ctrl.enter="onLeaveCommentClick"
+                                @input="leaveCommentErrorMessage = ''"
                                 class="py-0 my-0"
                                 rows="3"
                                 auto-grow
@@ -104,8 +105,11 @@
                                 no-resize />
                   </v-list-item-subtitle>
 
-                  <v-layout>
+                  <v-layout align-center>
                     <v-spacer />
+                    <v-slide-x-transition>
+                      <span v-if="leaveCommentErrorMessage" class="error--text mr-2">{{ leaveCommentErrorMessage }}</span>
+                    </v-slide-x-transition>
                     <v-btn class="primary" :loading="leaveCommentProcessing" :disabled="leaveCommentProcessing" @click.stop.prevent="onLeaveCommentClick">댓글 남기기</v-btn>
                   </v-layout>
                 </v-list-item-content>
@@ -148,6 +152,7 @@ export default class PostViewPage extends Vue {
   postLoadedTransitionStep1 = false;
   postLoadedTransitionStep2 = false;
   leaveCommentTextareaContent = "";
+  leaveCommentErrorMessage = "";
   leaveCommentProcessing = false;
 
   async created(): Promise<void> {
@@ -188,7 +193,7 @@ export default class PostViewPage extends Vue {
   async onLeaveCommentClick(): Promise<void> {
     this.leaveCommentProcessing = true;
 
-    if (this.postData) {
+    if (this.postData && this.leaveCommentTextareaContent) {
       const response = await backendPost("/comments", {
         content: this.leaveCommentTextareaContent,
         author: this.$store.state.loginState.userInfo.id,
@@ -214,6 +219,8 @@ export default class PostViewPage extends Vue {
         this.postData.comments.push(newComment);
         this.postData.commentsCount = this.postData.comments.length;
       }
+    } else if (!this.leaveCommentTextareaContent) {
+      this.leaveCommentErrorMessage = "댓글 내용이 없습니다.";
     }
 
     // 클린업
