@@ -142,8 +142,18 @@ a {
 }
 
 .editor {
-  &::v-deep .CodeMirror {
-    height: 65vh;
+  &::v-deep{
+    .CodeMirror {
+      height: 65vh;
+    }
+
+    .CodeMirror-fullscreen {
+      top: calc(48px + 50px);
+    }
+
+    .editor-toolbar.fullscreen {
+      top: 48px;
+    }
   }
 }
 </style>
