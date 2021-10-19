@@ -448,9 +448,9 @@ module.exports = {
                 uri: "http://20.69.87.34:80/api/v1/service/pool-ai-aks-api/score",
                 method: "POST",
                 body: _request,
-                Authorization: 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
                 headers: {
                     'Content-Type': 'application/json',
+                    "Authorization": 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
                 },
                 json: true
             };
@@ -564,9 +564,9 @@ module.exports = {
                 uri: "http://20.69.87.34:80/api/v1/service/pool-ai-aks-api/score",
                 method: "POST",
                 body: _request,
-                Authorization: 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
                 headers: {
                     'Content-Type': 'application/json',
+                    "Authorization": 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
                 },
                 json: true
             };
@@ -655,9 +655,9 @@ module.exports = {
                     uri: "http://20.69.87.34:80/api/v1/service/pool-ai-aks-api/score",
                     method: "POST",
                     body: _request,
-                    Authorization: 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
                     headers: {
                         'Content-Type': 'application/json',
+                        "Authorization": 'Bearer uo3gZBZyu3zvKqwh8HlqBeq8JXtcmqFE',
                     },
                     json: true
                 };
