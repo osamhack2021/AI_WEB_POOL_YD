@@ -15,6 +15,7 @@
                     height="48px"
                     style="border-radius: 100%; flex-grow: 0" />
               <v-text-field v-model="editorTitle"
+                            autofocus
                             label="글 제목"
                             height="1.5em"
                             class="ml-3 text-heading-6"
