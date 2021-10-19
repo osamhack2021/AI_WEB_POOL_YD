@@ -34,7 +34,7 @@ POOL에서는 이 귀한 시간을 최대한 아껴드리기 위해, AI 기반 �
 그러나 글쓰기에 너무 집중하다 보면, 아무리 훌륭한 작가라도 맞춤법 실수를 하기 마련이죠. POOL에서는 맞춤법에 대한 걱정은 잠시 접어두셔도 괜찮습니다. 맞춤법 검사 기능이 탑재되어 있으니까요! 🤗
 
 ## ⚙️How does POOL AI works?
-![How It Works](img/HowItWorks.JPG)
+![How It Works](Doc/imgs/howAIworks.JPG)
 
 우리가 흔히 AI라 부르는 머신러닝 기능은 대부분 고사양의 기기를 필요로 하고, 연산이 오래 걸립니다.
 
