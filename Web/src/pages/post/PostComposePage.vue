@@ -58,7 +58,14 @@ export default class PostComposePage extends Vue {
         title: this.editorTitle,
         content: this.editorContent,
         author: this.$store.state.loginState.userInfo.id,
+        comments: [],
+        likes: [],
+        images: [],
         postType: "general",
+        tags: [],
+        jobinfo: "",
+        pool: "",
+        embedding: [],
       }) as AxiosResponse<Record<string, any>>;
 
       this.composing = false;
