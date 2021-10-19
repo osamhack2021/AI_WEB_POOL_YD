@@ -94,7 +94,7 @@ export default class PostComposePage extends Vue {
     } else {
       const response = await backendPost("posts", {
         title: this.editorTitle,
-        content: this.editorContent,
+        content: this.editorContent, // <- TODO: HTML로 변환해서 보내줘야됩니다.
         author: this.$store.state.loginState.userInfo.id,
         postType: "general",
       }) as AxiosResponse<Record<string, any>>;
