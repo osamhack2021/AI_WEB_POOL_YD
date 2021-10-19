@@ -30,24 +30,42 @@
           <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
           <!-- -->
 
-          <!-- 작성자 영역 -->
-          <v-layout class="mt-8 pa-2">
-            <v-spacer />
+          <!-- 작성자/글 관리 영역 -->
+          <v-layout column class="mt-8 pa-2">
+            <v-layout>
+              <v-spacer />
 
-            <v-layout justify-end style="flex-grow: 0; flex-wrap: wrap-reverse">
-              <v-layout column justify-center align-end class="mx-3">
-                <div>written by <strong>{{ postData.author.username }}</strong></div>
-                <div style="font-size: 0.75em; color: gray; text-align: right">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
-                <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray; text-align: right">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
+              <v-layout justify-end style="flex-grow: 0; flex-wrap: wrap-reverse">
+                <v-layout column justify-center align-end class="mx-3">
+                  <div>written by <strong>{{ postData.author.username }}</strong></div>
+                  <div style="font-size: 0.75em; color: gray; text-align: right">글 게시 <strong>{{ postData.createdAt.toLocaleString() }}</strong></div>
+                  <div v-if="isPostUpdatedSincePublish" style="font-size: 0.75em; color: gray; text-align: right">마지막 글 업데이트 <strong>{{ postData.updatedAt.toLocaleString() }}</strong></div>
+                </v-layout>
+
+                <v-img :src="absolutePath(postData.author.profileImageUrl)"
+                       aspect-ratio="1"
+                       width="64px"
+                       max-width="64px"
+                       class="my-3 elevation-2"
+                       style="border-radius: 100%" />
               </v-layout>
-
-              <v-img :src="absolutePath(postData.author.profileImageUrl)"
-                    aspect-ratio="1"
-                    width="64px"
-                    max-width="64px"
-                    class="my-3 elevation-2"
-                    style="border-radius: 100%" />
             </v-layout>
+
+            <!-- 글 관리 영역 -->
+            <v-layout v-if="postOwnedByAccount" class="mt-2">
+              <v-spacer />
+
+              <v-btn :disabled="deletePostProcessing"
+                     :loading="deletePostProcessing"
+                     @click="deletePost"
+                     text
+                     small
+                     color="rgba(0, 0, 0, 0.75)"
+                     class="pa-2">
+                <v-icon>mdi-delete</v-icon> 글 삭제
+              </v-btn>
+            </v-layout>
+            <!-- -->
           </v-layout>
           <!-- -->
 
@@ -135,7 +153,9 @@ import CommentsButton from "@/components/post/CommentsButton.vue";
 import LikeButton from "@/components/post/LikeButton.vue";
 import CommentListItem from "@/components/post/CommentListItem.vue";
 import { IComment, IPost } from "@/interfaces/IDatabaseData";
-import { absolutePath as backendAbsolutePath, get as backendGet, post as backendPost } from "@/util/BackendHelper";
+import {
+  absolutePath as backendAbsolutePath, get as backendGet, post as backendPost, del as backendDel,
+} from "@/util/BackendHelper";
 
 @Component({
   components: {
@@ -152,9 +172,11 @@ export default class PostViewPage extends Vue {
   postLoadedTransitionStep1 = false;
   postLoadedTransitionStep2 = false;
   postLikedByAccount = false;
+  postOwnedByAccount = false;
   leaveCommentTextareaContent = "";
   leaveCommentErrorMessage = "";
   leaveCommentProcessing = false;
+  deletePostProcessing = false;
 
   async created(): Promise<void> {
     await this.updatePostData();
@@ -240,9 +262,24 @@ export default class PostViewPage extends Vue {
       newPostData.createdAt = new Date(newPostData.createdAt);
       newPostData.updatedAt = new Date(newPostData.updatedAt);
       this.postLikedByAccount = (newPostData.likes.find((e) => e.id === this.$store.state.loginState.userInfo.id) && true) ?? false;
+      this.postOwnedByAccount = newPostData.author.id === this.$store.state.loginState.userInfo.id;
 
       this.postData = newPostData;
     }
+  }
+
+  async deletePost(): Promise<void> {
+    this.deletePostProcessing = true;
+
+    const response = await backendDel(`/posts/${this.$route.params.id}`) as AxiosResponse<Record<string, any>>;
+
+    if (response.status >= 400) {
+      // REQUEST ERROR HANDLING
+    } else if (response.status < 400 && (response.data.id === this.$route.params.id)) {
+      this.$router.replace("/feed");
+    }
+
+    this.deletePostProcessing = false;
   }
 
   onCommentDelete(id: string): void {
