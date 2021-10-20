@@ -429,12 +429,13 @@ module.exports = {
                 followingPosts = followingPosts.concat(posts);
                 return 0;
             }));
+            let myPosts = user.posts;
             let poolPosts = [];
             await Promise.all(user.pools.map(async pool => {
                 const targetPool = await strapi.query("pool").findOne({id: pool.id});
                 poolPosts = poolPosts.concat(targetPool.posts);
             }));
-            let feedPosts = followingPosts.concat(poolPosts);
+            let feedPosts = followingPosts.concat(myPosts, poolPosts);
             const userEmbedding = user.embedding ? user.embedding.data : null;
             const postEmbeddingList = feedPosts.map(feed => (feed.embedding ? feed.embedding.data : null));
             const _request = {
