@@ -3,12 +3,11 @@
 const { sanitizeEntity } = require("strapi-utils");
 const http = require("http");
 const request = require("request");
-require("dotenv").config({ path: "../../../.env" });
 
 function getResult(options){
     return new Promise(resolve => {
         request.post(options, (err, res, body) => {
-            resolve(body);
+            resolve(JSON.parse(body));
         });
     });
 }
@@ -427,6 +426,7 @@ module.exports = {
                 const _following = await strapi.query("user", "users-permissions").findOne({id: following.id});
                 const posts = _following.posts.filter(post => post.postType !== "pool");
                 followingPosts = followingPosts.concat(posts);
+                console.log(followingPosts.length);
                 return 0;
             }));
             let poolPosts = [];
@@ -436,7 +436,7 @@ module.exports = {
             }));
             let feedPosts = followingPosts.concat(poolPosts);
             const userEmbedding = user.embedding ? user.embedding.data : null;
-            const postEmbeddingList = feedPosts.map(feed => (feed.embedding ? feed.embedding.data : null));
+            const postEmbeddingList = feedPosts.map(feed => feed.embedding.data);
             const _request = {
                 request: "rankRelevantPosts",
                 rankRelevantPostsData: {
@@ -445,17 +445,12 @@ module.exports = {
                 }
             }
             const options = {
-                uri: process.env.AI_URL,
+                uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
                 method: "POST",
                 body: _request,
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${process.env.AI_KEY}`,
-                },
                 json: true
             };
             const data = await getResult(options);
-            console.log(data);
             const { index } = data;
             feedPosts = feedPosts.map((feed, idx) => feedPosts[index[idx]]);
             feedPosts = await Promise.all(feedPosts.map(async _el => {
@@ -513,25 +508,6 @@ module.exports = {
                 };
             }));
             return feedPosts;
-        } else if (type === "detour") {
-            const { url, data, key } = body;
-            let options = {
-                uri: url,
-                method: "POST",
-                body: data,
-                json: true
-            };
-            if (key) {
-                options = {
-                    ...options,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": `Bearer ${key}`,
-                    },
-                }
-            };
-            const data1 = await getResult(options);
-            return data1;
         }
     },
     async test(ctx) {
@@ -575,23 +551,19 @@ module.exports = {
                 
                 // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
                 createPostData: {
+                    title, 
                     content, 
                     userEmbedding, // 사용자의 벡터 임베딩. 초기 None
                     userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
                 },
             };
             const options = {
-                uri: process.env.AI_URL,
+                uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
                 method: "POST",
                 body: _request,
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${process.env.AI_KEY}`,
-                },
                 json: true
             };
             const data = await getResult(options);
-            console.log(data);
             author = {
                 ...author,
                 embedding: {
@@ -628,8 +600,7 @@ module.exports = {
                 return _post;
             }));
             // embedding 값 feed
-            await Promise.all(posts.map(async _post => {
-                let post = await strapi.query("post").findOne({id: _post.id});
+            await Promise.all(posts.map(async post => {
                 let { postType, author, title, content, jobInfo } = post;
                 if (content) {
                     content = content.replace(/<[^>]*>?/gm, '');
@@ -667,20 +638,16 @@ module.exports = {
                     
                     // 포스트 생성 시 벡터 임베딩 요청. (create 시나리오만 다룸)
                     createPostData: {
+                        title, 
                         content, 
                         userEmbedding, // 사용자의 벡터 임베딩. 초기 None
                         userNPosts: author.posts.length, // 사용자의 포스트 개수 (현재 등록 포스트 포함)
                     },
                 };
-                
                 const options = {
-                    uri: process.env.AI_URL,
+                    uri: "http://852abae4-3199-4066-9ef5-5132e347d13a.koreacentral.azurecontainer.io/score",
                     method: "POST",
                     body: _request,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": `Bearer ${process.env.AI_KEY}`,
-                    },
                     json: true
                 };
                 const data = await getResult(options);
@@ -696,7 +663,6 @@ module.exports = {
                         data: data.postEmbedding,
                     }
                 };
-                
                 author = await strapi.query("user", "users-permissions").update({id: author.id}, author);
                 post = await strapi.query("post").update({id: post.id}, post);
                 return true;

@@ -57,7 +57,7 @@ import FeedItemComponent from "@/components/feed/FeedItem.vue";
 import FeedComposeComponent from "@/components/feed/FeedCompose.vue";
 import IFeedItem from "@/interfaces/IFeedItem";
 import { IPostDisplay } from "@/interfaces/IDatabaseData";
-import { post as backendPost } from "@/util/BackendHelper";
+import { get as backendGet, post as backendPost } from "@/util/BackendHelper";
 
 @Component({
   components: {

@@ -5,7 +5,6 @@ import LandingLoginView from "@/pages/landing/LandingLoginView.vue";
 import LandingRegisterView from "@/pages/landing/LandingRegisterView.vue";
 import MyPage from "@/pages/account/MyPage.vue";
 import PostViewPage from "@/pages/post/PostViewPage.vue";
-import PostComposePage from "@/pages/post/PostComposePage.vue";
 import MainFeedPage from "@/pages/feed/MainFeedPage.vue";
 import DiscoverPage from "@/pages/feed/DiscoverPage.vue";
 import PoolPage from "@/pages/pool/PoolPage.vue";
@@ -76,12 +75,6 @@ const routes: Array<RouteConfig> = [
     path: "/post/:id",
     name: "post-id",
     component: PostViewPage,
-  },
-
-  {
-    path: "/composer",
-    name: "Create post page",
-    component: PostComposePage,
   },
 
   /* "POOL" related routes */

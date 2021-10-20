@@ -36,7 +36,10 @@
                outlined
                rounded>로그인</v-btn>
 
-        <v-btn outlined rounded class="ma-2" color="blue" to="/register" style="flex-grow: 1">회원가입</v-btn>
+        <v-layout row align-center class="ma-2">
+          <v-btn outlined rounded class="mr-2" color="blue" to="/register" style="flex-grow: 1">회원가입</v-btn>
+          <v-btn outlined rounded small class="ml-2" color="red" @click="testLogin">TEST</v-btn>
+        </v-layout>
       </v-layout>
     </v-form>
   </v-layout>
@@ -46,11 +49,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
+import { IUserDisplay } from "@/interfaces/IDatabaseData";
 
 @Component
 export default class LoginForm extends Vue {
   /* 로그인 폼 멤버 */
-  @Prop({ required: true }) loginCallback!: (val: any) => Promise<boolean>;
+  @Prop({ required: true }) loginCallback!: (val: any) => boolean;
 
   loginFormValidated = false;
   loginFormId = "";
@@ -63,7 +67,7 @@ export default class LoginForm extends Vue {
   isLoggingIn = false;
   errorMessage = "";
 
-  async login(): Promise<void> {
+  async login(e: any): Promise<void> {
     this.isLoggingIn = true;
 
     const success = await this.loginCallback({
@@ -81,6 +85,18 @@ export default class LoginForm extends Vue {
     }
 
     this.isLoggingIn = false;
+  }
+
+  testLogin(): void {
+    const loginUserInfo: IUserDisplay = {
+      id: "testId",
+      username: "테스트 계정",
+      department: "테스트 소속",
+      profileImageUrl: "https://picsum.photos/200",
+    };
+
+    this.$store.dispatch("registerLoginState", loginUserInfo);
+    this.$router.push("/feed");
   }
 
   onInput(): void {
