@@ -16,7 +16,7 @@
 
 </a>
 
-<a  href="osam21-ai-nightwork.slack.com">
+<a  href="https://osam21-ai-nightwork.slack.com">
 
 <img  src="Doc/imgs/btn_contactus.png"  />
 
