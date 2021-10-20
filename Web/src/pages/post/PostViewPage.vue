@@ -27,7 +27,21 @@
       <v-slide-y-reverse-transition>
         <v-card v-if="postLoadedTransitionStep2" width="95%" max-width="800px" elevation="8" class="mx-auto mt-n8 pa-2 pa-sm-8">
           <!-- 글 컨텐츠 영역 -->
-          <v-card-text v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
+          <v-card-text v-if="postData.postType !== 'recruition'" v-html="postData.content" class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2" />
+          <v-card-text v-else class="text-body-1" style="color: rgba(0, 0, 0, 0.8); line-height: 2;">
+            <div class="mb-2"><v-chip>직무 소개</v-chip> {{ postData.jobInfo.desc }}</div>
+            <div class="mb-2"><v-chip>지원 마감</v-chip> {{ postData.jobInfo.due }}</div>
+            <div class="mb-2"><v-chip>고용 형태</v-chip> {{ postData.jobInfo.employmentType }}</div>
+            <div class="mb-2"><v-chip>직군 분류</v-chip> {{ postData.jobInfo.group }}</div>
+            <div class="mb-2"><v-chip>자격 요건</v-chip> {{ postData.jobInfo.minRank }}</div>
+          </v-card-text>
+          <!-- -->
+          <!-- 이미지 슬라이드 영역 -->
+          <v-carousel>
+            <v-carousel-item>
+              <v-img :src="absolutePath(mainImageUrl)"/>
+            </v-carousel-item>
+          </v-carousel>
           <!-- -->
 
           <!-- 작성자/글 관리 영역 -->
@@ -61,7 +75,7 @@
                      class="pa-2"
                      title="미구현 기능입니다."
                      disabled>
-                <v-icon>mdi-pencil</v-icon> 수정 <small>(미구현)</small>
+                <v-icon>mdi-pencil</v-icon> 수정
               </v-btn>
               <v-btn :disabled="deletePostProcessing"
                      :loading="deletePostProcessing"
@@ -81,7 +95,7 @@
 
           <!-- 태그 영역 -->
           <v-layout v-if="postData.postType === 'recruition'" wrap>
-            <v-btn v-for="tag in postData.tags"
+            <v-btn v-for="tag in postData.jobInfo.relatedBranches"
                   :key="tag"
                   outlined
                   color="primary"

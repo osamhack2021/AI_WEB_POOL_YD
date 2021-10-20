@@ -91,7 +91,13 @@
     <v-layout style="max-width: 1000px; margin: 30px auto;" column>
       <label>최신 피드</label>
       <v-layout style="max-width: 800px; margin: 0 auto" column>
-        피드들
+        <div v-for="item in feedItems.slice().reverse()"
+               :key="item.index"
+               class="my-8">
+            <v-lazy :options="{ threshold: 0.5 }" transition="slide-y-reverse-transition">
+              <feed-item :itemData="item" />
+            </v-lazy>
+          </div>
       </v-layout>
     </v-layout>
   </div>
@@ -100,13 +106,20 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import FeedItemComponent from "@/components/feed/FeedItem.vue";
 import { absolutePath, get } from "@/util/BackendHelper";
 
-@Component
+@Component({
+  components: {
+    FeedItem: FeedItemComponent,
+  },
+})
 export default class PoolFeedPage extends Vue {
+  feedItems: any[] = [];
   myPools :any[] = [];
 
   async created() :Promise<void> {
+    /* get pools */
     const response :any = await get("pools");
 
     if (response.status >= 400) {
@@ -122,6 +135,24 @@ export default class PoolFeedPage extends Vue {
           createdAt,
           imageUrl: `${absolutePath(el.image.url)}`,
           tags: el.tags.map((tag :any) => tag.content),
+        };
+      });
+    }
+
+    /* get feeds */
+    const response2 :any = await get("posts/preview");
+
+    if (response2.status >= 400) {
+      // error
+    } else {
+      let { data } = response2.data;
+      data = data.filter((el: any) => el.postType === "pool");
+      this.feedItems = data.map((el :any) => {
+        const newPostData = el;
+        newPostData.createdAt = new Date(el.createdAt);
+        return {
+          postInfo: newPostData,
+          likedByAccount: false,
         };
       });
     }

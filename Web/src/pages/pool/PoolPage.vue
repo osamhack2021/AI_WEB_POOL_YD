@@ -58,6 +58,17 @@
     <v-responsive class="mx-auto" style="margin-top: 60px; padding-bottom: 100px;" max-width="800px">
       <feed-compose class="my-3"/>
     </v-responsive>
+
+    <!-- posts -->
+    <v-layout style="max-width: 800px; margin: 0 auto" column>
+        <div v-for="item in feedItems.slice().reverse()"
+               :key="item.index"
+               class="my-8">
+            <v-lazy :options="{ threshold: 0.5 }" transition="slide-y-reverse-transition">
+              <feed-item :itemData="item" />
+            </v-lazy>
+          </div>
+      </v-layout>
   </v-container>
 </template>
 
@@ -75,6 +86,8 @@ import { absolutePath, get } from "@/util/BackendHelper";
   },
 })
 export default class PoolPage extends Vue {
+  feedItems: any[] = [];
+
   samplePool :any = {
     name: "",
     summary: "",
@@ -170,7 +183,6 @@ export default class PoolPage extends Vue {
       // error
     } else {
       const { data } = response;
-      console.log(data);
       let { createdAt } = data;
       createdAt = new Date(createdAt);
       createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
@@ -181,6 +193,29 @@ export default class PoolPage extends Vue {
         tags: data.tags.map((el :any) => el.content),
       };
       this.setAverageColor(this.samplePool.imageUrl);
+    }
+
+    /* get feeds */
+    const response2 :any = await get("posts/preview");
+
+    if (response2.status >= 400) {
+      // error
+    } else {
+      let { data } = response2.data;
+      data = data.filter((el: any) => {
+        if (el.postType === "pool") {
+          return this.samplePool.name === el.pool.name;
+        }
+        return false;
+      });
+      this.feedItems = data.map((el :any) => {
+        const newPostData = el;
+        newPostData.createdAt = new Date(el.createdAt);
+        return {
+          postInfo: newPostData,
+          likedByAccount: false,
+        };
+      });
     }
   }
 
