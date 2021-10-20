@@ -32,6 +32,7 @@
             <v-tabs v-model="tab" slider-size="4" :height="styles.tabHeight">
               <v-tab :ripple="false" class=""> 포스트 </v-tab>
               <v-tab :ripple="false" class=""> 기록 </v-tab>
+              <v-tab :ripple="false" class="goto-resume" @click="onGotoResume"> 자소서 쓰러가기 ➡️ </v-tab>
             </v-tabs>
           </div>
           <!-- 콘텐츠 -->
@@ -237,6 +238,10 @@ export default class MyPage extends Vue {
       }
     }
   }
+
+  onGotoResume(): void {
+    this.$router.push("/resume");
+  }
 }
 </script>
 
@@ -253,5 +258,10 @@ export default class MyPage extends Vue {
 
 .official-records {
   flex: 0 1 25rem;
+}
+
+.goto-resume {
+  background-color: $color-blue-light;
+  color: #fff;
 }
 </style>
