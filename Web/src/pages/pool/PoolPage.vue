@@ -196,26 +196,27 @@ export default class PoolPage extends Vue {
     }
 
     /* get feeds */
-    const response2 :any = await get("posts/preview");
-
+    const response2 :any = await get("/posts");
     if (response2.status >= 400) {
       // error
     } else {
-      let { data } = response2.data;
+      let { data } = response2;
       data = data.filter((el: any) => {
         if (el.postType === "pool") {
           return this.samplePool.name === el.pool.name;
         }
         return false;
       });
-      this.feedItems = data.map((el :any) => {
-        const newPostData = el;
+      console.log(data);
+      this.feedItems = await Promise.all(data.map(async (el :any) => {
+        const response3 = await get(`/posts/preview/${el.id}`);
+        const newPostData: any = response3.data;
         newPostData.createdAt = new Date(el.createdAt);
         return {
           postInfo: newPostData,
           likedByAccount: false,
         };
-      });
+      }));
     }
   }
 
