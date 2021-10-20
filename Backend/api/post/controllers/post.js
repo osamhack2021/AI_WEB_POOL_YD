@@ -85,6 +85,7 @@ module.exports = {
                     desc: el.jobInfo.desc,
                     employmentType: el.jobInfo.employmentType,
                     due: el.jobInfo.due,
+                    pay: el.jobInfo.pay,
                     minRank,
                     relatedBranches,
                     group
@@ -165,6 +166,7 @@ module.exports = {
                 desc: el.jobInfo.desc,
                 employmentType: el.jobInfo.employmentType,
                 due: el.jobInfo.due,
+                pay: el.jobInfo.pay,
                 minRank,
                 relatedBranches,
                 group
@@ -219,6 +221,7 @@ module.exports = {
                 jobInfo: el.jobInfo ? {
                     id: el.jobInfo.id,
                     desc: el.jobInfo.desc,
+                    pay: el.jobInfo.pay,
                     employmentType: el.jobInfo.employmentType,
                     due: el.jobInfo.due,
                     minRank,
@@ -276,6 +279,7 @@ module.exports = {
             jobInfo: el.jobInfo ? {
                 id: el.jobInfo.id,
                 desc: el.jobInfo.desc,
+                pay: el.jobInfo.pay,
                 employmentType: el.jobInfo.employmentType,
                 due: el.jobInfo.due,
                 minRank,
