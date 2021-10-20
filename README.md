@@ -165,3 +165,37 @@ POOL 서비스에 사용된 AI 기술에 대한 자세한 소개는 [여기](Abo
 - [transformer](https://github.com/huggingface/transformers)
 - [flask](https://github.com/pallets/flask)
 	- [flask-restx](https://github.com/python-restx/flask-restx)
+
+## 😎 팀 정보 (TEAM INFORMATION)
+<table align="center">
+<tr>
+	<th>Name</th>
+	<th>Role</th>
+	<th>Contact</th>
+	<th>GITHUB</th>
+</tr>
+<tr>
+	<td>지우석</td>
+	<td>Management, AI Engineering, Team Leader</td>
+	<td>woosukji@naver.com</td>
+	<td>woosukji</td>
+</tr>
+<tr>
+	<td>최민규</td>
+	<td>Front-end Development</td>
+	<td>koongchi135@gmail.com</td>
+	<td>somnisomni</td>
+</tr>
+<tr>
+	<td>오주상</td>
+	<td>Back-end Development</td>
+	<td>dhwntkd412@snu.ac.kr</td>
+	<td>ever2after</td>
+</tr>
+<tr>
+	<td>백지오</td>
+	<td>AI Engineering, Model Serving</td>
+	<td>giopaik@naver.com</td>
+	<td>skyil7</td>
+</tr>
+</table>
