@@ -189,11 +189,15 @@ export default class MyPageRecords extends Vue {
   inputValue = "";
   initializeInputs(date = "", location = "", title = "", value = ""): void {
     this.inputDateMenu = false;
-    this.inputDate = new Date(
-      Date.now() - new Date().getTimezoneOffset() * 60000,
-    )
-      .toISOString()
-      .substr(0, 10);
+    if (date) {
+      this.inputDate = date;
+    } else {
+      this.inputDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000,
+      )
+        .toISOString()
+        .substr(0, 10);
+    }
     this.inputLocation = location;
     this.inputTitle = title;
     this.inputValue = value;

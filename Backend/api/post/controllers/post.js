@@ -513,6 +513,25 @@ module.exports = {
                 };
             }));
             return feedPosts;
+        } else if (type === "detour") {
+            const { url, data, key } = body;
+            let options = {
+                uri: url,
+                method: "POST",
+                body: data,
+                json: true
+            };
+            if (key) {
+                options = {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${key}`,
+                    },
+                }
+            };
+            const data1 = await getResult(options);
+            return data1;
         }
     },
     async test(ctx) {
