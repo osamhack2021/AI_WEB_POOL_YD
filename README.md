@@ -4,7 +4,7 @@
 
 <p align="center">
 
-<a  href="">
+<a  href="https://osamhack2021.github.io/AI_WEB_POOL_YD">
 
 <img  src="Doc/imgs/btn_viewdemo.png"  />
 
@@ -16,7 +16,7 @@
 
 </a>
 
-<a  href="osam21-ai-nightwork.slack.com">
+<a  href="https://osam21-ai-nightwork.slack.com">
 
 <img  src="Doc/imgs/btn_contactus.png"  />
 
@@ -24,6 +24,10 @@
 
 </p>
 
+<p align="center">
+	<span>데모 로그인 ID : <code>jusang@strapi.io</code></span><br/>
+	<span>데모 로그인 비밀번호 : <code>pool1234</code></span>
+</p><br/>
   
 
 <p align="center">
@@ -94,10 +98,10 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 <table align="center">
 	<tr>
 		<td>
-			<img style="width:450px;" src="/Doc/imgs/profile-page.png">
+			<img style="width:450px;" src="/Doc/imgs/profile-page.JPG">
 		</td>
 		<td>
-			<img style="width:450px;" src="/Doc/imgs/profile-page.png">
+			<img style="width:450px;" src="/Doc/imgs/feed-page.JPG">
 		</td>
 	</tr>
 	<tr>
@@ -108,32 +112,90 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 			<b>피드 페이지</b>
 		</td>
 	</tr>
+	<tr>
+		<td>
+			<img style="width:450px;" src="/Doc/imgs/discover-page.JPG">
+		</td>
+		<td>
+			<img style="width:450px;" src="/Doc/imgs/pools-page.JPG">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<b>탐색 페이지</b>
+		</td>
+		<td align="center">
+			<b>풀 페이지</b>
+		</td>
+	</tr>
 </table>
 
 ## 🤷‍왜 POOL에 AI가 필요하죠?
 
-POOL은 자기계발을 기록하고, 나아가 취업까지 연결해 주는 소셜 미디어형 서비스입니다. 그런 POOL에 왜 AI가 필요했을까요?  
+POOL은 자기개발을 기록하고, 나아가 취업까지 연결해 주는 소셜 미디어형 서비스입니다. 그런 POOL에 왜 AI가 필요했을까요?  
 
-자기계발은 어렵습니다. 하물며 이를 기록으로 남기고, 나아가 구직 활동에서까지 활용하는 것은 바쁘고 정신없는 군 생활 중에 쉽지 않은 일입니다.
+자기개발은 어렵습니다. 하물며 이를 기록으로 남기고, 나아가 구직 활동에서까지 활용하는 것은 바쁘고 정신없는 군 생활 중에 쉽지 않은 일입니다.
 
-POOL의 AI 기능들은 **어떻게 하면 자기계발을 효율적으로 기록하고, 나아가 잘 활용할 수 있을지**에 초점을 두고 있습니다.
+POOL의 AI 기능들은 **어떻게 하면 자기개발을 효율적으로 기록하고, 나아가 잘 활용할 수 있을지**에 초점을 두고 있습니다.
 
 POOL 서비스에 사용된 AI 기술에 대한 자세한 소개는 [여기](AboutAI.md)에서 확인하실 수 있습니다.
 
 
 ## 🖥️기술 스택 (Technique Used)
 
-### FRONT END
+### WEB FRONTEND
 
-- Vue.js
+- [Vue.js](https://vuejs.org/)
+	- [Vuex](https://vuex.vuejs.org/)
+	- [Vue-Router](https://router.vuejs.org/)
+	- [Vuetify](https://vuetifyjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-### WEB SERVER
+### WEB BACKEND
 
-- Node.js
+- [Node.js](https://nodejs.org/)
+- [MongoDB](https://www.mongodb.com/)
+- [Strapi](https://strapi.io/)
+- [GitHub Actions](https://github.com/features/actions)
 
-### ML SERVER
+### ML BACKEND
 
-- pytorch, transformer (머신러닝)
-- Flask (API 서버)
+- [pytorch](https://github.com/pytorch/pytorch)
+	- [pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning)
+- [transformer](https://github.com/huggingface/transformers)
+- [flask](https://github.com/pallets/flask)
+	- [flask-restx](https://github.com/python-restx/flask-restx)
 
-> ML 서버에 대한 자세한 정보는 [여기](/ai-backend)에서 확인하실 수 있습니다.
+## 😎 팀 정보 (TEAM INFORMATION)
+<table align="center">
+<tr>
+	<th>Name</th>
+	<th>Role</th>
+	<th>Contact</th>
+	<th>GITHUB</th>
+</tr>
+<tr>
+	<td>지우석</td>
+	<td>Management, AI Engineering, Team Leader</td>
+	<td>woosukji@naver.com</td>
+	<td>woosukji</td>
+</tr>
+<tr>
+	<td>최민규</td>
+	<td>Front-end Development</td>
+	<td>koongchi135@gmail.com</td>
+	<td>somnisomni</td>
+</tr>
+<tr>
+	<td>오주상</td>
+	<td>Back-end Development</td>
+	<td>dhwntkd412@snu.ac.kr</td>
+	<td>ever2after</td>
+</tr>
+<tr>
+	<td>백지오</td>
+	<td>AI Engineering, Model Serving</td>
+	<td>giopaik@naver.com</td>
+	<td>skyil7</td>
+</tr>
+</table>
