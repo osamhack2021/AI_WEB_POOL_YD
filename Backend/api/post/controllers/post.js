@@ -8,7 +8,6 @@ require("dotenv").config({ path: "../../../.env" });
 function getResult(options){
     return new Promise(resolve => {
         request.post(options, (err, res, body) => {
-            console.log(err);
             resolve(body);
         });
     });
@@ -446,7 +445,7 @@ module.exports = {
                 }
             }
             const options = {
-                uri: process.AI_URL,
+                uri: process.env.AI_URL,
                 method: "POST",
                 body: _request,
                 headers: {
@@ -456,6 +455,7 @@ module.exports = {
                 json: true
             };
             const data = await getResult(options);
+            console.log(data);
             const { index } = data;
             feedPosts = feedPosts.map((feed, idx) => feedPosts[index[idx]]);
             feedPosts = await Promise.all(feedPosts.map(async _el => {
@@ -517,7 +517,6 @@ module.exports = {
     },
     async test(ctx) {
         const { id } = ctx.params;
-        console.log(process.env.AI_URL);
         if (id !== "all") {
             let post = await strapi.query("post").findOne({id: id});
             let { postType, author, title, content, jobInfo } = post;
@@ -573,6 +572,7 @@ module.exports = {
                 json: true
             };
             const data = await getResult(options);
+            console.log(data);
             author = {
                 ...author,
                 embedding: {
