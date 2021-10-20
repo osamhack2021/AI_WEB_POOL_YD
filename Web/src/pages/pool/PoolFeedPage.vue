@@ -50,7 +50,7 @@
     <v-layout style="max-width: 1000px; margin: 30px auto;" column align-start>
       <label>지금 뜨는 풀</label>
       <v-slide-group>
-        <v-slide-item v-for="(pool, idx) in myPools" :key="idx">
+        <v-slide-item v-for="(pool, idx) in hotPools" :key="idx + 'hot'">
 
           <!-- card design -->
           <v-hover v-slot="{ hover }" style="max-width: 200px; max-height: 240px; margin: 10px;">
@@ -75,7 +75,7 @@
                 <v-overlay v-if="hover" absolute>
                   <v-layout column align-center>
                     <div class="mb-2">{{ pool.members.length }} divers</div>
-                    <router-link :to="`/pool/${pool.name}`" style="text-decoration: none;">
+                    <router-link :to="`/pool/${pool.id}`" style="text-decoration: none;">
                       <v-btn>풀 이동</v-btn>
                     </router-link>
                   </v-layout>
@@ -117,16 +117,37 @@ import { absolutePath, get } from "@/util/BackendHelper";
 export default class PoolFeedPage extends Vue {
   feedItems: any[] = [];
   myPools :any[] = [];
+  hotPools :any[] = [];
 
   async created() :Promise<void> {
-    /* get pools */
+    /* get my pool */
+    const response0 :any = await get(`/users/${this.$store.state.loginState.userInfo.id}`);
+    const user = response0.data;
+    const pools = user.pools.concat(user.ownPools);
+
+    this.myPools = await Promise.all(pools.map(async (_el :any) => {
+      const response1 :any = await get(`/pools/${_el.id}`);
+      const el = response1.data;
+      let { createdAt } = el;
+      createdAt = new Date(createdAt);
+      createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
+      return {
+        ...el,
+        createdAt,
+        imageUrl: `${absolutePath(el.image.url)}`,
+        tags: el.tags.map((tag :any) => tag.content),
+      };
+    }));
+
+    /* get hot pools */
     const response :any = await get("pools");
 
     if (response.status >= 400) {
       // error
     } else {
       const { data } = response;
-      this.myPools = data.map((el :any) => {
+
+      this.hotPools = data.map((el :any) => {
         let { createdAt } = el;
         createdAt = new Date(createdAt);
         createdAt = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
