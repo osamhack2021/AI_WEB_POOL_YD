@@ -4,7 +4,7 @@
 
 <p align="center">
 
-<a  href="">
+<a  href="https://osamhack2021.github.io/AI_WEB_POOL_YD">
 
 <img  src="Doc/imgs/btn_viewdemo.png"  />
 
@@ -24,6 +24,10 @@
 
 </p>
 
+<p align="center">
+	<span>데모 로그인 ID : <code>jusang@strapi.io</code></span><br/>
+	<span>데모 로그인 비밀번호 : <code>pool1234</code></span>
+</p><br/>
   
 
 <p align="center">
