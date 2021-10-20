@@ -88,7 +88,8 @@ module.exports = {
                     minRank,
                     relatedBranches,
                     group
-                } : null
+                } : null,
+                imageUrls: el.images ? e.images.map((image) => image.url) : null,
             };
         }));
         return { data : results };
@@ -167,7 +168,8 @@ module.exports = {
                 minRank,
                 relatedBranches,
                 group
-            } : null
+            } : null,
+            imageUrls: el.images ? e.images.map((image) => image.url) : null,
         };
     },
     async preview(ctx) {
