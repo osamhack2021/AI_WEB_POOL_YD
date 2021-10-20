@@ -1,5 +1,11 @@
-# Strapi 구동 방법
-## port 설정
+# BACKEND
+POOL 서비스의 백앤드 서버입니다.
+
+## DB 구성도
+![dbdiagram](/Doc/imgs/db-diagram.png)
+
+## Strapi 구동 방법
+### port 설정
 ```
 vi config/server.js
 ```
@@ -9,18 +15,18 @@ module.exports = ({ env }) => ({
      port: env.int('PORT', 1337),  // change this part
 ```
 
-## developing mode
+### developing mode
 ```
 yarn develop
 ```
-## production mode
+### production mode
 ```
 NODE_ENV=production yarn build
 NODE_ENV=production yarn start
 ```
 https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/deployment.html
 
-## api call example (at vue page)
+### api call example (at vue page)
 ```
 fetch('/posts')
 .then((res) => res.json())
