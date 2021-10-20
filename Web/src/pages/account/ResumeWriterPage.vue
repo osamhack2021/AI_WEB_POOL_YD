@@ -17,7 +17,7 @@
         </v-card>
         <v-layout v-if="resumeLoadedFirstTime && !resumeLoaded" justify-center align-center class="mt-8">
           <v-progress-circular indeterminate />
-          <span class="ml-2">자소서 문장을 생성하는 중입니다...</span>
+          <span class="ml-2">자소서 문장을 생성하는 중입니다... <br> 시연 모드이므로 대기시간이 있습니다. <br> (문장 당 10~20초)</span>
         </v-layout>
         <v-list v-if="resumeLoaded">
           <v-lazy :options="{ threshold: 0.5 }"
@@ -26,7 +26,7 @@
                   v-for="(item, index) in resumeItems"
                   :key="index"
                   >
-            <v-card hover ripple>
+            <v-card hover ripple @click="resumeContent += (' ' + item)">
               <v-card-text>{{item}}</v-card-text>
             </v-card>
           </v-lazy>
@@ -54,7 +54,7 @@
                   transition="slide-y-reverse-transition"
                   class="mt-2"
                   >
-            <v-card hover ripple>
+            <v-card hover ripple @click="resumeContent += (' ' + grammarResult)">
               <v-card-text>{{grammarResult}}</v-card-text>
             </v-card>
           </v-lazy>
@@ -68,6 +68,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import axios, { AxiosResponse } from "axios";
 
 @Component({
   components: { },
@@ -88,29 +89,80 @@ export default class ResumeWriterPage extends Vue {
   grammarQuery = "";
   grammarResult = "";
 
-  generateResume(): void {
-    this.resumeLoadedFirstTime = true;
-    this.resumeLoaded = false;
-
-    setTimeout(() => {
-      this.resumeItems = ["this", "is", "generated sample"];
-      this.resumeLoaded = true;
-    }, 1000);
-  }
-
-  fixGrammar(): void {
+  async fixGrammar(): Promise<void> {
     this.grammarLoadedFirstTime = true;
     this.grammarLoaded = false;
 
-    setTimeout(() => {
-      this.grammarResult = "fixed sentence";
+    const post = {
+      data: this.grammarQuery,
+    };
+
+    const request = {
+      type: "detour",
+      url: `${process.env.VUE_APP_GIO_API_URL}/checkSpell`,
+      data: post,
+    };
+
+    const response = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/posts/discover`, request, {
+      responseType: "json",
+    }) as AxiosResponse<any>;
+
+    const { data } = response;
+
+    if (response.status >= 400) {
+      console.log("error in spell check");
+      console.log(data);
+      this.grammarLoadedFirstTime = false;
+    } else {
+      this.grammarResult = data.text_spell_checked;
       this.grammarLoaded = true;
-    }, 1000);
+    }
+  }
+
+  async generateResume(): Promise<void> {
+    this.resumeLoadedFirstTime = true;
+    this.resumeLoaded = false;
+
+    const post = {
+      request: "generateResume",
+      generateResumeData: {
+        currentText: this.resumeContent,
+        tags: ["해커톤", "개발", "머신러닝", "딥러닝", "모델", "학습"],
+        strength: this.generateStrength / 100,
+        natural: this.generateNatural / 100,
+        nSamples: this.generateNSamples - 1,
+      },
+    };
+
+    const request = {
+      type: "detour",
+      url: `${process.env.VUE_APP_AKS_URL}`,
+      data: post,
+      key: `${process.env.VUE_APP_AKS_KEY}`,
+    };
+
+    const response = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/posts/discover`, request, {
+      responseType: "json",
+    }) as AxiosResponse<any>;
+
+    const { data } = response;
+
+    if (response.status >= 400) {
+      console.log("error in generating resume");
+      console.log(data);
+      this.resumeLoadedFirstTime = false;
+    } else {
+      this.resumeItems = data.generatedTexts;
+      this.resumeLoaded = true;
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.v-list {
+  background: none;
+}
 
 .resume-writer {
   background: $color-sand-lighter;
