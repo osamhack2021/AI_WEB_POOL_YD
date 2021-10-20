@@ -409,7 +409,9 @@ module.exports = {
                     });
                     posts = await Promise.all(posts.map(async post => {
                         let _author = await strapi.query("user", "users-permissions").findOne({id: post.author.id});
-                        let url = _author.thumbnail.url;  
+                        let url = _author.thumbnail.url;
+                        let relatedBranches = await strapi.query("tag").find({id_in : post.jobInfo.relatedBranches});
+                        relatedBranches = relatedBranches.map(el => el.content);
                         return {
                             id: post.id,
                             author: {
@@ -420,7 +422,8 @@ module.exports = {
                             title: post.title,
                             employmentType: post.jobInfo.employmentType,
                             pay: post.jobInfo.pay,
-                            due: post.jobInfo.due
+                            due: post.jobInfo.due,
+                            relatedBranches
                         }
                     }));
                     return { data : posts };
