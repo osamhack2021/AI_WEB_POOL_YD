@@ -7,7 +7,9 @@
 한국어 자연어 처리 AI 모델인 KoBART를 활용한 텍스트 요약 기술로 POOL에 잘 담아둔 내 군 생활 기록 중 핵심만을 골라 자기소개서에 넣어보세요! 뿐만 아니라 자기소개서에서 불필요한 내용을 줄이는 첨삭 용도로도 활용할 수 있습니다.
 
 ## ✍️자기소개서 작성 AI
-<img align="center" style="width:500px;" src="/Doc/imgs/cv-generation.JPG">
+<p align="center">
+<img style="width:800px;" src="/Doc/imgs/cv-generation.JPG">
+</p>
 
 자기소개서를 쓰는 것에 있어 가장 어려운 것은 자신의 스토리를 자기소개서 형식에 맞춰 적절히 전개해나가는 것 입니다.
 
