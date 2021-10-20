@@ -57,4 +57,5 @@ export interface IPost extends IPostDisplay {
   content: string,
   comments: Array<IComment>,
   likes: Array<IUserDisplay>,
+  imageUrls?: Array<string>,
 }

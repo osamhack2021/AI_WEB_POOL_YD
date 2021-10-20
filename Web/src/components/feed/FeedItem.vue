@@ -48,7 +48,17 @@
     <!-- -->
 
     <!-- 콘텐츠(텍스트) 영역 -->
-    <v-card-text class="feed-item-content" v-html="itemData.postInfo.contentPreview"></v-card-text>
+    <v-card-text v-if="itemData.postInfo.postType !== 'recruition'" class="feed-item-content" v-html="itemData.postInfo.contentPreview"></v-card-text>
+    <v-card-text v-else class="feed-item-content" >
+      <div>직무 소개 | {{ itemData.postInfo.jobInfo.desc }}</div>
+      <div>지원 마감 | {{ itemData.postInfo.jobInfo.due }}</div>
+      <div>고용 형태 | {{ itemData.postInfo.jobInfo.employmentType }}</div>
+      <v-chip-group>
+        <v-chip v-for="(tag, idx) in itemData.postInfo.jobInfo.relatedBranches" :key="idx">
+          {{ tag }}
+        </v-chip>
+      </v-chip-group>
+    </v-card-text>
     <!-- -->
 
     <!-- 카드 하단 영역 -->

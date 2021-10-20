@@ -85,10 +85,12 @@ module.exports = {
                     desc: el.jobInfo.desc,
                     employmentType: el.jobInfo.employmentType,
                     due: el.jobInfo.due,
+                    pay: el.jobInfo.pay,
                     minRank,
                     relatedBranches,
                     group
-                } : null
+                } : null,
+                imageUrls: el.images ? el.images.map((image) => image.url) : null,
             };
         }));
         return { data : results };
@@ -164,10 +166,12 @@ module.exports = {
                 desc: el.jobInfo.desc,
                 employmentType: el.jobInfo.employmentType,
                 due: el.jobInfo.due,
+                pay: el.jobInfo.pay,
                 minRank,
                 relatedBranches,
                 group
-            } : null
+            } : null,
+            imageUrls: el.images ? el.images.map((image) => image.url) : null,
         };
     },
     async preview(ctx) {
@@ -217,6 +221,7 @@ module.exports = {
                 jobInfo: el.jobInfo ? {
                     id: el.jobInfo.id,
                     desc: el.jobInfo.desc,
+                    pay: el.jobInfo.pay,
                     employmentType: el.jobInfo.employmentType,
                     due: el.jobInfo.due,
                     minRank,
@@ -274,6 +279,7 @@ module.exports = {
             jobInfo: el.jobInfo ? {
                 id: el.jobInfo.id,
                 desc: el.jobInfo.desc,
+                pay: el.jobInfo.pay,
                 employmentType: el.jobInfo.employmentType,
                 due: el.jobInfo.due,
                 minRank,
@@ -403,7 +409,9 @@ module.exports = {
                     });
                     posts = await Promise.all(posts.map(async post => {
                         let _author = await strapi.query("user", "users-permissions").findOne({id: post.author.id});
-                        let url = _author.thumbnail.url;  
+                        let url = _author.thumbnail.url;
+                        let relatedBranches = await strapi.query("tag").find({id_in : post.jobInfo.relatedBranches});
+                        relatedBranches = relatedBranches.map(el => el.content);
                         return {
                             id: post.id,
                             author: {
@@ -414,7 +422,8 @@ module.exports = {
                             title: post.title,
                             employmentType: post.jobInfo.employmentType,
                             pay: post.jobInfo.pay,
-                            due: post.jobInfo.due
+                            due: post.jobInfo.due,
+                            relatedBranches
                         }
                     }));
                     return { data : posts };
