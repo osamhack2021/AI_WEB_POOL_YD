@@ -89,7 +89,7 @@ module.exports = {
                     relatedBranches,
                     group
                 } : null,
-                imageUrls: el.images ? e.images.map((image) => image.url) : null,
+                imageUrls: el.images ? el.images.map((image) => image.url) : null,
             };
         }));
         return { data : results };
@@ -169,7 +169,7 @@ module.exports = {
                 relatedBranches,
                 group
             } : null,
-            imageUrls: el.images ? e.images.map((image) => image.url) : null,
+            imageUrls: el.images ? el.images.map((image) => image.url) : null,
         };
     },
     async preview(ctx) {
