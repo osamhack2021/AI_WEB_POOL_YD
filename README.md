@@ -112,6 +112,22 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 			<b>피드 페이지</b>
 		</td>
 	</tr>
+	<tr>
+		<td>
+			<img style="width:450px;" src="/Doc/imgs/discover-page.JPG">
+		</td>
+		<td>
+			<img style="width:450px;" src="/Doc/imgs/pools-page.JPG">
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<b>탐색 페이지</b>
+		</td>
+		<td align="center">
+			<b>풀 페이지</b>
+		</td>
+	</tr>
 </table>
 
 ## 🤷‍왜 POOL에 AI가 필요하죠?
