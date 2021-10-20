@@ -33,13 +33,14 @@
             <div class="mb-2"><v-chip>지원 마감</v-chip> {{ postData.jobInfo.due }}</div>
             <div class="mb-2"><v-chip>고용 형태</v-chip> {{ postData.jobInfo.employmentType }}</div>
             <div class="mb-2"><v-chip>직군 분류</v-chip> {{ postData.jobInfo.group }}</div>
+            <div class="mb-2"><v-chip>급여 조건</v-chip> {{ postData.jobInfo.pay }}</div>
             <div class="mb-2"><v-chip>자격 요건</v-chip> {{ postData.jobInfo.minRank }}</div>
           </v-card-text>
           <!-- -->
           <!-- 이미지 슬라이드 영역 -->
-          <v-carousel>
-            <v-carousel-item>
-              <v-img :src="absolutePath(mainImageUrl)"/>
+          <v-carousel v-if="postData.imageUrls.length > 0">
+            <v-carousel-item v-for="(image, idx) in postData.imageUrls" :key="idx">
+              <v-img :src="absolutePath(image)"/>
             </v-carousel-item>
           </v-carousel>
           <!-- -->

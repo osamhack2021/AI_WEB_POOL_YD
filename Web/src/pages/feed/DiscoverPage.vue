@@ -82,7 +82,7 @@
             {{ _pool.summary }}
           </v-card-subtitle>
           <v-card-text>
-            <v-chip-group>
+            <v-chip-group column>
               <v-chip v-for="(tag, idx) in _pool.tags" :key="idx">
                 {{ tag }}
               </v-chip>
@@ -176,6 +176,11 @@
             <div class="h4">
               {{ _recruition.pay }}
             </div>
+            <v-chip-group column>
+              <v-chip v-for="(tag, idx) in _recruition.relatedBranches" :key="idx">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
           </v-card-text>
 
           <!-- hover overlay -->
@@ -231,6 +236,7 @@ interface IDiscoverRecruition {
   employmentType: string,
   pay: string,
   due: string,
+  relatedBranches: Array<string>
 }
 
 interface IDiscoverPool {

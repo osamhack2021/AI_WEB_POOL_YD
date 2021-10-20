@@ -53,8 +53,6 @@
       <div>직무 소개 | {{ itemData.postInfo.jobInfo.desc }}</div>
       <div>지원 마감 | {{ itemData.postInfo.jobInfo.due }}</div>
       <div>고용 형태 | {{ itemData.postInfo.jobInfo.employmentType }}</div>
-      <div>직군 분류 | {{ itemData.postInfo.jobInfo.group }}</div>
-      <div>자격 요건 | {{ itemData.postInfo.jobInfo.minRank }}</div>
       <v-chip-group>
         <v-chip v-for="(tag, idx) in itemData.postInfo.jobInfo.relatedBranches" :key="idx">
           {{ tag }}
