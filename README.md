@@ -114,10 +114,10 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 	</tr>
 	<tr>
 		<td>
-			<img style="width:450px;" src="/Doc/imgs/discover-page.JPG">
+			<img style="width:450px;" src="/Doc/imgs/discover recrution page.png">
 		</td>
 		<td>
-			<img style="width:450px;" src="/Doc/imgs/pools-page.JPG">
+			<img style="width:450px;" src="/Doc/imgs/pool feed page.png">
 		</td>
 	</tr>
 	<tr>
@@ -125,7 +125,7 @@ POOL은 군 복무기간을 유용하게 활용할 수 있도록 도와주는 **
 			<b>탐색 페이지</b>
 		</td>
 		<td align="center">
-			<b>풀 페이지</b>
+			<b>풀 피드 페이지</b>
 		</td>
 	</tr>
 </table>
