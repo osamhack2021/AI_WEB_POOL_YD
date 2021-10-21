@@ -58,23 +58,6 @@
 
 </p>
 
-  
-
-## DEMO
-
-<table align="center">
-	<tr>
-		<td>
-			<a href="https://www.youtube.com/"><img src="/Doc/imgs/video_thumbnail"></a>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<b>소개 영상</b>
-		</td>
-	</tr>
-</table>
-<br><br><br>
 
 ## 🤔 기획의도
 국군 장병들은 최소 18개월에서 길게는 21개월, 더욱 길게는 수년간 사회와 격리된 특수한 환경에서 근무합니다. 결코 짧다고 할 수 없는 이 시간을 유의미하게 보내는 것은 쉽지 않으며, 나아가 이 시간을 사회에서 인정받는 것 또한 쉽지 않은 일입니다.
