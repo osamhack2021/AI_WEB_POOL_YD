@@ -67,7 +67,7 @@ export default class LoginForm extends Vue {
   registerFormPassword = "";
   registerFormPasswordRules: Array<(value: string) => boolean | string> = [
     (value) => !!value || "비밀번호를 입력해주세요.",
-    (value) => (value && value.length < 8) || "비밀번호는 8자리 이상 입력해 주세요.",
+    (value) => (value && value.length >= 8) || "비밀번호는 8자리 이상 입력해 주세요.",
   ];
   registerFormPasswordShow = false;
   registerFormPasswordConfirm = "";
