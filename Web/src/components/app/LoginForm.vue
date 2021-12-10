@@ -37,6 +37,11 @@
                rounded>로그인</v-btn>
 
         <v-btn outlined rounded class="ma-2" color="blue" to="/register" style="flex-grow: 1">회원가입</v-btn>
+
+        <v-layout column>
+          <v-btn @click="demoLoginCallback" outlined rounded class="ma-2 mt-6">오프라인 데모 접속</v-btn>
+          <span class="ml-2 blue-grey--text text-subtitle-2">백엔드 서버를 사용할 수 없을 때,<br>일부 기능의 사용이 불가한 채로<br>POOL의 전반적인 모습을 확인할 수 있습니다.</span>
+        </v-layout>
       </v-layout>
     </v-form>
   </v-layout>
@@ -51,6 +56,7 @@ import { Prop } from "vue-property-decorator";
 export default class LoginForm extends Vue {
   /* 로그인 폼 멤버 */
   @Prop({ required: true }) loginCallback!: (val: any) => Promise<boolean>;
+  @Prop() demoLoginCallback: () => void = () => { /* empty */ };
 
   loginFormValidated = false;
   loginFormId = "";
