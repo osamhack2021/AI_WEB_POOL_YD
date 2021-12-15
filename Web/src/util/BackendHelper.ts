@@ -13,7 +13,11 @@ function get(endpoint: string): Promise<AxiosResponse<never>> {
         data: handleAPIEndpoint("get", endpoint),
       };
 
-      return new Promise((resolve) => resolve(response as AxiosResponse<never>));
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(response as AxiosResponse<never>);
+        }, Math.random() * 500 + 100);
+      });
     }
   }
 
@@ -33,7 +37,11 @@ function post(endpoint: string, data: Record<string, unknown>): Promise<AxiosRes
         data: handleAPIEndpoint("post", endpoint, data),
       };
 
-      return new Promise((resolve) => resolve(response as AxiosResponse<never>));
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(response as AxiosResponse<never>);
+        }, Math.random() * 500 + 100);
+      });
     }
   }
 
