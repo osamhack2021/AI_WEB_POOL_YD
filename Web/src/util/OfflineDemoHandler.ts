@@ -1,3 +1,4 @@
+import store from "@/store";
 import { IPost, IUser } from "@/interfaces/IDatabaseData";
 
 const demoUserData: Array<IUser> = [
@@ -70,19 +71,47 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
   if (method === "get") {
     if (normalized === "users/demo_user") {
       // GET "/users/demo_user"
-    } else if (/^posts\/full\/(.+)$/.test(normalized)) {
+
+      return null;
+    }
+
+    if (/^posts\/full\/(.+)$/.test(normalized)) {
       // GET "/posts/full/{POST_ID}"
       const postId = /^posts\/full\/(.+)$/.exec(normalized)![1];
 
       return demoPostData.find((post) => post.id.toString() === postId.toString());
     }
   } else if (method === "post" && payload) {
-    switch (normalized) {
-      case "posts/discover":
-        // POST "/posts/discover"
-        return demoPostData;
-      default:
-        return null;
+    if (normalized === "posts/discover") {
+      return demoPostData;
+    }
+
+    if (normalized === "posts") {
+      const typedPayload: {
+        title: string,
+        content: string,
+        author: string,
+        postType: "general" | "recruition",
+      } = payload;
+
+      demoPostData.push({
+        id: ((Math.random() * 10000) + 100010).toString(),
+        postType: typedPayload.postType,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        author: store.state.loginState.userInfo!,
+        title: typedPayload.title,
+        content: typedPayload.content,
+        contentPreview: typedPayload.content,
+        tags: [],
+        commentsCount: 0,
+        likesCount: 0,
+        comments: [],
+        likes: [],
+        imageUrls: [],
+      });
+
+      return true;
     }
   }
 
