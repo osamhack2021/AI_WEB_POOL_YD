@@ -1,5 +1,6 @@
 <template>
-  <login-form :loginCallback="realLogin" />
+  <login-form :loginCallback="realLogin"
+              :demoLoginCallback="demoLogin" />
 </template>
 
 <script lang="ts">
@@ -34,6 +35,17 @@ export default class LandingLoginView extends Vue {
     } catch (e) {
       return false;
     }
+  }
+
+  demoLogin(): void {
+    const demoUserInfo: IUserDisplay = {
+      id: "demo_user",
+      username: "오프라인 데모",
+      department: "데모",
+      profileImageUrl: "https://picsum.photos/300",
+    };
+    this.$store.dispatch("registerLoginState", demoUserInfo);
+    this.$router.push("/feed");
   }
 }
 </script>

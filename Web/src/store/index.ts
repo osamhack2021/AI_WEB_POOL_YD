@@ -41,4 +41,6 @@ const store: StoreOptions<StoreState> = {
   modules: { },
 };
 
-export default new Vuex.Store(store);
+const storeInstance = new Vuex.Store(store);
+
+export default storeInstance;
