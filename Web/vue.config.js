@@ -10,4 +10,3 @@ module.exports = {
   ],
   css: { loaderOptions: { scss: { additionalData: " @import \"./src/styles/pool_styles.scss\"; " } } },
 };
-
