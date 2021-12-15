@@ -95,7 +95,7 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
       } = payload;
 
       demoPostData.push({
-        id: ((Math.random() * 10000) + 100010).toString(),
+        id: Math.floor((Math.random() * 10000) + 100010).toString(),
         postType: typedPayload.postType,
         createdAt: new Date(),
         updatedAt: new Date(),
