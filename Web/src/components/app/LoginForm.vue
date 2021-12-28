@@ -56,7 +56,7 @@ import { Prop } from "vue-property-decorator";
 export default class LoginForm extends Vue {
   /* 로그인 폼 멤버 */
   @Prop({ required: true }) loginCallback!: (val: any) => Promise<boolean>;
-  @Prop() demoLoginCallback: () => void = () => { /* empty */ };
+  @Prop({ default: () => { /* empty */ } }) demoLoginCallback!: () => void;
 
   loginFormValidated = false;
   loginFormId = "";
