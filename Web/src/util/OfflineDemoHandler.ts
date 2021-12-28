@@ -3,9 +3,23 @@ import { IPost, IUser } from "@/interfaces/IDatabaseData";
 
 const demoUserData: Array<IUser> = [
   {
+    id: "demo_user",
+    username: "오프라인 데모 사용자",
+    department: "데모",
+    profileImageUrl: "https://picsum.photos/seed/zero/300",
+    createdAt: new Date("2010-10-10 10:10:10"),
+    confirmed: true,
+    blocked: false,
+    followings: [],
+    followers: [],
+    publishedPostIds: [],
+    likedPostIds: [],
+  },
+  {
     id: "user-1",
     username: "전우님",
-    profileImageUrl: "https://picsum.photos/seed/1/300",
+    department: "111부대",
+    profileImageUrl: "https://picsum.photos/seed/one/300",
     createdAt: new Date("2020-01-01 12:00:00"),
     confirmed: true,
     blocked: false,
@@ -17,7 +31,8 @@ const demoUserData: Array<IUser> = [
   {
     id: "user-2",
     username: "용사님",
-    profileImageUrl: "https://picsum.photos/seed/2/300",
+    department: "222부대",
+    profileImageUrl: "https://picsum.photos/seed/two/300",
     createdAt: new Date("2020-05-05 12:00:00"),
     confirmed: true,
     blocked: false,
@@ -69,10 +84,11 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
   const normalized = endpoint.replace(/^\/+/, "");
 
   if (method === "get") {
-    if (normalized === "users/demo_user") {
-      // GET "/users/demo_user"
+    if (/^users\/(.+)$/.test(normalized)) {
+      // GET "/users/{USER_ID}"
+      const userId = /^users\/(.+)$/.exec(normalized)![1];
 
-      return null;
+      return demoUserData.find((user) => user.id.toString() === userId.toString());
     }
 
     if (/^posts\/full\/(.+)$/.test(normalized)) {
@@ -116,6 +132,7 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
       };
 
       demoPostData.push(createdPostData);
+      demoUserData[demoUserData.findIndex((user) => user.id === "demo_user")].publishedPostIds.push(parseInt(createdPostData.id, 10));
 
       return createdPostData;
     }

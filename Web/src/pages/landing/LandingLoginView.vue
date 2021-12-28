@@ -40,9 +40,9 @@ export default class LandingLoginView extends Vue {
   demoLogin(): void {
     const demoUserInfo: IUserDisplay = {
       id: "demo_user",
-      username: "오프라인 데모",
+      username: "오프라인 데모 사용자",
       department: "데모",
-      profileImageUrl: "https://picsum.photos/300",
+      profileImageUrl: "https://picsum.photos/seed/zero/300",
     };
     this.$store.dispatch("registerLoginState", demoUserInfo);
     this.$router.push("/feed");
