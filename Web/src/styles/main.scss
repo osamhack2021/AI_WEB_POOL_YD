@@ -1,3 +1,7 @@
+html, body {
+  overflow-y: auto !important;
+}
+
 #app {
   overflow-x: hidden;
 }
