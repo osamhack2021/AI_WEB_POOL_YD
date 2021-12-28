@@ -83,10 +83,14 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
     }
   } else if (method === "post" && payload) {
     if (normalized === "posts/discover") {
+      // POST "/posts/discover"
+
       return demoPostData;
     }
 
     if (normalized === "posts") {
+      // POST "/posts"
+
       const typedPayload: {
         title: string,
         content: string,
@@ -94,7 +98,7 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
         postType: "general" | "recruition",
       } = payload;
 
-      demoPostData.push({
+      const createdPostData: IPost = {
         id: Math.floor((Math.random() * 10000) + 100010).toString(),
         postType: typedPayload.postType,
         createdAt: new Date(),
@@ -109,9 +113,11 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
         comments: [],
         likes: [],
         imageUrls: [],
-      });
+      };
 
-      return true;
+      demoPostData.push(createdPostData);
+
+      return createdPostData;
     }
   }
 
