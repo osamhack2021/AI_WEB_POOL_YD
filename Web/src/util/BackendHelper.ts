@@ -57,6 +57,24 @@ function put(endpoint: string, data: Record<string, unknown>): Promise<AxiosResp
 }
 
 function del(endpoint: string): Promise<AxiosResponse<never>> {
+  if (store.state.loginState.loggedIn && store.state.loginState.userInfo) {
+    if (store.state.loginState.userInfo.id === "demo_user") {
+      const response: AxiosResponse<any> = {
+        status: 200,
+        statusText: "OK",
+        headers: {},
+        config: {},
+        data: handleAPIEndpoint("del", endpoint),
+      };
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(response as AxiosResponse<never>);
+        }, Math.random() * 500 + 100);
+      });
+    }
+  }
+
   return axios.delete(`${process.env.VUE_APP_BACKEND_URL}/${endpoint}`);
 }
 

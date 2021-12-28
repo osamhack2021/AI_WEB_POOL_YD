@@ -84,6 +84,8 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
   const normalized = endpoint.replace(/^\/+/, "");
 
   if (method === "get") {
+    // GET
+
     if (/^users\/(.+)$/.test(normalized)) {
       // GET "/users/{USER_ID}"
       const userId = /^users\/(.+)$/.exec(normalized)![1];
@@ -98,6 +100,8 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
       return demoPostData.find((post) => post.id.toString() === postId.toString());
     }
   } else if (method === "post" && payload) {
+    // POST
+
     if (normalized === "posts/discover") {
       // POST "/posts/discover"
 
@@ -135,6 +139,22 @@ function handleAPIEndpoint(method: "get" | "post" | "put" | "del", endpoint: str
       demoUserData[demoUserData.findIndex((user) => user.id === "demo_user")].publishedPostIds.push(parseInt(createdPostData.id, 10));
 
       return createdPostData;
+    }
+  } else if (method === "del") {
+    // DELETE
+
+    if (/^posts\/(.+)$/.test(normalized)) {
+      // DELETE "/posts/{POST_ID}"
+      const postId = /^posts\/(.+)$/.exec(normalized)![1];
+      const targetPostDataIndex = demoPostData.findIndex((post) => post.id.toString() === postId.toString());
+      const targetPostData = demoPostData[targetPostDataIndex];
+      const targetPostAuthorIndex = demoUserData.findIndex((user) => user.id.toString() === targetPostData.author.id.toString());
+      const targetPostAuthorData = demoUserData[targetPostAuthorIndex];
+
+      demoPostData.splice(targetPostDataIndex, 1);
+      demoUserData[targetPostAuthorIndex].publishedPostIds.splice(targetPostAuthorData.publishedPostIds.findIndex((id) => id.toString() === postId), 1);
+
+      return targetPostData;
     }
   }
 
