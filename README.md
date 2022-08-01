@@ -1,4 +1,8 @@
+<h1 align="center">POOL</h1>
 
+<p align="center">🎉 <strong>정보통신산업진흥원장상<i>(NIPA원장상)</i> 수상 작품</strong> 🏆</p>
+
+<br>
 
 <p align="center"><img  src="Doc/imgs/TOP_LOGO.png"></p>
 
